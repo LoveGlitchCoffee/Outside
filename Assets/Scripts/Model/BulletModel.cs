@@ -17,7 +17,8 @@ public class BulletModel : MonoBehaviour
 
         reloadWait = new WaitForSeconds(ReloadTime);
 
-        this.RegisterListener(EventID.OnPlayerFire, (sender, param) => DecreaseBullets());        
+        this.RegisterListener(EventID.OnPlayerFire, (sender, param) => DecreaseBullets());
+	    this.RegisterListener(EventID.OnGameStart, (sender, param) => ReloadBullets());
 	}
 
     private void ReloadBullets()

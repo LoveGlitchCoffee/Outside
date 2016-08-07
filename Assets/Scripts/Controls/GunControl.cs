@@ -42,12 +42,10 @@ public class GunControl : MonoBehaviour
 
     private void LoadBullet()
     {
-        var bullet = PoolManager.Instance.GetFromPool(BulletPrefab);
-        bullet.transform.position = gun.position + gun.TransformDirection(new Vector3(0,0,0.5f));
-        bullet.transform.rotation = gun.rotation;
+        var bullet = PoolManager.Instance.GetFromPool(BulletPrefab, gun.position + gun.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();   
         bullet.transform.SetParent(gun);
-
-        currentBullet = bullet;
+        bullet.SetUp();
+        currentBullet = bullet.gameObject;
         allowedToShoot = true;
     }
 

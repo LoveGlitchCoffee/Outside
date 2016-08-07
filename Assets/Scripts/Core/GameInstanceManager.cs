@@ -5,8 +5,12 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
 {
     private bool playing;
 
+    [Header("Cameras")]
     public Camera GameCamera;
     public Camera MenuCamera;
+
+    [Header("UI")]
+    public GameObject GameUI;
 
     public GameModel model;    
 
@@ -22,6 +26,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
         Cursor.lockState = CursorLockMode.Locked;
         MenuCamera.enabled = false;
         GameCamera.enabled = true;
+        GameUI.SetActive(true);
         playing = true;        
     }    
 
@@ -31,6 +36,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
         Cursor.visible = true;
         GameCamera.enabled = false;
         MenuCamera.enabled = true;
+        GameUI.SetActive(false);
         playing = false;
     }    
 

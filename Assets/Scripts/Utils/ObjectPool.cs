@@ -39,7 +39,7 @@ public class ObjectPool
         {
             returnedObject = objectsInPool[0];
             objectsInPool.RemoveAt(0);
-        }
+        }      
 
         return returnedObject;
     }

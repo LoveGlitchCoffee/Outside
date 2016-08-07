@@ -11,6 +11,8 @@ public class BulletBehvaiour : MonoBehaviour
     private Vector3 bulletForce;
     private float speed = 10f;
 
+    private int enemyHit;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,6 +27,23 @@ public class BulletBehvaiour : MonoBehaviour
     {
         if (projecting)
             rb.velocity = bulletForce;
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Zombie")
+        {
+            enemyHit++;
+
+            if (enemyHit == 2)
+            {
+                this.PostEvent(EventID.OnDoubleKill);
+            }
+            else if (enemyHit > 2)
+            {
+                this.PostEvent(EventID.OnMultiKill);
+            }
+        }        
     }
 
     public void Project(Vector3 force)
@@ -59,5 +78,10 @@ public class BulletBehvaiour : MonoBehaviour
     {
         rb.isKinematic = true;
         PoolManager.Instance.ReturnToPool(gameObject);
+    }
+
+    public void SetUp()
+    {
+        enemyHit = 0;
     }
 }
