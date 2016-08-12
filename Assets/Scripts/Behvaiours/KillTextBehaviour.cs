@@ -17,6 +17,13 @@ public class KillTextBehaviour : MonoBehaviour
     const string doubleKill = "Double Kill";
     const string multiKill = "Multi Kill";
 
+    [Header("Flashing")]
+    public Color ShineColour;
+    public Color DimColour;
+    public float FlashSpeed = 0.1f;
+
+    public int ChangeRounds = 6;
+
     void Awake()
     {
         rect = GetComponent<RectTransform>();
@@ -64,7 +71,6 @@ public class KillTextBehaviour : MonoBehaviour
             if (delta >= 0.8f)
             {
                 interval = 0.01f;
-                Debug.Log("near centre: " + delta);
             }
 
             yield return wait;
@@ -72,6 +78,8 @@ public class KillTextBehaviour : MonoBehaviour
 
         Debug.Log("reached centre");
         delta = 0;
+        StartCoroutine(FlashText());
+        yield return new WaitForSeconds(1);
 
         while (delta < 1)
         {
@@ -82,6 +90,51 @@ public class KillTextBehaviour : MonoBehaviour
                 interval = 0.05f;
 
             yield return wait;
+        }
+    }
+
+    IEnumerator FlashText()
+    {
+        WaitForSeconds wait = new WaitForSeconds(FlashSpeed);
+
+        int flash = 0;
+
+        text.color = DimColour;
+
+        bool dim = true;
+
+        while (flash < ChangeRounds)
+        {
+            Color desired;
+            Color start;
+
+            if (dim)
+            {
+                desired = ShineColour;
+                start = DimColour;
+
+                dim = false;
+            }
+            else
+            {
+                desired = DimColour;
+                start = ShineColour;
+
+                dim = true;
+            }
+
+            float delta = 0;
+
+            while (text.color != desired)
+            {
+                text.color = Color.Lerp(start, desired, delta);
+                delta += 0.3f;
+                yield return wait;                
+            }
+
+            flash++;
+
+            Debug.Log("round " + flash);
         }
     }
 }
