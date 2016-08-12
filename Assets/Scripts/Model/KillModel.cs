@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class KillVoiceModel : MonoBehaviour
+public class KillModel : MonoBehaviour
 {
-    
+    public KillTextBehaviour text;    
 
     void Awake()
     {
@@ -20,11 +20,11 @@ public class KillVoiceModel : MonoBehaviour
 
     private void PlayDouble()
     {
-        
+        text.Double();
     }
 
     private void PlayMulti()
     {
-        
+        text.Multi();
     }
 }
