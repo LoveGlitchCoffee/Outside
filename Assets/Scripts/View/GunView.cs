@@ -4,10 +4,12 @@ using System.Collections;
 public class GunView : MonoBehaviour
 {
     private Animator anim;
+    private ParticleSystem flash;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
+        flash = transform.GetChild(0).GetComponent<ParticleSystem>();
     }
 	
 	void Start () {
@@ -18,6 +20,7 @@ public class GunView : MonoBehaviour
     private void Recoil()
     {
         anim.SetBool("Fired", true);
+        flash.Play();
     }
 
     private void Reload()

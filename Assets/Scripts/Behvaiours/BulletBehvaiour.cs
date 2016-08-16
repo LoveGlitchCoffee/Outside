@@ -4,6 +4,8 @@ using System.Runtime.Remoting.Messaging;
 
 public class BulletBehvaiour : MonoBehaviour
 {
+    private TrailRenderer trail;
+
     private Rigidbody rb;
     WaitForSeconds dissWait = new WaitForSeconds(5f);
     private bool projecting;
@@ -16,6 +18,7 @@ public class BulletBehvaiour : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        trail = transform.GetChild(1).GetComponent<TrailRenderer>();
     }
 
     void Start()
@@ -42,7 +45,7 @@ public class BulletBehvaiour : MonoBehaviour
             else if (enemyHit > 2)
             {
                 this.PostEvent(EventID.OnMultiKill);
-            }
+            }            
         }        
     }
 
@@ -77,11 +80,13 @@ public class BulletBehvaiour : MonoBehaviour
     public void ReturnToPool()
     {
         rb.isKinematic = true;
+        trail.enabled = false;
         PoolManager.Instance.ReturnToPool(gameObject);
     }
 
     public void SetUp()
     {
         enemyHit = 0;
+        trail.enabled = true;
     }
 }

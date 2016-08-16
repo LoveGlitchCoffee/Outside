@@ -48,7 +48,7 @@ public class ZombieBehaviour : GameElement
     {
         if (col.gameObject.tag == "Bullet")
         {            
-            this.PostEvent(EventID.OnEnemyDie);
+            this.PostEvent(EventID.OnEnemyDie, col);
 
             thumpDie.Play();
             anim.SetBool("Dead", true);

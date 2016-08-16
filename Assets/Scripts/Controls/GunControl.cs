@@ -15,7 +15,7 @@ public class GunControl : MonoBehaviour
 
     void Awake()
     {
-        gun = transform.GetChild(1);    
+        gun = transform.GetChild(0).GetChild(0);    
     }
 
 	void Start ()
