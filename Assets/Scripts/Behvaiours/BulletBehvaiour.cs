@@ -45,7 +45,11 @@ public class BulletBehvaiour : MonoBehaviour
             else if (enemyHit > 2)
             {
                 this.PostEvent(EventID.OnMultiKill);
-            }            
+            }   
+            else
+            {
+                this.PostEvent(EventID.OnNormalKill);
+            }         
         }        
     }
 

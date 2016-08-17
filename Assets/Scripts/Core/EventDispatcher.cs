@@ -16,8 +16,18 @@ public enum EventID
     OnFinishReload,
     OnEnemyDie,
 
+    OnNormalKill,
     OnDoubleKill,
     OnMultiKill,
+
+    OnUpdateSpecial,
+
+    OnSpecialReady,
+    OnSpecialUsed,
+
+    OnHitBarrier,
+    OnBarrierLower,
+    OnBarrierDown,
 
     OnUpdateScore
 }

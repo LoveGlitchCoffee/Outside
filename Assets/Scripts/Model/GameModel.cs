@@ -6,6 +6,8 @@ public class GameModel : MonoBehaviour
     public EnemySpawnerModel enemy;
     public AudioModel audio;
 
+    public SpecialModel special;
+
     int score;
 
     void Start()

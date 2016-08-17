@@ -16,7 +16,7 @@ public class EnemySpawnView : MonoBehaviour
     {        
         var zombie = PoolManager.Instance.GetFromPool(Zombie).GetComponent<ZombieBehaviour>();        
         zombie.transform.position = location;
-        zombie.SetUp(grandpa.position);        
+        zombie.SetUp();        
     }
 	    
 }

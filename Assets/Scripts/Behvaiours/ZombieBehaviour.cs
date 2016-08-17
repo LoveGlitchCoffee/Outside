@@ -9,7 +9,7 @@ public class ZombieBehaviour : GameElement
     private bool allowedToMove = false;
 
     // determines how clutered zombies will be
-    public float DeadTime;
+    public float DeadTime; // not used
 
     private Animator anim;
     private CapsuleCollider headHitbox;
@@ -95,9 +95,10 @@ public class ZombieBehaviour : GameElement
         transform.Translate(Vector3.forward * Time.deltaTime * speed);        
     }
 
-    public void SetUp(Vector3 grandpa)
+    public void SetUp()
     {                
-        RotateTowards(grandpa);
+        //RotateTowards(grandpa);
+        transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
         allowedToMove = true;
         anim.SetBool("Move", true);
         anim.SetBool("End", false);
