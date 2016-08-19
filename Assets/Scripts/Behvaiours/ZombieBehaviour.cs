@@ -13,6 +13,8 @@ public class ZombieBehaviour : GameElement
 
     bool dead = false;
 
+    bool chaseGrandpa;
+
     private Animator anim;
     private CapsuleCollider headHitbox;
     private AudioSource thumpDie;
@@ -24,11 +26,21 @@ public class ZombieBehaviour : GameElement
         thumpDie = GetComponent<AudioSource>();
     }
 
-    void Start ()
+    void Start()
     {
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopMovement());
-	    this.RegisterListener(EventID.OnGameEnd, (sender, param) => ReturnToPool());       
-	}
+        this.RegisterListener(EventID.OnGameEnd, (sender, param) => ReturnToPool());
+
+        this.RegisterListener(EventID.OnBarrierDown, (sender, param) => TargetGrandpa());
+    }
+
+    private void TargetGrandpa()
+    {
+        allowedToMove = true;        
+        chaseGrandpa = true;
+
+        anim.SetBool("AttackBarrier", false);
+    }
 
     private void StopMovement()
     {
@@ -36,21 +48,20 @@ public class ZombieBehaviour : GameElement
             return;
 
         allowedToMove = false;
-        anim.SetBool("Move",false);
+        anim.SetBool("Move", false);
     }
 
 
-    void Update ()
+    void Update()
     {
-	    if (allowedToMove && GameManager.isPlaying())
+        if (allowedToMove && GameManager.isPlaying())
             Move();
-	}
+    }
 
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Bullet")
-        {            
-            Debug.Log("hit bullet");
+        {
             this.PostEvent(EventID.OnEnemyDie, col);
 
             thumpDie.Play();
@@ -62,7 +73,7 @@ public class ZombieBehaviour : GameElement
             headHitbox.enabled = false;
             dead = true;
             StartCoroutine(DeadAndReturnToPool());
-        }        
+        }
     }
 
     public void ReturnToPool()
@@ -78,7 +89,7 @@ public class ZombieBehaviour : GameElement
     }
 
     void OnTriggerEnter(Collider col)
-    {    
+    {
         //Debug.Log("Collided with " + col.gameObject.tag);
 
         if (col.gameObject.CompareTag("Barricade"))
@@ -86,20 +97,20 @@ public class ZombieBehaviour : GameElement
             //Debug.Log("hit barricade");
             allowedToMove = false;
             anim.SetBool("AttackBarrier", true);
-            StartCoroutine(AttackBarrier());   
-        }            
+            StartCoroutine(AttackBarrier());
+        }
         else if (col.CompareTag("Grandpa"))
         {
             allowedToMove = false;
             anim.SetBool("Attack", true);
             this.PostEvent(EventID.OnPlayerDie, transform.position);
-        }        
+        }
     }
 
     private IEnumerator AttackBarrier()
     {
         WaitForSeconds wait = new WaitForSeconds(2);
-        
+
         while (!dead)
         {
             yield return wait;
@@ -109,7 +120,7 @@ public class ZombieBehaviour : GameElement
 
     private IEnumerator DeadAndReturnToPool()
     {
-        yield return new WaitForSeconds(10);               
+        yield return new WaitForSeconds(10);
 
         anim.SetBool("Dead", false);
         anim.SetBool("Move", false);
@@ -117,13 +128,17 @@ public class ZombieBehaviour : GameElement
         PoolManager.Instance.ReturnToPool(gameObject);
     }
 
+    // could change this
     private void Move()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);        
+        if (chaseGrandpa)
+            RotateTowards(GameManager.model.Grandpa.position);
+
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);
     }
 
     public void SetUp()
-    {                
+    {
         //RotateTowards(grandpa);
         transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
         allowedToMove = true;
@@ -135,7 +150,7 @@ public class ZombieBehaviour : GameElement
 
     private void RotateTowards(Vector3 grandpa)
     {
-        transform.LookAt(grandpa);                
+        transform.LookAt(grandpa);
     }
 
 

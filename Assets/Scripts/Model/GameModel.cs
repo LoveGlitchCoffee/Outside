@@ -8,6 +8,9 @@ public class GameModel : MonoBehaviour
 
     public SpecialModel special;
 
+    // could be changed to something else later if need
+    public Transform Grandpa;
+
     int score;
 
     void Start()

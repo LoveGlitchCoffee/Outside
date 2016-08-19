@@ -28,7 +28,8 @@ public class BarrierModel : MonoBehaviour
 			return;
 
         health--;
-
+		Debug.Log("health " + health);
+		
 		if (health == 0)
 		{
 			this.PostEvent(EventID.OnBarrierDown);
@@ -37,7 +38,9 @@ public class BarrierModel : MonoBehaviour
 		{
 			// could do here or in view
 			this.PostEvent(EventID.OnBarrierLower, thresholdCount);
-			thresholdCount++;
+
+			if (thresholdCount < thresholds.Length - 1)
+				thresholdCount++;
 		}
     }
 

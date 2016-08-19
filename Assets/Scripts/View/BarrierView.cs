@@ -8,6 +8,7 @@ public class BarrierView : MonoBehaviour
     [Header("Sand Bags")]
     public Transform[] SandBags;
     public Transform FinalBags;
+    Vector3 originalFinalBagPosition;
 
     [Header("Smoke")]
     public GameObject DamageSmoke;
@@ -21,6 +22,8 @@ public class BarrierView : MonoBehaviour
 
     void Start()
     {
+        originalFinalBagPosition = FinalBags.transform.position;
+
         original = SandBags[0].GetChild(0).GetComponent<Renderer>().material.color;
 
         this.RegisterListener(EventID.OnHitBarrier , (sender, param) => SpawnDamageParticle((Vector3) param));
@@ -41,6 +44,8 @@ public class BarrierView : MonoBehaviour
                 bags.GetChild(j).GetComponent<Renderer>().material.color = original;
             }
         }
+
+        FinalBags.transform.position = originalFinalBagPosition;
     }
 
     private void SpawnDamageParticle(Vector3 smokePos)
@@ -80,6 +85,8 @@ public class BarrierView : MonoBehaviour
 
     private void DestroyBarrier()
     {
+        Debug.Log("DestroyBarrier");
+
         Colliders.SetActive(false);
         StartCoroutine(Sink(FinalBags));
         
@@ -92,7 +99,18 @@ public class BarrierView : MonoBehaviour
 
     private IEnumerator Sink(Transform bags)
     {
-        yield return null;
+        WaitForSeconds wait = new WaitForSeconds(0);
+        float delta = 0;
+
+        Vector3 start = bags.position;
+        Vector3 end = bags.position + new Vector3(0,-2f, 0);
+
+        while (bags.transform.position != end)
+        {
+            bags.transform.position = Vector3.Lerp(start, end, delta);
+            delta += 0.05f;
+            yield return wait;
+        }
     }
 
     private void SmokeParticle(Vector3 bagPosition)
