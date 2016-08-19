@@ -11,6 +11,8 @@ public class ZombieBehaviour : GameElement
     // determines how clutered zombies will be
     public float DeadTime; // not used
 
+    bool dead = false;
+
     private Animator anim;
     private CapsuleCollider headHitbox;
     private AudioSource thumpDie;
@@ -54,6 +56,7 @@ public class ZombieBehaviour : GameElement
             anim.SetBool("Dead", true);
             allowedToMove = false;
             headHitbox.enabled = false;
+            dead = true;
             StartCoroutine(DeadAndReturnToPool());
         }        
     }
@@ -71,12 +74,32 @@ public class ZombieBehaviour : GameElement
     }
 
     void OnTriggerEnter(Collider col)
-    {        
-        if (col.tag == "Grandpa")
+    {    
+        Debug.Log("Collided with " + col.gameObject.tag);
+
+        if (col.gameObject.CompareTag("Barricade"))
+        {
+            Debug.Log("hit barricade");
+            allowedToMove = false;
+            anim.SetBool("AttackBarrier", true);
+            StartCoroutine(AttackBarrier());   
+        }            
+        else if (col.CompareTag("Grandpa"))
         {
             allowedToMove = false;
             anim.SetBool("Attack", true);
             this.PostEvent(EventID.OnPlayerDie, transform.position);
+        }        
+    }
+
+    private IEnumerator AttackBarrier()
+    {
+        WaitForSeconds wait = new WaitForSeconds(2);
+        
+        while (!dead)
+        {
+            yield return wait;            
+            this.PostEvent(EventID.OnHitBarrier, transform.position);
         }
     }
 
@@ -102,6 +125,7 @@ public class ZombieBehaviour : GameElement
         allowedToMove = true;
         anim.SetBool("Move", true);
         anim.SetBool("End", false);
+        dead = false;
         headHitbox.enabled = true;
     }
 
