@@ -3,8 +3,11 @@ using System.Collections;
 
 public class BarrierView : MonoBehaviour
 {
+    public GameObject Colliders;
 
-    public Transform[] sandbags;
+    [Header("Sand Bags")]
+    public Transform[] SandBags;
+    public Transform FinalBags;
 
     [Header("Smoke")]
     public GameObject DamageSmoke;
@@ -18,17 +21,20 @@ public class BarrierView : MonoBehaviour
 
     void Start()
     {
-        original = sandbags[0].GetChild(0).GetComponent<Renderer>().material.color;
+        original = SandBags[0].GetChild(0).GetComponent<Renderer>().material.color;
 
         this.RegisterListener(EventID.OnHitBarrier , (sender, param) => SpawnDamageParticle((Vector3) param));
         this.RegisterListener(EventID.OnBarrierLower, (sender, param) => LowerBarrier((int)param));
+        this.RegisterListener(EventID.OnBarrierDown , (sender, param) => DestroyBarrier());
     }
 
-    void ResetMaterials()
+    void ResetBarrier()
     {
-        for (int i = 0; i < sandbags.Length; i++)
+        Colliders.SetActive(true);
+
+        for (int i = 0; i < SandBags.Length; i++)
         {
-            Transform bags = sandbags[i];
+            Transform bags = SandBags[i];
 
             for (int j = 0; j < bags.childCount; j++)
             {
@@ -47,12 +53,12 @@ public class BarrierView : MonoBehaviour
 
     private void LowerBarrier(int index)
     {
-        for (int i = 0; i < sandbags[index].childCount; i++)
+        for (int i = 0; i < SandBags[index].childCount; i++)
         {
-            StartCoroutine(Lower(sandbags[index].GetChild(i)));
+            StartCoroutine(Lower(SandBags[index].GetChild(i)));
         }
 
-        SmokeParticle(sandbags[index].position);
+        SmokeParticle(SandBags[index].position);
     }
 
     private IEnumerator Lower(Transform bag)
@@ -70,6 +76,23 @@ public class BarrierView : MonoBehaviour
             delta += 0.05f;
             yield return wait;
         }
+    }
+
+    private void DestroyBarrier()
+    {
+        Colliders.SetActive(false);
+        StartCoroutine(Sink(FinalBags));
+        
+        // might put this into smoke as refactor
+        for (int i = 0; i < FinalBags.childCount; i++)
+        {
+            StartCoroutine(Lower(FinalBags.GetChild(i)));
+        }
+    }
+
+    private IEnumerator Sink(Transform bags)
+    {
+        yield return null;
     }
 
     private void SmokeParticle(Vector3 bagPosition)

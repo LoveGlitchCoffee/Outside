@@ -12,7 +12,7 @@ public class ImpactParticleBehaviour : MonoBehaviour {
 	
 	public void Play(Quaternion rot)
 	{
-		Debug.Log("Play impact");
+		//Debug.Log("Play impact");
 
 		particles.startRotation3D = new Vector3(0,0,rot.eulerAngles.z * Mathf.Deg2Rad);
 		particles.Play();

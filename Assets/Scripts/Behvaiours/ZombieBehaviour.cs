@@ -50,10 +50,14 @@ public class ZombieBehaviour : GameElement
     {
         if (col.gameObject.tag == "Bullet")
         {            
+            Debug.Log("hit bullet");
             this.PostEvent(EventID.OnEnemyDie, col);
 
             thumpDie.Play();
+
+            anim.SetBool("AttackBarrier", false);
             anim.SetBool("Dead", true);
+
             allowedToMove = false;
             headHitbox.enabled = false;
             dead = true;
