@@ -40,23 +40,27 @@ public class BarrierView : MonoBehaviour
     private void SpawnDamageParticle(Vector3 smokePos)
     {
         var smoke = PoolManager.Instance.GetFromPool(DamageSmoke).GetComponent<ParticleSystem>();
-        smoke.transform.position = smokePos;
+        smoke.transform.position = smokePos + new Vector3(0,1,-0.5f);
         smoke.Play();
         StartCoroutine(WaitTillSmokeEnd(smoke));        
     }
 
     private void LowerBarrier(int index)
     {
-        StartCoroutine(Lower(sandbags[index]));
+        for (int i = 0; i < sandbags[index].childCount; i++)
+        {
+            StartCoroutine(Lower(sandbags[index].GetChild(i)));
+        }
+
         SmokeParticle(sandbags[index].position);
     }
 
-    private IEnumerator Lower(Transform barrier)
+    private IEnumerator Lower(Transform bag)
     {
         WaitForSeconds wait = new WaitForSeconds(0);
         float delta = 0;
 
-        Material mat = barrier.GetComponent<Renderer>().material;
+        Material mat = bag.GetComponent<Renderer>().material;
 
         Color end = new Color(original.r, original.g, original.b, 0);
 

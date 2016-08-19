@@ -4,7 +4,7 @@ using System.Collections;
 public class BarrierModel : MonoBehaviour
 {
 
-    private int health;
+    private int health = 100;
 
 	public int[] thresholds;
 	private int thresholdCount = 0;
@@ -14,6 +14,12 @@ public class BarrierModel : MonoBehaviour
     {
         this.RegisterListener(EventID.OnHitBarrier, (sender, param) => DecreaseHealth());
     }
+	
+	// dun forget
+	private void ResetHealth()
+	{
+		health = 100;
+	}
 
     private void DecreaseHealth()
     {
@@ -22,6 +28,7 @@ public class BarrierModel : MonoBehaviour
 			return;
 
         health--;
+		Debug.Log("health " + health);
 
 		if (health == 0)
 		{
