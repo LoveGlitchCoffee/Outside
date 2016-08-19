@@ -9,9 +9,6 @@ public class BarrierModel : MonoBehaviour
 	public int[] thresholds;
 	private int thresholdCount = 0;
 
-	[Header("Sandbags")]
-	[TooltipAttribute("From high to low")]
-	public SandbagBehaviour[] sandBags;
 
     void Start()
     {
@@ -33,10 +30,8 @@ public class BarrierModel : MonoBehaviour
 		else if (health == thresholds[thresholdCount])
 		{
 			// could do here or in view
-			this.PostEvent(EventID.OnBarrierLower);
-			sandBags[thresholdCount].enabled = false;			
+			this.PostEvent(EventID.OnBarrierLower, thresholdCount);
 			thresholdCount++;
-			sandBags[thresholdCount].enabled = true;
 		}
     }
 
