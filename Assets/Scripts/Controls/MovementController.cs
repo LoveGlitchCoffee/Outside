@@ -4,48 +4,62 @@ using System.Collections;
 public class MovementController : MonoBehaviour
 {
 
-    public float Speed = 0.1f;
+    public float Speed = 1f;
     Rigidbody rb;
 
-    private Vector3 moveForce;
+    Vector3 speedForce;
+    float hDir;
+    float vDir;
+    Vector3 moveForce;
 
     void Awake()
     {
+        speedForce = new Vector3(Speed, Speed, Speed);
         rb = GetComponent<Rigidbody>();
     }
 
     void Start()
     {
-        moveForce = new Vector3(Speed, Speed, Speed);
         rb.freezeRotation = true;
         rb.drag = 4.0f;
     }
 
     void Update()
     {
-        // will need to take care of movement if hit zombie
 
-        if (Input.GetKey(KeyCode.W))
+        hDir = Input.GetAxis("Horizontal");
+        vDir = Input.GetAxis("Vertical");
+
+        Debug.Log("h, v: "+ hDir + ", " + vDir);
+
+        if (hDir == 0 && vDir == 0)
+            moveForce = new Vector3(0,0,0);
+
+        if (hDir > 0)
         {
-            rb.AddForce(transform.TransformDirection(Vector3.Scale(Vector3.forward, moveForce)));
+            moveForce = transform.TransformDirection(Vector3.Scale(Vector3.right, speedForce));
+
         }
-        if (Input.GetKey(KeyCode.S))
+        else if (hDir < 0)
         {
-            rb.AddForce(transform.TransformDirection(Vector3.Scale(Vector3.back, moveForce)));
+            moveForce = transform.TransformDirection(Vector3.Scale(Vector3.left, speedForce));
         }
-        if (Input.GetKey(KeyCode.A))
+
+        if (vDir > 0)
         {
-            rb.AddForce(transform.TransformDirection(Vector3.Scale(Vector3.left, moveForce)));
+            moveForce += transform.TransformDirection(Vector3.Scale(Vector3.forward, speedForce));
         }
-        if (Input.GetKey(KeyCode.D))
+        else if (vDir < 0)
         {
-            rb.AddForce(transform.TransformDirection(Vector3.Scale(Vector3.right, moveForce)));
+            moveForce += transform.TransformDirection(Vector3.Scale(Vector3.back, speedForce));
         }
+
+        moveForce = Vector3.ClampMagnitude(moveForce, Speed);        
     }
 
     void FixedUpdate()
     {
-        
+        rb.AddForce(moveForce);
     }
 
     void OnCollisionEnter(Collision col)
