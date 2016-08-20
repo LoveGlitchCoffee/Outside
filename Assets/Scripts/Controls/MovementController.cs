@@ -21,38 +21,38 @@ public class MovementController : MonoBehaviour
     void Start()
     {
         rb.freezeRotation = true;
-        rb.drag = 4.0f;
+        rb.drag = 10.0f;
     }
 
     void Update()
     {
 
-        hDir = Input.GetAxis("Horizontal");
-        vDir = Input.GetAxis("Vertical");
+        hDir = Input.GetAxisRaw("Horizontal");
+        vDir = Input.GetAxisRaw("Vertical");
 
         Debug.Log("h, v: "+ hDir + ", " + vDir);
 
         if (hDir == 0 && vDir == 0)
             moveForce = new Vector3(0,0,0);
 
-        if (hDir > 0)
+        if (hDir == 1)
         {
             moveForce = transform.TransformDirection(Vector3.Scale(Vector3.right, speedForce));
 
         }
-        else if (hDir < 0)
+        else if (hDir == -1)
         {
             moveForce = transform.TransformDirection(Vector3.Scale(Vector3.left, speedForce));
         }
 
-        if (vDir > 0)
+        if (vDir == 1)
         {
             moveForce += transform.TransformDirection(Vector3.Scale(Vector3.forward, speedForce));
         }
-        else if (vDir < 0)
+        else if (vDir == -1)
         {
             moveForce += transform.TransformDirection(Vector3.Scale(Vector3.back, speedForce));
-        }
+        }        
 
         moveForce = Vector3.ClampMagnitude(moveForce, Speed);        
     }
@@ -60,14 +60,5 @@ public class MovementController : MonoBehaviour
     void FixedUpdate()
     {
         rb.AddForce(moveForce);
-    }
-
-    void OnCollisionEnter(Collision col)
-    {
-        if (col.gameObject.CompareTag("Wall"))
-        {
-            Debug.Log("hit wall");
-            rb.velocity = Vector3.zero;
-        }
     }
 }
