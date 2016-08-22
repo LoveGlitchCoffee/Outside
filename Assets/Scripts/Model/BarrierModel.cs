@@ -28,7 +28,7 @@ public class BarrierModel : MonoBehaviour
 			return;
 
         health--;
-		Debug.Log("health " + health);
+		//Debug.Log("health " + health);
 		
 		if (health == 0)
 		{

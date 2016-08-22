@@ -10,6 +10,7 @@ public class ZombieBehaviour : GameElement
 
     // determines how clutered zombies will be
     public float DeadTime; // not used
+    public float FallForce;
 
     bool dead = false;
 
@@ -17,13 +18,17 @@ public class ZombieBehaviour : GameElement
 
     private Animator anim;
     private SphereCollider headHitbox;
+    private Collider body;
     private AudioSource thumpDie;
+    private Rigidbody rb;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
         headHitbox = GetComponent<SphereCollider>();
         thumpDie = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
+        body = GetComponent<BoxCollider>();
     }
 
     void Start()
@@ -71,14 +76,20 @@ public class ZombieBehaviour : GameElement
             anim.SetBool("AttackBarrier", false);
             anim.SetBool("Dead", true);
 
-            
+            /*rb.isKinematic = false;
+            anim.enabled = false;
+            body.enabled = true;
+            Vector3 dir =  transform.position - col.transform.position;
+            Debug.Log("ball, zombie: " + col.transform.position + ", " + transform.position);
+            Debug.Log("direciton: " + dir);
+            rb.AddForceAtPosition(dir * FallForce, col.contacts[0].point, ForceMode.Impulse);*/
 
             allowedToMove = false;
             headHitbox.enabled = false;
             dead = true;
             StartCoroutine(DeadAndReturnToPool());
         }
-    }
+    }    
 
     public void ReturnToPool()
     {
@@ -143,6 +154,10 @@ public class ZombieBehaviour : GameElement
 
     public void SetUp()
     {
+        anim.enabled = true;
+        rb.isKinematic = true;
+        body.enabled = false;
+
         //RotateTowards(grandpa);
         transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
         allowedToMove = true;

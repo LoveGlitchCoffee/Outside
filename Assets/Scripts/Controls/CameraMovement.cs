@@ -49,7 +49,7 @@ public class CameraMovement : GameElement
             Debug.Log("turning to finish " + time);
         }
 
-        
+        Debug.Log("fnish, end game");
         this.PostEvent(EventID.OnGameEnd);
     }
 

@@ -103,17 +103,22 @@ public class SpecialView : GameElement
         Color desired;
         Color start;
 
-        /*while (GameManager.model.special.IsReady())
+        int fadeTime = 50000;
+        int fadeCount = 0;
+
+        while (GameManager.model.special.IsReady())
         {
             if (fade)
             {
                 desired = brightColor;
                 start = fadeColor;
+                fade = false;
             }
             else
             {
                 desired = fadeColor;
                 start = brightColor;
+                fade = true;
             }
 
             float delta = 0;
@@ -124,7 +129,10 @@ public class SpecialView : GameElement
                 delta += 0.3f;
                 yield return wait;
             }
-        }*/
+
+            Debug.Log("fade: "+ fadeCount);
+            fadeCount++;
+        }
     }
 
     private IEnumerator InitialBlink()
@@ -132,7 +140,7 @@ public class SpecialView : GameElement
         WaitForSeconds wait = new WaitForSeconds(0);
 
         int blinkTimes = 0;
-        const int maxBlink = 6;
+        const int maxBlink = 20;
 
         bool fade = false;
 
@@ -149,7 +157,7 @@ public class SpecialView : GameElement
                 fade = false;
             }
 
-            blinkTimes++;
+            blinkTimes++;            
 
             yield return wait;
         }
