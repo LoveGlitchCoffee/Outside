@@ -45,6 +45,8 @@ public class CameraMovement : GameElement
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*RotationSpeed);
             yield return wait;
             time += Time.deltaTime;
+
+            Debug.Log("turning to finish " + time);
         }
 
         

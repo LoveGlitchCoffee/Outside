@@ -21,7 +21,7 @@ public class MovementController : MonoBehaviour
     void Start()
     {
         rb.freezeRotation = true;
-        rb.drag = 10.0f;
+        //rb.drag = 10.0f;
     }
 
     void Update()
@@ -30,7 +30,7 @@ public class MovementController : MonoBehaviour
         hDir = Input.GetAxisRaw("Horizontal");
         vDir = Input.GetAxisRaw("Vertical");
 
-        Debug.Log("h, v: "+ hDir + ", " + vDir);
+        //Debug.Log("h, v: "+ hDir + ", " + vDir);
 
         if (hDir == 0 && vDir == 0)
             moveForce = new Vector3(0,0,0);

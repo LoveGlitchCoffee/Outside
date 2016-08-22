@@ -25,9 +25,19 @@ public class VoiceModel : MonoBehaviour
         voiceGen = new Random((int) Time.time);
 
         this.RegisterListener(EventID.OnReload, (sender, param) => ReloadVoice());
-        
-        InvokeRepeating("PlayRandomVoiceLine", 20, 20);
+        this.RegisterListener(EventID.OnGameStart , (sender, param) => StartVoice());
+        this.RegisterListener(EventID.OnGameEnd , (sender, param) => EndVoice());
 	}
+
+    private void StartVoice()
+    {
+        InvokeRepeating("PlayRandomVoiceLine", 20, 20);        
+    }
+
+    private void EndVoice()
+    {
+        CancelInvoke("PlayRandomVoiceLine");
+    }
 
     private void ReloadVoice()
     {

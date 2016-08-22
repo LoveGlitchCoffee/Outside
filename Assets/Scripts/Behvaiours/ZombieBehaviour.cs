@@ -36,7 +36,9 @@ public class ZombieBehaviour : GameElement
 
     private void TargetGrandpa()
     {
-        allowedToMove = true;        
+        if (!dead)
+            allowedToMove = true;
+                    
         chaseGrandpa = true;
 
         anim.SetBool("AttackBarrier", false);
@@ -68,6 +70,8 @@ public class ZombieBehaviour : GameElement
 
             anim.SetBool("AttackBarrier", false);
             anim.SetBool("Dead", true);
+
+            
 
             allowedToMove = false;
             headHitbox.enabled = false;
