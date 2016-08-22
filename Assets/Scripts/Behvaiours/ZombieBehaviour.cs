@@ -16,13 +16,13 @@ public class ZombieBehaviour : GameElement
     bool chaseGrandpa;
 
     private Animator anim;
-    private CapsuleCollider headHitbox;
+    private SphereCollider headHitbox;
     private AudioSource thumpDie;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
-        headHitbox = GetComponent<CapsuleCollider>();
+        headHitbox = GetComponent<SphereCollider>();
         thumpDie = GetComponent<AudioSource>();
     }
 
