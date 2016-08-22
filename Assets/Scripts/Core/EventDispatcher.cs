@@ -24,6 +24,7 @@ public enum EventID
 
     OnSpecialReady,
     OnSpecialUsed,
+    OnMissleBlow,
 
     OnHitBarrier,
     OnBarrierLower,

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class SpecialView : GameElement
+public class SpecialBarView : GameElement
 {
 
     private Image bar;
@@ -12,6 +12,8 @@ public class SpecialView : GameElement
     private Color hideColor = new Color(1, 1, 1, 0);
     private Color fadeColor = new Color(1, 1, 1, 0.5f);
     private Color brightColor = Color.white;
+
+    private Coroutine[] filledEffects;
 
     void Awake()
     {
@@ -24,7 +26,37 @@ public class SpecialView : GameElement
     void Start()
     {
         this.RegisterListener(EventID.OnUpdateSpecial, (sender, param) => UpdateGaugeFill((float)param));
-        this.RegisterListener(EventID.OnSpecialReady , (sender, param) => SpecialReady());
+        this.RegisterListener(EventID.OnSpecialReady, (sender, param) => SpecialReady());
+
+        this.RegisterListener(EventID.OnSpecialUsed, (sender, param) => SpecialUsed());
+
+        filledEffects = new Coroutine[2];
+    }
+
+    private void SpecialUsed()
+    {
+        for (int i = 0; i < filledEffects.Length; i++)
+        {
+            StopCoroutine(filledEffects[i]);
+        }
+
+        desc.color = brightColor;
+
+        StartCoroutine(ReduceToZero());
+    }
+
+    private IEnumerator ReduceToZero()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0);
+        float delta = 0;
+
+        while (bar.fillAmount > 0)
+        {
+            bar.fillAmount = Mathf.Lerp(1, 0, delta);
+            desc.text = (int)(bar.fillAmount * 100) + "%";
+            delta += 0.03f;
+            yield return wait;
+        }
     }
 
     private void UpdateGaugeFill(float amount)
@@ -46,7 +78,7 @@ public class SpecialView : GameElement
             while (bar.fillAmount < newAmount)
             {
                 bar.fillAmount = Mathf.Lerp(oldAmount, newAmount, delta);
-                desc.text = (bar.fillAmount * 100) + "%";
+                desc.text = (int)(bar.fillAmount * 100) + "%";
                 delta += 0.1f;
                 yield return wait;
             }
@@ -70,9 +102,9 @@ public class SpecialView : GameElement
 
     private void SpecialReady()
     {
-        StartCoroutine(DescriptionSpecialEffect());
+        filledEffects[0] = StartCoroutine(DescriptionSpecialEffect());
 
-        StartCoroutine(HighlightSpecialEffect());
+        filledEffects[1] = StartCoroutine(HighlightSpecialEffect());
     }
 
     private IEnumerator HighlightSpecialEffect()
@@ -103,9 +135,6 @@ public class SpecialView : GameElement
         Color desired;
         Color start;
 
-        int fadeTime = 50000;
-        int fadeCount = 0;
-
         while (GameManager.model.special.IsReady())
         {
             if (fade)
@@ -129,9 +158,6 @@ public class SpecialView : GameElement
                 delta += 0.3f;
                 yield return wait;
             }
-
-            Debug.Log("fade: "+ fadeCount);
-            fadeCount++;
         }
     }
 
@@ -157,7 +183,7 @@ public class SpecialView : GameElement
                 fade = false;
             }
 
-            blinkTimes++;            
+            blinkTimes++;
 
             yield return wait;
         }
@@ -190,5 +216,5 @@ public class SpecialView : GameElement
         }
     }
 
-    
+
 }

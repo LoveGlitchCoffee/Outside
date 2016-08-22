@@ -76,7 +76,7 @@ public class KillTextBehaviour : MonoBehaviour
             yield return wait;
         }
 
-        Debug.Log("reached centre");
+        //Debug.Log("reached centre");
         delta = 0;
         StartCoroutine(FlashText());
         yield return new WaitForSeconds(1);
@@ -134,7 +134,7 @@ public class KillTextBehaviour : MonoBehaviour
 
             flash++;
 
-            Debug.Log("round " + flash);
+            //Debug.Log("round " + flash);
         }
     }
 }
