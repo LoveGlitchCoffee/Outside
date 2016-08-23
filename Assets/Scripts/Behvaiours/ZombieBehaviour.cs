@@ -156,6 +156,9 @@ public class ZombieBehaviour : GameElement
 
     private void ReactToExplode(Vector3 explosionPos)
     {
+        if (!gameObject.activeSelf)
+            return;
+
         rb.isKinematic = false;
         anim.enabled = false;
         body.enabled = true;

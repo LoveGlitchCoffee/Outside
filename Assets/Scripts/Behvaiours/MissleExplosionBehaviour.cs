@@ -4,10 +4,12 @@ using System.Collections;
 public class MissleExplosionBehaviour : MonoBehaviour {
 
 	ParticleSystem[] ps;
+	AudioSource audio;
 
 	void Awake()
 	{
 		ps = GetComponentsInChildren<ParticleSystem>();
+		audio = GetComponent<AudioSource>();
 	}
 
 	void Start()
@@ -18,6 +20,7 @@ public class MissleExplosionBehaviour : MonoBehaviour {
 	public void Explode(Vector3 misPos)
 	{
 		transform.position = misPos;
+		audio.Play();
 		
 		for (int i = 0; i < ps.Length; i++)
 		{

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MissleBehaviour : MonoBehaviour
-{
+{    
 
     [Header("Properties")]
     public float MaxSpeed;
@@ -14,10 +14,12 @@ public class MissleBehaviour : MonoBehaviour
     private Vector3 hidePosition;
 
     Rigidbody rb;
+    AudioSource audio;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        audio = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -46,6 +48,7 @@ public class MissleBehaviour : MonoBehaviour
         force = direction * MaxSpeed;
         launched = true;
         blownUp = false;
+        audio.Play();
         StartCoroutine(WaitTillExplode());
     }
 
@@ -60,6 +63,7 @@ public class MissleBehaviour : MonoBehaviour
 
     private void BlowUp()
     {
+        audio.Stop();
         blownUp = true;
         launched = false;
         rb.velocity = Vector3.zero;
