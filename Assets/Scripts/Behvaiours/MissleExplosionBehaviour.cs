@@ -3,11 +3,11 @@ using System.Collections;
 
 public class MissleExplosionBehaviour : MonoBehaviour {
 
-	ParticleSystem ps;
+	ParticleSystem[] ps;
 
 	void Awake()
 	{
-		ps = GetComponent<ParticleSystem>();
+		ps = GetComponentsInChildren<ParticleSystem>();
 	}
 
 	void Start()
@@ -18,6 +18,10 @@ public class MissleExplosionBehaviour : MonoBehaviour {
 	public void Explode(Vector3 misPos)
 	{
 		transform.position = misPos;
-		ps.Play();
+		
+		for (int i = 0; i < ps.Length; i++)
+		{
+			ps[i].Play();
+		}
 	}
 }

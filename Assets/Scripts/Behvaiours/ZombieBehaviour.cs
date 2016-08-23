@@ -37,13 +37,15 @@ public class ZombieBehaviour : GameElement
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ReturnToPool());
 
         this.RegisterListener(EventID.OnBarrierDown, (sender, param) => TargetGrandpa());
+
+        this.RegisterListener(EventID.OnMissleBlow, (sender, param) => ReactToExplode((Vector3)param));
     }
 
     private void TargetGrandpa()
     {
         if (!dead)
             allowedToMove = true;
-                    
+
         chaseGrandpa = true;
 
         anim.SetBool("AttackBarrier", false);
@@ -89,7 +91,7 @@ public class ZombieBehaviour : GameElement
             dead = true;
             StartCoroutine(DeadAndReturnToPool());
         }
-    }    
+    }
 
     public void ReturnToPool()
     {
@@ -150,6 +152,20 @@ public class ZombieBehaviour : GameElement
             RotateTowards(GameManager.model.Grandpa.position);
 
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
+    }
+
+    private void ReactToExplode(Vector3 explosionPos)
+    {
+        rb.isKinematic = false;
+        anim.enabled = false;
+        body.enabled = true;
+
+        allowedToMove = false;
+        headHitbox.enabled = false;
+        dead = true;
+        StartCoroutine(DeadAndReturnToPool());
+
+        rb.AddExplosionForce(GameManager.model.special.ExplosionForce, explosionPos, GameManager.model.special.ExplosionRadius, 1, ForceMode.Impulse);
     }
 
     public void SetUp()

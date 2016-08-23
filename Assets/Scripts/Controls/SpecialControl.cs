@@ -5,6 +5,7 @@ public class SpecialControl : GameElement {
 
 	public GameObject Missle;
 	public GameObject Gun;
+	
 
 	void Start () {
 	
@@ -24,7 +25,6 @@ public class SpecialControl : GameElement {
 		var mis = Missle.GetComponent<MissleBehaviour>();
 		mis.transform.position = Gun.transform.position + Gun.transform.TransformDirection(new Vector3(0, 0, 0.5f));
 		mis.transform.rotation = Gun.transform.rotation;
-		mis.transform.SetParent(Gun.transform);
 		mis.SetUp(direction);
 	}
 }

@@ -9,6 +9,10 @@ public class SpecialModel : MonoBehaviour
 
     bool specialReady;
 
+    // store missle force explosion here for now, should be in own class
+	public float ExplosionForce;
+    public float ExplosionRadius;
+
     void Start()
     {
         this.RegisterListener(EventID.OnNormalKill, (sender, param) => UpdateCharge(1));

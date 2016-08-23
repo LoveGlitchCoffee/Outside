@@ -61,6 +61,8 @@ public class MissleBehaviour : MonoBehaviour
     private void BlowUp()
     {
         blownUp = true;
+        launched = false;
+        rb.velocity = Vector3.zero;
         this.PostEvent(EventID.OnMissleBlow, transform.position);
         transform.position = hidePosition;
     }
