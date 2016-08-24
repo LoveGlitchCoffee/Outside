@@ -29,6 +29,8 @@ public class BarrierView : MonoBehaviour
         this.RegisterListener(EventID.OnHitBarrier , (sender, param) => SpawnDamageParticle((Vector3) param));
         this.RegisterListener(EventID.OnBarrierLower, (sender, param) => LowerBarrier((int)param));
         this.RegisterListener(EventID.OnBarrierDown , (sender, param) => DestroyBarrier());
+
+        this.RegisterListener(EventID.OnGameStart , (sender, param) => ResetBarrier());
     }
 
     void ResetBarrier()
@@ -88,13 +90,7 @@ public class BarrierView : MonoBehaviour
         Debug.Log("DestroyBarrier");
 
         Colliders.SetActive(false);
-        StartCoroutine(Sink(FinalBags));
-        
-        // might put this into smoke as refactor
-        for (int i = 0; i < FinalBags.childCount; i++)
-        {
-            StartCoroutine(Lower(FinalBags.GetChild(i)));
-        }
+        StartCoroutine(Sink(FinalBags));    
     }
 
     private IEnumerator Sink(Transform bags)

@@ -175,6 +175,8 @@ public class ZombieBehaviour : GameElement
         rb.isKinematic = true;
         body.enabled = false;
 
+        chaseGrandpa = false;
+
         //RotateTowards(grandpa);
         transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
         allowedToMove = true;
