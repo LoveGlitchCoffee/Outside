@@ -19,14 +19,12 @@ public class ZombieBehaviour : GameElement
     private Animator anim;
     private SphereCollider headHitbox;
     private Collider body;
-    private AudioSource thumpDie;
     private Rigidbody rb;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
         headHitbox = GetComponent<SphereCollider>();
-        thumpDie = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         body = GetComponent<BoxCollider>();
     }
@@ -73,8 +71,6 @@ public class ZombieBehaviour : GameElement
         {
             this.PostEvent(EventID.OnEnemyDie, col);
 
-            thumpDie.Play();
-
             anim.SetBool("AttackBarrier", false);
             anim.SetBool("Dead", true);
 
@@ -86,9 +82,7 @@ public class ZombieBehaviour : GameElement
             Debug.Log("direciton: " + dir);
             rb.AddForceAtPosition(dir * FallForce, col.contacts[0].point, ForceMode.Impulse);*/
 
-            allowedToMove = false;
-            headHitbox.enabled = false;
-            dead = true;
+
             StartCoroutine(DeadAndReturnToPool());
         }
     }
@@ -109,6 +103,9 @@ public class ZombieBehaviour : GameElement
     {
         //Debug.Log("Collided with " + col.gameObject.tag);
 
+        if (dead)
+            return;
+
         if (col.gameObject.CompareTag("Barricade"))
         {
             //Debug.Log("hit barricade");
@@ -117,7 +114,7 @@ public class ZombieBehaviour : GameElement
             StartCoroutine(AttackBarrier());
         }
         else if (col.CompareTag("Grandpa"))
-        {
+        {            
             allowedToMove = false;
             anim.SetBool("Attack", true);
             this.PostEvent(EventID.OnPlayerDie, transform.position);
@@ -130,13 +127,17 @@ public class ZombieBehaviour : GameElement
 
         while (!dead)
         {
+            this.PostEvent(EventID.OnHitBarrier, transform.position);            
             yield return wait;
-            this.PostEvent(EventID.OnHitBarrier, transform.position);
         }
     }
 
     private IEnumerator DeadAndReturnToPool()
     {
+        allowedToMove = false;
+        headHitbox.enabled = false;
+        dead = true;
+
         yield return new WaitForSeconds(10);
 
         anim.SetBool("Dead", false);
@@ -163,9 +164,6 @@ public class ZombieBehaviour : GameElement
         anim.enabled = false;
         body.enabled = true;
 
-        allowedToMove = false;
-        headHitbox.enabled = false;
-        dead = true;
         StartCoroutine(DeadAndReturnToPool());
 
         rb.AddExplosionForce(GameManager.model.special.ExplosionForce, explosionPos, GameManager.model.special.ExplosionRadius, 1, ForceMode.Impulse);

@@ -12,7 +12,7 @@ public class SpecialControl : GameElement {
 	}
 	
 	void Update () {
-		if (Input.GetButtonDown("Fire2"))
+		if (Input.GetButtonDown("Fire2") && GameManager.model.special.IsReady())
 		{
 			//Debug.Log("used special");
 			Launch((transform.GetChild(0).TransformDirection(new Vector3(0,0,1))));

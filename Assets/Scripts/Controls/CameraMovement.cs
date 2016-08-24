@@ -40,16 +40,13 @@ public class CameraMovement : GameElement
 
         float time = 0;
 
-        while (!WithinDistance(lookRotation, transform.rotation) || time < 2)
+        while (!WithinDistance(lookRotation, transform.rotation) && time < 2)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*RotationSpeed);
             yield return wait;
             time += Time.deltaTime;
-
-            Debug.Log("turning to finish " + time);
         }
 
-        Debug.Log("fnish, end game");
         this.PostEvent(EventID.OnGameEnd);
     }
 

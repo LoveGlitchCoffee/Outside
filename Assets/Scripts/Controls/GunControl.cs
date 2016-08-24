@@ -61,7 +61,7 @@ public class GunControl : MonoBehaviour
         StartCoroutine(ReloadBullet());
 
         this.PostEvent(EventID.OnPlayerFire);
-        currentBullet.GetComponent<BulletBehvaiour>().Project(transform.GetChild(0).TransformDirection(new Vector3(0,0,BulletForce)));
+        currentBullet.GetComponent<BulletBehvaiour>().Project(gun.TransformDirection(new Vector3(0,0,BulletForce)));
     }    
 
     // could do anim here
