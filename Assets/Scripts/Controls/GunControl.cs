@@ -5,6 +5,7 @@ public class GunControl : MonoBehaviour
 {
     public GameObject BulletPrefab;
     public float BulletForce;
+    private Vector3 forceMultiplier;
 
     private WaitForSeconds coolDownTime = new WaitForSeconds(0.5f);
     private bool allowedToShoot;
@@ -13,6 +14,8 @@ public class GunControl : MonoBehaviour
 
     private Transform gun;
 
+    private Vector3 viewportCentre;
+
     void Awake()
     {
         gun = transform.GetChild(0).GetChild(0);    
@@ -20,6 +23,9 @@ public class GunControl : MonoBehaviour
 
 	void Start ()
 	{	    
+        viewportCentre = new Vector3(0.5f,0.5f);
+        forceMultiplier = new Vector3(1,1,BulletForce);
+
 	    LoadBullet();
         
         this.RegisterListener(EventID.OnGameStart, (sender, param) => Activate());
@@ -61,8 +67,29 @@ public class GunControl : MonoBehaviour
         StartCoroutine(ReloadBullet());
 
         this.PostEvent(EventID.OnPlayerFire);
-        currentBullet.GetComponent<BulletBehvaiour>().Project(gun.TransformDirection(new Vector3(0,0,BulletForce)));
+
+        Vector3 bulletDirection = RaycastTarget();
+        bulletDirection = Vector3.Scale(bulletDirection, forceMultiplier);
+        Debug.Log("final force " + Vector3.ClampMagnitude(bulletDirection, BulletForce));
+        currentBullet.GetComponent<BulletBehvaiour>().Project(gun.transform.TransformDirection(Vector3.ClampMagnitude(bulletDirection, BulletForce)));
     }    
+
+    private Vector3 RaycastTarget()
+    {
+        Ray ray = Camera.main.ViewportPointToRay(viewportCentre);
+        RaycastHit hit;
+
+        Physics.Raycast(ray, out hit);
+
+        Vector3 targetPosition = hit.point;
+        Debug.Log("target " + targetPosition);
+        Debug.Log("gun: " + gun.transform.position);
+        Vector3 direction = targetPosition - gun.transform.position;
+
+        Debug.Log("direction " + direction);
+
+        return direction;
+    }
 
     // could do anim here
     private IEnumerator ReloadBullet()
