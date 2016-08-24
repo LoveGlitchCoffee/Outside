@@ -69,7 +69,7 @@ public class BulletBehvaiour : MonoBehaviour
 
     private IEnumerator WaitTillNoForce()
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.2f);
 
         projecting = false;
     }

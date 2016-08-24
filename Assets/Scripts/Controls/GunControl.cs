@@ -69,9 +69,12 @@ public class GunControl : MonoBehaviour
         this.PostEvent(EventID.OnPlayerFire);
 
         Vector3 bulletDirection = RaycastTarget();
-        bulletDirection = Vector3.Scale(bulletDirection, forceMultiplier);
-        Debug.Log("final force " + Vector3.ClampMagnitude(bulletDirection, BulletForce));
-        currentBullet.GetComponent<BulletBehvaiour>().Project(gun.transform.TransformDirection(Vector3.ClampMagnitude(bulletDirection, BulletForce)));
+        //bulletDirection = Vector3.Scale(bulletDirection, forceMultiplier);
+
+        //bulletDirection = gun.transform.TransformDirection(Vector3.ClampMagnitude(bulletDirection, BulletForce));
+        Debug.Log("final force " + bulletDirection);
+
+        currentBullet.GetComponent<BulletBehvaiour>().Project(bulletDirection);
     }    
 
     private Vector3 RaycastTarget()
@@ -82,8 +85,10 @@ public class GunControl : MonoBehaviour
         Physics.Raycast(ray, out hit);
 
         Vector3 targetPosition = hit.point;
+        
         Debug.Log("target " + targetPosition);
         Debug.Log("gun: " + gun.transform.position);
+
         Vector3 direction = targetPosition - gun.transform.position;
 
         Debug.Log("direction " + direction);

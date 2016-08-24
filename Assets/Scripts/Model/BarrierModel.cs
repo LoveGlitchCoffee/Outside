@@ -13,6 +13,7 @@ public class BarrierModel : MonoBehaviour
     void Start()
     {
         this.RegisterListener(EventID.OnHitBarrier, (sender, param) => DecreaseHealth());
+		this.RegisterListener(EventID.OnGameStart , (sender, param) => ResetHealth());
     }
 	
 	// dun forget
@@ -28,7 +29,7 @@ public class BarrierModel : MonoBehaviour
 			return;
 
         health--;
-		Debug.Log("health " + health);
+		//Debug.Log("health " + health);
 		
 		if (health == 0)
 		{
