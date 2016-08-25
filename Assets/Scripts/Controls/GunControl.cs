@@ -4,8 +4,9 @@ using System.Collections;
 public class GunControl : MonoBehaviour
 {
     public GameObject BulletPrefab;
-    public float BulletForce;
-    private Vector3 forceMultiplier;
+
+    [TooltipAttribute("In meters per second")]
+    public float BulletVelocity;
 
     private WaitForSeconds coolDownTime = new WaitForSeconds(0.5f);
     private bool allowedToShoot;
@@ -14,7 +15,7 @@ public class GunControl : MonoBehaviour
 
     private Transform gun;
 
-    private Vector3 viewportCentre;
+    private Vector3 viewportCrosshair;
 
     void Awake()
     {
@@ -23,8 +24,7 @@ public class GunControl : MonoBehaviour
 
 	void Start ()
 	{	    
-        viewportCentre = new Vector3(0.5f,0.5f);
-        forceMultiplier = new Vector3(1,1,BulletForce);
+        viewportCrosshair = new Vector3(0.5f,0.56f);
 
 	    LoadBullet();
         
@@ -59,6 +59,11 @@ public class GunControl : MonoBehaviour
 	{
 	    if (allowedToShoot && Input.GetMouseButton(0))
 	        ShootBullet();
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            this.PostEvent(EventID.OnReload);
+        }
 	}
 
     private void ShootBullet()
@@ -69,29 +74,37 @@ public class GunControl : MonoBehaviour
         this.PostEvent(EventID.OnPlayerFire);
 
         Vector3 bulletDirection = RaycastTarget();
+
+        float distance = Mathf.Sqrt(Mathf.Pow(bulletDirection.x, 2) + Mathf.Pow(bulletDirection.y, 2) + Mathf.Pow(bulletDirection.z, 2));
+
+        float multiply = BulletVelocity / distance;
+
+        Vector3 bulletForce = bulletDirection * multiply;
         //bulletDirection = Vector3.Scale(bulletDirection, forceMultiplier);
 
         //bulletDirection = gun.transform.TransformDirection(Vector3.ClampMagnitude(bulletDirection, BulletForce));
-        Debug.Log("final force " + bulletDirection);
+        //Debug.Log("final force " + bulletForce);
 
-        currentBullet.GetComponent<BulletBehvaiour>().Project(bulletDirection);
+        currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
     }    
 
     private Vector3 RaycastTarget()
     {
-        Ray ray = Camera.main.ViewportPointToRay(viewportCentre);
+        Ray ray = Camera.main.ViewportPointToRay(viewportCrosshair);
         RaycastHit hit;
 
         Physics.Raycast(ray, out hit);
 
         Vector3 targetPosition = hit.point;
         
-        Debug.Log("target " + targetPosition);
-        Debug.Log("gun: " + gun.transform.position);
+        //Debug.Log("target " + targetPosition);
+        //Debug.Log("gun: " + gun.transform.position);
 
         Vector3 direction = targetPosition - gun.transform.position;
 
-        Debug.Log("direction " + direction);
+        Debug.DrawRay(gun.transform.position, direction, Color.red, 10);        
+
+        //Debug.Log("direction " + direction);
 
         return direction;
     }

@@ -7,7 +7,7 @@ public class BulletModel : MonoBehaviour
     private int bulletsLeft;
 
     public int StartingBullet = 5;
-    public int ReloadTime = 1;
+    public float ReloadTime = 1;
 
     private WaitForSeconds reloadWait;
 
@@ -19,7 +19,13 @@ public class BulletModel : MonoBehaviour
 
         this.RegisterListener(EventID.OnPlayerFire, (sender, param) => DecreaseBullets());
 	    this.RegisterListener(EventID.OnGameStart, (sender, param) => ReloadBullets());
+        this.RegisterListener(EventID.OnReload , (sender, param) => ManualReload());
 	}
+
+    private void ManualReload()
+    {
+        StartCoroutine(WaitTillReloaded());
+    }
 
     private void ReloadBullets()
     {

@@ -82,7 +82,10 @@ public class CameraMovement : GameElement
 
         mouseLook += smoothV;
 
-        transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
+        float yRotation = Mathf.Clamp(mouseLook.y, -90,90);
+        mouseLook = new Vector2(mouseLook.x, yRotation);
+
+        transform.localRotation = Quaternion.AngleAxis(-yRotation, Vector3.right);
         //transform.GetChild(0).localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
         
         player.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, player.transform.up);

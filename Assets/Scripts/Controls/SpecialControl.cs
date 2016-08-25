@@ -4,6 +4,7 @@ using System.Collections;
 public class SpecialControl : GameElement {
 
 	public GameObject Missle;
+	public ParticleSystem MissleFlash;
 	public GameObject Gun;
 	
 
@@ -12,7 +13,7 @@ public class SpecialControl : GameElement {
 	}
 	
 	void Update () {
-		if (Input.GetButtonDown("Fire2") && GameManager.model.special.IsReady())
+		if (Input.GetButtonDown("Fire2"))
 		{
 			//Debug.Log("used special");
 			Launch((transform.GetChild(0).TransformDirection(new Vector3(0,0,1))));
@@ -22,6 +23,9 @@ public class SpecialControl : GameElement {
 
 	private void Launch(Vector3 direction)
 	{
+		MissleFlash.transform.position = Gun.transform.position + Gun.transform.TransformDirection(new Vector3(0, 0, 0.5f));
+		MissleFlash.Play();
+
 		var mis = Missle.GetComponent<MissleBehaviour>();
 		mis.transform.position = Gun.transform.position + Gun.transform.TransformDirection(new Vector3(0, 0, 0.5f));
 		mis.transform.rotation = Gun.transform.rotation;

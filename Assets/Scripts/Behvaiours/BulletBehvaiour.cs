@@ -23,13 +23,15 @@ public class BulletBehvaiour : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void FixedUpdate()
     {
         if (projecting)
+        {
             rb.velocity = bulletForce;
+        }
     }
 
     void OnCollisionEnter(Collision col)
@@ -45,12 +47,12 @@ public class BulletBehvaiour : MonoBehaviour
             else if (enemyHit > 2)
             {
                 this.PostEvent(EventID.OnMultiKill);
-            }   
+            }
             else
             {
                 this.PostEvent(EventID.OnNormalKill);
-            }         
-        }        
+            }
+        }
     }
 
     public void Project(Vector3 force)
@@ -62,6 +64,7 @@ public class BulletBehvaiour : MonoBehaviour
 
         bulletForce = force;
         //Debug.Log(bulletForce);
+
 
         StartCoroutine(WaitTillNoForce());
         StartCoroutine(WaitTillDissapear());

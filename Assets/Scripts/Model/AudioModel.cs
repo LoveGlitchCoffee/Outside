@@ -6,6 +6,7 @@ public class AudioModel : MonoBehaviour {
     public AudioSource Ambient;
     public AudioSource GunShot;
     public AudioSource MissleLaunchSound;
+    public AudioSource HitEffect;
 
     void Start()
     {
@@ -13,6 +14,12 @@ public class AudioModel : MonoBehaviour {
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => TurnOffAudio());
         this.RegisterListener(EventID.OnPlayerFire, (sender, param) => FireSound());
         this.RegisterListener(EventID.OnSpecialUsed , (sender, param) => LaunchMissleSound());
+        this.RegisterListener(EventID.OnEnemyDie , (sender, param) => HitEffectSound());
+    }
+
+    private void HitEffectSound()
+    {
+        HitEffect.Play();
     }
 
     private void LaunchMissleSound()

@@ -15,11 +15,13 @@ public class MissleBehaviour : MonoBehaviour
 
     Rigidbody rb;
     AudioSource audio;
+    TrailRenderer trail;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         audio = GetComponent<AudioSource>();
+        trail = transform.GetChild(1).GetComponent<TrailRenderer>();
     }
 
     void Start()
@@ -49,6 +51,7 @@ public class MissleBehaviour : MonoBehaviour
         launched = true;
         blownUp = false;
         audio.Play();
+        trail.enabled = true;
         StartCoroutine(WaitTillExplode());
     }
 
@@ -62,8 +65,10 @@ public class MissleBehaviour : MonoBehaviour
     }
 
     private void BlowUp()
-    {
+    {        
         audio.Stop();
+        trail.enabled = false;
+
         blownUp = true;
         launched = false;
         rb.velocity = Vector3.zero;
