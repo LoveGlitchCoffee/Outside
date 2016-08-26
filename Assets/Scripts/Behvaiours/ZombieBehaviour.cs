@@ -109,14 +109,14 @@ public class ZombieBehaviour : GameElement
 
     void OnTriggerEnter(Collider col)
     {
-        //Debug.Log("Collided with " + col.gameObject.tag);
+        Debug.Log("Collided with " + col.gameObject.tag);
 
         if (dead)
             return;
 
-        if (col.gameObject.CompareTag("Barricade"))
+        if (col.CompareTag("Barricade"))
         {
-            //Debug.Log("hit barricade");
+            Debug.Log("hit barricade");
             allowedToMove = false;
             anim.SetBool("AttackBarrier", true);
             StartCoroutine(AttackBarrier());
