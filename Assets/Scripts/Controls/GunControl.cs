@@ -9,8 +9,8 @@ public class GunControl : MonoBehaviour
     public float BulletVelocity;
 
     private WaitForSeconds coolDownTime = new WaitForSeconds(0.5f);
-    private bool allowedToShoot;
-    
+    private bool allowedToShoot = true;
+
     private GameObject currentBullet;
 
     private Transform gun;
@@ -19,56 +19,58 @@ public class GunControl : MonoBehaviour
 
     void Awake()
     {
-        gun = transform.GetChild(0).GetChild(0);    
+        gun = transform.GetChild(0).GetChild(0);
     }
 
-	void Start ()
-	{	    
-        viewportCrosshair = new Vector3(0.5f,0.56f);
+    void Start()
+    {
+        viewportCrosshair = new Vector3(0.5f, 0.56f);
 
-	    LoadBullet();
-        
-        this.RegisterListener(EventID.OnGameStart, (sender, param) => Activate());
+        LoadBullet();
+
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => DeActivate());
         this.RegisterListener(EventID.OnReload, (sender, param) => DeActivate());
-	    this.RegisterListener(EventID.OnFinishReload, (sender, param) => Activate());
-
-        DeActivate();
-	}
-
-    public void DeActivate()
-    {
-        enabled = false;
+        this.RegisterListener(EventID.OnFinishReload, (sender, param) => Activate());
     }
 
-    public void Activate()
+    private void Activate()
     {
         enabled = true;
     }
 
+    private void DeActivate()
+    {
+        enabled = false;
+    }
+
     private void LoadBullet()
     {
-        var bullet = PoolManager.Instance.GetFromPool(BulletPrefab, gun.position + gun.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();   
+        var bullet = PoolManager.Instance.GetFromPool(BulletPrefab, gun.position + gun.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
         bullet.transform.SetParent(gun);
         bullet.SetUp();
         currentBullet = bullet.gameObject;
         allowedToShoot = true;
     }
 
-    void Update ()
-	{
-	    if (allowedToShoot && Input.GetMouseButton(0))
-	        ShootBullet();
-
-        if (Input.GetKey(KeyCode.R))
+    void Update()
+    {
+        if (allowedToShoot)
         {
-            this.PostEvent(EventID.OnReload);
+            //Debug.Log("allowed to shoot");
+            if (Input.GetMouseButton(0))
+                ShootBullet();
+
+            if (Input.GetKey(KeyCode.R))
+            {
+                this.PostEvent(EventID.OnReload);
+            }
         }
-	}
+    }
 
     private void ShootBullet()
-    {        
+    {
         allowedToShoot = false;
+
         StartCoroutine(ReloadBullet());
 
         this.PostEvent(EventID.OnPlayerFire);
@@ -86,7 +88,7 @@ public class GunControl : MonoBehaviour
         //Debug.Log("final force " + bulletForce);
 
         currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
-    }    
+    }
 
     private Vector3 RaycastTarget()
     {
@@ -96,13 +98,13 @@ public class GunControl : MonoBehaviour
         Physics.Raycast(ray, out hit);
 
         Vector3 targetPosition = hit.point;
-        
+
         //Debug.Log("target " + targetPosition);
         //Debug.Log("gun: " + gun.transform.position);
 
         Vector3 direction = targetPosition - gun.transform.position;
 
-        Debug.DrawRay(gun.transform.position, direction, Color.red, 10);        
+        Debug.DrawRay(gun.transform.position, direction, Color.red, 10);
 
         //Debug.Log("direction " + direction);
 

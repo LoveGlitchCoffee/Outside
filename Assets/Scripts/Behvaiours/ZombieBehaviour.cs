@@ -12,7 +12,7 @@ public class ZombieBehaviour : GameElement
     public float DeadTime; // not used
     public float FallForce;
 
-    bool dead = false;
+    public bool dead = false;
 
     bool chaseGrandpa;
 

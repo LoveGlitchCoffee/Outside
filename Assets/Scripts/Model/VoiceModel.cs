@@ -37,6 +37,7 @@ public class VoiceModel : MonoBehaviour
     private void EndVoice()
     {
         CancelInvoke("PlayRandomVoiceLine");
+        audio.Stop();
     }
 
     private void ReloadVoice()

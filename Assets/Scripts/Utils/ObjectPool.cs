@@ -5,18 +5,14 @@ public class ObjectPool
 {
 
     private List<GameObject> objectsInPool;
-    Vector2 hide;
 
     public ObjectPool(GameObject prefab, int initialSize, ref Dictionary<GameObject, ObjectPool> instanceLookup)
     {
         objectsInPool = new List<GameObject>(initialSize);
 
-		// maybe not best place to put?
-        hide = Camera.main.ViewportToWorldPoint(new Vector3(1, 1) + new Vector3(100, 100));
-
         for (int i = 0; i < initialSize; i++)
         {
-			GameObject newObject = (GameObject) MonoBehaviour.Instantiate(prefab, hide, Quaternion.identity);
+			GameObject newObject = (GameObject) MonoBehaviour.Instantiate(prefab, PoolManager.Instance.transform.position, Quaternion.identity);
 			objectsInPool.Add(newObject);
             instanceLookup.Add(newObject, this);
             newObject.SetActive(false);            
@@ -26,7 +22,6 @@ public class ObjectPool
 
     public void ReturnToPool(GameObject gObject)
     {        
-        gObject.transform.position = hide;
         gObject.SetActive(false);
         objectsInPool.Add(gObject);
     }

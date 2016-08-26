@@ -12,6 +12,9 @@ public class MovementController : MonoBehaviour
     float vDir;
     Vector3 moveForce;
 
+    Vector3 startPosition;
+    Quaternion startRotation;
+
     void Awake()
     {
         speedForce = new Vector3(Speed, Speed, Speed);
@@ -20,8 +23,19 @@ public class MovementController : MonoBehaviour
 
     void Start()
     {
+        startPosition = transform.position;
+        startRotation = transform.rotation;
+
         rb.freezeRotation = true;
         //rb.drag = 10.0f;
+
+        this.RegisterListener(EventID.OnGameStart , (sender, param) => RestartPlayer());
+    }
+
+    private void RestartPlayer()
+    {
+        transform.position = startPosition;
+        transform.rotation = startRotation;
     }
 
     void Update()
