@@ -17,21 +17,23 @@ public class ZombieBehaviour : GameElement
     bool chaseGrandpa;
 
     private Animator anim;
-    private SphereCollider headHitbox;
+    private Collider headHitbox;
     private Collider body;
+    private Collider senseTrigger;
     private Rigidbody rb;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
-        headHitbox = GetComponent<SphereCollider>();
+        headHitbox = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
+        senseTrigger = GetComponent<SphereCollider>();
         body = GetComponent<BoxCollider>();
     }
 
     void Start()
     {
-        this.RegisterListener(EventID.OnGameStart , (sender, param) => Reset());
+        this.RegisterListener(EventID.OnGameStart, (sender, param) => Reset());
 
 
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopMovement());
@@ -61,6 +63,8 @@ public class ZombieBehaviour : GameElement
     {
         if (!gameObject.activeSelf)
             return;
+
+        senseTrigger.enabled = false;
 
         allowedToMove = false;
         anim.SetBool("Move", false);
@@ -104,28 +108,30 @@ public class ZombieBehaviour : GameElement
         anim.SetBool("Move", false);
         anim.SetBool("Attack", false);
         anim.SetBool("End", true);
+
         PoolManager.Instance.ReturnToPool(gameObject);
     }
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log("Collided with " + col.gameObject.tag);
-
         if (dead)
             return;
 
         if (col.CompareTag("Barricade"))
         {
-            Debug.Log("hit barricade");
             allowedToMove = false;
             anim.SetBool("AttackBarrier", true);
             StartCoroutine(AttackBarrier());
         }
         else if (col.CompareTag("Grandpa"))
-        {            
+        {
+            if (!GameManager.isPlaying())
+                return;
+                
             allowedToMove = false;
             anim.SetBool("Attack", true);
             this.PostEvent(EventID.OnPlayerDie, transform.position);
+            Debug.Log("finishe game");
         }
     }
 
@@ -135,7 +141,7 @@ public class ZombieBehaviour : GameElement
 
         while (!dead)
         {
-            this.PostEvent(EventID.OnHitBarrier, transform.position);            
+            this.PostEvent(EventID.OnHitBarrier, transform.position);
             yield return wait;
         }
     }
@@ -182,6 +188,8 @@ public class ZombieBehaviour : GameElement
         anim.enabled = true;
         rb.isKinematic = true;
         body.enabled = false;
+
+        senseTrigger.enabled = true;        
 
         //RotateTowards(grandpa);
         transform.rotation = Quaternion.AngleAxis(180, Vector3.up);

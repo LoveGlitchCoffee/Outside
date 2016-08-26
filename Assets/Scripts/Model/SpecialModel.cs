@@ -20,6 +20,8 @@ public class SpecialModel : MonoBehaviour
         this.RegisterListener(EventID.OnMultiKill, (sender, param) => UpdateCharge(25));
 
         this.RegisterListener(EventID.OnSpecialUsed , (sender, param) => ResetCharge());
+
+        this.RegisterListener(EventID.OnGameStart , (sender, param) => ResetCharge());
     }
 
     private void UpdateCharge(int amount)

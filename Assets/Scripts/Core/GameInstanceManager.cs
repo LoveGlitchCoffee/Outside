@@ -12,14 +12,20 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
     [Header("UI")]
     public GameObject GameUI;
 
-    public GameModel model;    
+    public GameModel model;        
 
     void Start()
     {
         playing = false;
         this.RegisterListener(EventID.OnGameStart, (sender, param) => StartGame());
-        this.RegisterListener(EventID.OnGameEnd, (sender, param) => StopGame());        
+        this.RegisterListener(EventID.OnGameEnd, (sender, param) => StopGame());
+        this.RegisterListener(EventID.OnPlayerDie , (sender, param) => StopPlaying());        
     }    
+
+    private void StopPlaying()
+    {
+        playing = false;
+    } 
 
     public void StartGame()
     {
@@ -37,7 +43,6 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
         GameCamera.enabled = false;
         MenuCamera.enabled = true;
         GameUI.SetActive(false);
-        playing = false;
     }    
 
     public bool isPlaying()

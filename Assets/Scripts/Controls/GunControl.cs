@@ -133,5 +133,6 @@ public class GunControl : GameElement
     private void SetLive()
     {
         playerLose = false;
+        LoadBullet();
     }
 }

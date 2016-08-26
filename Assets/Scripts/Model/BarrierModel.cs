@@ -30,6 +30,7 @@ public class BarrierModel : MonoBehaviour
 			return;
 
         health--;
+		this.PostEvent(EventID.OnUpdateHealth, health);
 		//Debug.Log("health " + health);
 		
 		if (health == 0)

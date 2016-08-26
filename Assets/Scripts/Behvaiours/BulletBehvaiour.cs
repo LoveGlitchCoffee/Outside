@@ -14,6 +14,7 @@ public class BulletBehvaiour : MonoBehaviour
     private float speed = 10f;
 
     private int enemyHit;
+    private bool landed;
 
     void Awake()
     {
@@ -23,7 +24,7 @@ public class BulletBehvaiour : MonoBehaviour
 
     void Start()
     {
-
+        this.RegisterListener(EventID.OnGameEnd, (sender, param) => ReturnToPool());
     }
 
     void FixedUpdate()
@@ -36,18 +37,17 @@ public class BulletBehvaiour : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Zombie")
+        projecting = false;
+
+        if (col.gameObject.CompareTag("Zombie"))
         {
-
-            projecting = false;
-
             enemyHit++;
 
-            if (enemyHit == 2)
+            if (enemyHit == 2 && !landed)
             {
                 this.PostEvent(EventID.OnDoubleKill);
             }
-            else if (enemyHit > 2)
+            else if (enemyHit > 2 && !landed)
             {
                 this.PostEvent(EventID.OnMultiKill);
             }
@@ -56,6 +56,8 @@ public class BulletBehvaiour : MonoBehaviour
                 this.PostEvent(EventID.OnNormalKill);
             }
         }
+        else if (col.gameObject.CompareTag("Ground"))
+            landed = true;
     }
 
     public void Project(Vector3 force)
@@ -68,6 +70,8 @@ public class BulletBehvaiour : MonoBehaviour
         bulletForce = force;
         //Debug.Log(bulletForce);
 
+        trail.enabled = true;
+        landed = false;
 
         StartCoroutine(WaitTillNoForce());
         StartCoroutine(WaitTillDissapear());
@@ -97,6 +101,5 @@ public class BulletBehvaiour : MonoBehaviour
     public void SetUp()
     {
         enemyHit = 0;
-        trail.enabled = true;
     }
 }

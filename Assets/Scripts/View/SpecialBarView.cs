@@ -30,7 +30,15 @@ public class SpecialBarView : GameElement
 
         this.RegisterListener(EventID.OnSpecialUsed, (sender, param) => SpecialUsed());
 
+        this.RegisterListener(EventID.OnGameStart , (sender, param) => ResetSpecial());
+
         filledEffects = new Coroutine[2];
+    }
+
+    private void ResetSpecial()
+    {
+        bar.fillAmount = 0;
+        desc.text = 0 + "%";        
     }
 
     private void SpecialUsed()

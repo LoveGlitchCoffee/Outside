@@ -29,6 +29,7 @@ public enum EventID
     OnHitBarrier,
     OnBarrierLower,
     OnBarrierDown,
+    OnUpdateHealth,
 
     OnUpdateScore
 }
