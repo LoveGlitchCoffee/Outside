@@ -35,6 +35,13 @@ public class KillTextBehaviour : MonoBehaviour
         originalPos = rect.anchoredPosition;
         outPos = Vector2.Scale(rect.anchoredPosition, new Vector2(-1, 1));
         centralPos = new Vector2(0, originalPos.y); // hacky with 0  
+
+        this.RegisterListener(EventID.OnGameEnd , (sender, param) => ResetText());
+    }
+
+    private void ResetText()
+    {
+        rect.anchoredPosition3D = originalPos;
     }
 
     public void Double()

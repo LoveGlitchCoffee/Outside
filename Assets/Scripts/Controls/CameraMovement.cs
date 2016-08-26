@@ -64,6 +64,7 @@ public class CameraMovement : GameElement
     public void Activate()
     {
         enabled = true;
+        mouseLook = new Vector2(0,0);
     }
 
     public void Deactivate()

@@ -31,12 +31,20 @@ public class ZombieBehaviour : GameElement
 
     void Start()
     {
+        this.RegisterListener(EventID.OnGameStart , (sender, param) => Reset());
+
+
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopMovement());
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ReturnToPool());
 
         this.RegisterListener(EventID.OnBarrierDown, (sender, param) => TargetGrandpa());
 
         this.RegisterListener(EventID.OnMissleBlow, (sender, param) => ReactToExplode((Vector3)param));
+    }
+
+    private void Reset()
+    {
+        chaseGrandpa = false;
     }
 
     private void TargetGrandpa()
@@ -174,8 +182,6 @@ public class ZombieBehaviour : GameElement
         anim.enabled = true;
         rb.isKinematic = true;
         body.enabled = false;
-
-        chaseGrandpa = false;
 
         //RotateTowards(grandpa);
         transform.rotation = Quaternion.AngleAxis(180, Vector3.up);

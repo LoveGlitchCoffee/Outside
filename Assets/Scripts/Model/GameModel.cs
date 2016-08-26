@@ -7,6 +7,7 @@ public class GameModel : MonoBehaviour
     public AudioModel audio;
 
     public SpecialModel special;
+    public BulletModel bullet;
 
     // could be changed to something else later if need
     public Transform Grandpa;

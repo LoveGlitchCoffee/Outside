@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GunControl : MonoBehaviour
+public class GunControl : GameElement
 {
     public GameObject BulletPrefab;
 
@@ -16,6 +16,7 @@ public class GunControl : MonoBehaviour
     private Transform gun;
 
     private Vector3 viewportCrosshair;
+    bool playerLose;
 
     void Awake()
     {
@@ -27,19 +28,23 @@ public class GunControl : MonoBehaviour
         viewportCrosshair = new Vector3(0.5f, 0.56f);
 
         LoadBullet();
-
+        
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => DeActivate());
+        this.RegisterListener(EventID.OnGameStart , (sender, param) => SetLive());
+        this.RegisterListener(EventID.OnPlayerDie , (sender, param) => SetDead());
         this.RegisterListener(EventID.OnReload, (sender, param) => DeActivate());
         this.RegisterListener(EventID.OnFinishReload, (sender, param) => Activate());
     }
 
     private void Activate()
     {
-        enabled = true;
+        if (!playerLose)
+            enabled = true;
     }
 
     private void DeActivate()
     {
+        //Debug.Log("finish");
         enabled = false;
     }
 
@@ -62,7 +67,8 @@ public class GunControl : MonoBehaviour
 
             if (Input.GetKey(KeyCode.R))
             {
-                this.PostEvent(EventID.OnReload);
+                if (!(GameManager.model.bullet.BulletsLeft() == GameManager.model.bullet.StartingBullet))
+                    this.PostEvent(EventID.OnReload);
             }
         }
     }
@@ -117,5 +123,15 @@ public class GunControl : MonoBehaviour
         yield return coolDownTime;
 
         LoadBullet();
+    }
+
+    private void SetDead()
+    {
+        playerLose = true;        
+    }
+
+    private void SetLive()
+    {
+        playerLose = false;
     }
 }

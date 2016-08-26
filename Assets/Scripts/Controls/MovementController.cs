@@ -24,10 +24,7 @@ public class MovementController : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        startRotation = transform.rotation;
-
-        rb.freezeRotation = true;
-        //rb.drag = 10.0f;
+        startRotation = Quaternion.identity;
 
         this.RegisterListener(EventID.OnGameStart , (sender, param) => RestartPlayer());
     }
@@ -36,6 +33,7 @@ public class MovementController : MonoBehaviour
     {
         transform.position = startPosition;
         transform.rotation = startRotation;
+        Debug.Log("rotation " + transform.root.eulerAngles);
     }
 
     void Update()

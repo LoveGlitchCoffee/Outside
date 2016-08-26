@@ -54,4 +54,9 @@ public class BulletModel : MonoBehaviour
         ReloadBullets();
         this.PostEvent(EventID.OnFinishReload);        
     }
+
+    public int BulletsLeft()
+    {
+        return bulletsLeft;
+    }
 }
