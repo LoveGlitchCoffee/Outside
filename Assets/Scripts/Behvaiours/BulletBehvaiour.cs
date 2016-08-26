@@ -38,6 +38,9 @@ public class BulletBehvaiour : MonoBehaviour
     {
         if (col.gameObject.tag == "Zombie")
         {
+
+            projecting = false;
+
             enemyHit++;
 
             if (enemyHit == 2)
