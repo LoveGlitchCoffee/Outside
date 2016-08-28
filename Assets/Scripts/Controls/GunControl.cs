@@ -15,7 +15,6 @@ public class GunControl : GameElement
 
     private Transform gun;
 
-    private Vector3 viewportCrosshair;
     bool playerLose;
 
     void Awake()
@@ -25,8 +24,6 @@ public class GunControl : GameElement
 
     void Start()
     {
-        viewportCrosshair = new Vector3(0.5f, 0.56f);
-
         LoadBullet();
         
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => DeActivate());
@@ -81,41 +78,14 @@ public class GunControl : GameElement
 
         this.PostEvent(EventID.OnPlayerFire);
 
-        Vector3 bulletDirection = RaycastTarget();
-
-        float distance = Mathf.Sqrt(Mathf.Pow(bulletDirection.x, 2) + Mathf.Pow(bulletDirection.y, 2) + Mathf.Pow(bulletDirection.z, 2));
-
-        float multiply = BulletVelocity / distance;
-
-        Vector3 bulletForce = bulletDirection * multiply;
+        Vector3 bulletForce = CommonFunctions.RaycastBullet(gun, BulletVelocity);
         //bulletDirection = Vector3.Scale(bulletDirection, forceMultiplier);
 
         //bulletDirection = gun.transform.TransformDirection(Vector3.ClampMagnitude(bulletDirection, BulletForce));
         //Debug.Log("final force " + bulletForce);
 
         currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
-    }
-
-    private Vector3 RaycastTarget()
-    {
-        Ray ray = Camera.main.ViewportPointToRay(viewportCrosshair);
-        RaycastHit hit;
-
-        Physics.Raycast(ray, out hit);
-
-        Vector3 targetPosition = hit.point;
-
-        //Debug.Log("target " + targetPosition);
-        //Debug.Log("gun: " + gun.transform.position);
-
-        Vector3 direction = targetPosition - gun.transform.position;
-
-        Debug.DrawRay(gun.transform.position, direction, Color.red, 10);
-
-        //Debug.Log("direction " + direction);
-
-        return direction;
-    }
+    }    
 
     // could do anim here
     private IEnumerator ReloadBullet()
