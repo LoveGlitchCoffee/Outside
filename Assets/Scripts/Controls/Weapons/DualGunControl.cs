@@ -11,7 +11,7 @@ public class DualGunControl : GameElement
 
     bool rightGunTurn;
 
-    WaitForSeconds coolDownTime = new WaitForSeconds(0.3f);
+    WaitForSeconds coolDownTime = new WaitForSeconds(0.5f);
 
     [Header("Guns")]
     public Transform RightGun;
@@ -40,6 +40,7 @@ public class DualGunControl : GameElement
         LoadBullet(LeftGun);
         LoadBullet(RightGun);
         allowedToShoot = true;
+        rightGunTurn = true;
     }
 
     private void ShootBullet(Transform gun)
