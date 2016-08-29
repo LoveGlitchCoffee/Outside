@@ -12,6 +12,8 @@ public class CommonFunctions {
 
 		Physics.Raycast(ray, out hit);
 
+		Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
+
 		Vector3 contact = hit.point;
 
 		Vector3 direction = contact - gun.position;

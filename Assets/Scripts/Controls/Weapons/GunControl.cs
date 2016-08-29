@@ -3,8 +3,6 @@ using System.Collections;
 
 public class GunControl : GameElement
 {
-    public GameObject BulletPrefab;
-
     [TooltipAttribute("In meters per second")]
     public float BulletVelocity;
 
@@ -19,16 +17,14 @@ public class GunControl : GameElement
 
     void Awake()
     {
-        gun = transform.GetChild(0).GetChild(0);
+        gun = transform.GetChild(0);
     }
 
     void Start()
     {
-        LoadBullet();
-        
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => DeActivate());
-        this.RegisterListener(EventID.OnGameStart , (sender, param) => SetLive());
-        this.RegisterListener(EventID.OnPlayerDie , (sender, param) => SetDead());
+        this.RegisterListener(EventID.OnGameStart, (sender, param) => SetLive());
+        this.RegisterListener(EventID.OnPlayerDie, (sender, param) => SetDead());
         this.RegisterListener(EventID.OnReload, (sender, param) => DeActivate());
         this.RegisterListener(EventID.OnFinishReload, (sender, param) => Activate());
     }
@@ -45,9 +41,11 @@ public class GunControl : GameElement
         enabled = false;
     }
 
-    private void LoadBullet()
+    public void LoadBullet()
     {
-        var bullet = PoolManager.Instance.GetFromPool(BulletPrefab, gun.position + gun.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
+        Debug.Log("loaded");
+
+        var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
         bullet.transform.SetParent(gun);
         bullet.SetUp();
         currentBullet = bullet.gameObject;
@@ -84,8 +82,10 @@ public class GunControl : GameElement
         //bulletDirection = gun.transform.TransformDirection(Vector3.ClampMagnitude(bulletDirection, BulletForce));
         //Debug.Log("final force " + bulletForce);
 
-        currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
-    }    
+
+        if (currentBullet != null)
+            currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
+    }
 
     // could do anim here
     private IEnumerator ReloadBullet()
@@ -97,7 +97,7 @@ public class GunControl : GameElement
 
     private void SetDead()
     {
-        playerLose = true;        
+        playerLose = true;
     }
 
     private void SetLive()

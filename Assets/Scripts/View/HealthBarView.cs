@@ -28,7 +28,7 @@ public class HealthBarView : MonoBehaviour {
 
 	private void UpdateHealth(int amount)
 	{
-		Debug.Log("new amount " + amount);
+		//Debug.Log("new amount " + amount);
 		StartCoroutine(TweenFill((float)amount));
 	}
 	

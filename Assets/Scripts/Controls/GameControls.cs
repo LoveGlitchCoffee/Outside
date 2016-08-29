@@ -3,8 +3,13 @@ using System.Collections;
 
 public class GameControls : MonoBehaviour {
 
-	public GunControl gun;
+	public GameObject TennisBall;
+
 	public MovementController move;
+	
+	[Header("Weapons")]
+	public GunControl gun;
+	public DualGunControl dual;
 
 	void Start () {
 		this.RegisterListener(EventID.OnGameStart , (sender, param) => Activate());
@@ -13,7 +18,8 @@ public class GameControls : MonoBehaviour {
 	
 	private void Activate()
 	{
-		gun.enabled = true;
+		//gun.LoadBullet();
+		//gun.enabled = true;
 		move.enabled = true;
 	}
 

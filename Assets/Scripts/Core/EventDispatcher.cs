@@ -31,7 +31,10 @@ public enum EventID
     OnBarrierDown,
     OnUpdateHealth,
 
-    OnUpdateScore
+    OnUpdateScore,
+
+    OnPlayerFireLeft,
+    OnPlayerFireRight
 }
 
 public class EventDispatcher : Singleton<EventDispatcher>

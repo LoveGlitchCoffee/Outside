@@ -12,18 +12,19 @@ public class GunView : MonoBehaviour
         flash = transform.GetChild(0).GetComponent<ParticleSystem>();
     }
 	
-	void Start () {
+	protected virtual void Start () {
 	    this.RegisterListener(EventID.OnPlayerFire, (sender, param) => Recoil());
         this.RegisterListener(EventID.OnReload, (sender, param) => Reload());
 	}
 
-    private void Recoil()
+    protected void Recoil()
     {
+        Debug.Log("set fire true");
         anim.SetBool("Fired", true);
         flash.Play();
     }
 
-    private void Reload()
+    protected void Reload()
     {
         anim.SetBool("Reload", true);
     }

@@ -12,7 +12,9 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
     [Header("UI")]
     public GameObject GameUI;
 
+    [Header("MVC")]
     public GameModel model;        
+    public GameControls control;
 
     void Start()
     {
