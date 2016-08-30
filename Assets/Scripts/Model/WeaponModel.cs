@@ -8,7 +8,7 @@ public enum Weapon
     DualGun = 1,
 }
 
-public class WeaponModel : MonoBehaviour
+public class WeaponModel : GameElement
 {
     private int bulletsLeft;
 
@@ -23,6 +23,8 @@ public class WeaponModel : MonoBehaviour
     {
         this.RegisterListener(EventID.OnSelectWeapon, (sender, param) => SetWeapon((Weapon)param));
         this.RegisterListener(EventID.OnPlayerFire, (sender, param) => DecreaseBullets());
+        this.RegisterListener(EventID.OnPlayerFireRight , (sender, param) => DecreaseBullets());
+        this.RegisterListener(EventID.OnPlayerFireLeft , (sender, param) => DecreaseBullets());
         this.RegisterListener(EventID.OnReload, (sender, param) => ManualReload());
     }
 
@@ -48,8 +50,20 @@ public class WeaponModel : MonoBehaviour
                 }
         }
 
+        StartCoroutine(WaitTillReady(StartingBullet));
+    }
+
+    private IEnumerator WaitTillReady(int StartingBullet)
+    {
+        WaitForSeconds wait = new WaitForSeconds(0);
+
+        while (!GameManager.view.WeaponProperty.Ready())
+        {
+            yield return wait; 
+        }
+
         this.PostEvent(EventID.OnChangeTotalBullets, StartingBullet);
-        ReloadBullets();
+        ReloadBullets();        
     }
 
     private void ManualReload()

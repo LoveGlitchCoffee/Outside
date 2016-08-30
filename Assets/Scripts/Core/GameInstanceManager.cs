@@ -29,6 +29,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
     [Header("MVC")]
     public GameModel model;
     public GameControls control;
+    public GameView view;
 
     void Start()
     {    

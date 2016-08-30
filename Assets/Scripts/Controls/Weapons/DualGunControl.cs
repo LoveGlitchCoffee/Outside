@@ -7,7 +7,7 @@ public class DualGunControl : GameElement
     [TooltipAttribute("In meters per second")]
     public float BulletVelocity;
 
-    bool allowedToShoot;
+    bool allowedToShoot = true;
 
     bool rightGunTurn;
 

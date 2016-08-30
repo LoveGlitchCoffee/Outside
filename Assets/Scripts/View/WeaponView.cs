@@ -36,6 +36,7 @@ public class WeaponView : MonoBehaviour
         }
 
 		Debug.Log("active " + lastActive);
+		// might want to make all guns a heirarchy so can contrll
         lastActive.SetActive(true);
         this.PostEvent(EventID.OnGameStart);
     }
