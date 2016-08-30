@@ -2,19 +2,12 @@
 using System.Collections;
 
 public class SelectionControl : GameElement {
-
+	
 	public void GoInGame()
 	{
-		this.PostEvent(EventID.OnGameStart);
+		Debug.Log("Selected weapon: " + GameManager.selectionModel.SelectedWeapon());
+		this.PostEvent(EventID.OnSelectWeapon, GameManager.selectionModel.SelectedWeapon());
 	}
 
-	public void SelectSingle()
-	{
-		GameManager.model.weapon.SetWeapon(Weapon.SingleGun);
-	}
-
-	public void SelectDual()
-	{
-		GameManager.model.weapon.SetWeapon(Weapon.DualGun);
-	}
+	
 }

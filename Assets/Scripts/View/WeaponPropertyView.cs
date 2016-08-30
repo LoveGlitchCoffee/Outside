@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class WeaponPropertyView : MonoBehaviour {
 
-	// Use this for initialization
+	Text totalBullets;
+
 	void Start () {
-	
+		this.RegisterListener(EventID.OnChangeTotalBullets , (sender, param) => ChangeBullet((int) param));
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+	private void ChangeBullet(int total)
+	{
+		totalBullets.text = "/" + total.ToString();
+	}	
 }

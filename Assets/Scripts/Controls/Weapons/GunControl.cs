@@ -43,8 +43,6 @@ public class GunControl : GameElement
 
     public void LoadBullet()
     {
-        Debug.Log("loaded");
-
         var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
         bullet.transform.SetParent(gun);
         bullet.SetUp();

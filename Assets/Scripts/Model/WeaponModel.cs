@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 
 public enum Weapon
 {
-	SingleGun = 0,
-	DualGun = 1,
+    SingleGun = 0,
+    DualGun = 1,
 }
 
 public class WeaponModel : MonoBehaviour
@@ -19,34 +19,37 @@ public class WeaponModel : MonoBehaviour
 
     Weapon wp;
 
-	void Start ()
-	{
+    void Start()
+    {
+        this.RegisterListener(EventID.OnSelectWeapon, (sender, param) => SetWeapon((Weapon)param));
         this.RegisterListener(EventID.OnPlayerFire, (sender, param) => DecreaseBullets());
-	    this.RegisterListener(EventID.OnGameStart, (sender, param) => ReloadBullets());
-        this.RegisterListener(EventID.OnReload , (sender, param) => ManualReload());        
-	}
+        this.RegisterListener(EventID.OnReload, (sender, param) => ManualReload());
+    }
 
-    public void SetWeapon(Weapon newWp)
+    private void SetWeapon(Weapon newWp)
     {
         wp = newWp;
 
-        switch(wp)
+        switch (wp)
         {
             case Weapon.SingleGun:
-            {
-                StartingBullet = 3;
-                ReloadTime = 1.5f;
-                reloadWait = new WaitForSeconds(ReloadTime);
-                break;
-            }
+                {
+                    StartingBullet = 3;
+                    ReloadTime = 1.5f;
+                    reloadWait = new WaitForSeconds(ReloadTime);
+                    break;
+                }
             case Weapon.DualGun:
-            {
-                StartingBullet = 6;
-                ReloadTime = 1.5f;
-                reloadWait = new WaitForSeconds(ReloadTime);
-                break;
-            }
+                {
+                    StartingBullet = 6;
+                    ReloadTime = 1.5f;
+                    reloadWait = new WaitForSeconds(ReloadTime);
+                    break;
+                }
         }
+
+        this.PostEvent(EventID.OnChangeTotalBullets, StartingBullet);
+        ReloadBullets();
     }
 
     private void ManualReload()
@@ -70,8 +73,8 @@ public class WeaponModel : MonoBehaviour
 
             StartCoroutine(WaitTillReloaded());
         }
-            
-        this.PostEvent(EventID.OnUpdateBullet, bulletsLeft);        
+
+        this.PostEvent(EventID.OnUpdateBullet, bulletsLeft);
     }
 
     private IEnumerator WaitTillReloaded()
@@ -79,7 +82,7 @@ public class WeaponModel : MonoBehaviour
         yield return reloadWait;
 
         ReloadBullets();
-        this.PostEvent(EventID.OnFinishReload);        
+        this.PostEvent(EventID.OnFinishReload);
     }
 
     public int BulletsLeft()

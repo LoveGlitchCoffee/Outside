@@ -10,8 +10,11 @@ public enum EventID
     OnGameEnd,
 
     SelectWeaponMenu,
+    OnPressWeapon,
+    OnSelectWeapon,
+    //OnConfiguredWeapon,
 
-
+    OnChangeTotalBullets,
 
     OnPlayerDie,
     OnSpawnEnemy,

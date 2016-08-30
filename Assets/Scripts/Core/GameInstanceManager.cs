@@ -14,6 +14,10 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
 
     private GameState state; 
 
+    [Header("Selection")]
+    public SelectionControl selectionControl;
+    public SelectionModel selectionModel;
+
     [Header("Cameras")]
     public Camera GameCamera;
     public Camera MenuCamera;
@@ -69,7 +73,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
         }
 
         state = newState;
-
+        
         switch (state)
         {
             case GameState.Menu:
@@ -91,6 +95,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                 GameCamera.enabled = true;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                GameUI.SetActive(true);
                 playing = true;
                 break;
             }
