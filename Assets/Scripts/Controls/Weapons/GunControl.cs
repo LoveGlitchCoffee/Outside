@@ -62,7 +62,7 @@ public class GunControl : GameElement
 
             if (Input.GetKey(KeyCode.R))
             {
-                if (!(GameManager.model.bullet.BulletsLeft() == GameManager.model.bullet.StartingBullet))
+                if (!(GameManager.model.weapon.BulletsLeft() == GameManager.model.weapon.StartingBullet))
                     this.PostEvent(EventID.OnReload);
             }
         }

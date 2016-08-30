@@ -20,7 +20,7 @@ public class GunView : MonoBehaviour
     protected void Recoil()
     {
         Debug.Log("set fire true");
-        //anim.SetBool("Fired", true);
+        anim.SetBool("Fired", true);
         flash.Play();
     }
 

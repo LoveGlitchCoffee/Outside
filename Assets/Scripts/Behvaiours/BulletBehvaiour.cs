@@ -31,14 +31,12 @@ public class BulletBehvaiour : MonoBehaviour
     {
         if (projecting)
         {
-            Debug.Log("projecting");
             rb.velocity = bulletForce;
         }
     }
 
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log("hit " + col.gameObject.name);
         projecting = false;
 
         if (col.gameObject.CompareTag("Zombie"))
@@ -70,7 +68,6 @@ public class BulletBehvaiour : MonoBehaviour
         transform.SetParent(null);
 
         bulletForce = force;
-        Debug.Log("bullet " + bulletForce);
 
         trail.enabled = true;
         landed = false;
@@ -83,7 +80,6 @@ public class BulletBehvaiour : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        Debug.Log("no force in bullet");
         projecting = false;
     }
 

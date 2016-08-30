@@ -13,15 +13,15 @@ public class CommonFunctions
 
         Physics.Raycast(ray, out hit);
 
-        Debug.DrawLine(ray.origin, hit.point, Color.red, 2);
+        //Debug.DrawLine(ray.origin, hit.point, Color.red, 2);
 
         Vector3 contact = hit.point;
 
-        Debug.Log("target at: " + contact);
+        //Debug.Log("target at: " + contact);
 
         Vector3 direction = contact - gun.position;
 
-		Debug.DrawRay(gun.position, direction, Color.blue, 2);
+		//Debug.DrawRay(gun.position, direction, Color.blue, 2);
 
         float distance = Mathf.Sqrt(Mathf.Pow(direction.x, 2) + Mathf.Pow(direction.y, 2) + Mathf.Pow(direction.z, 2));
 
@@ -29,7 +29,7 @@ public class CommonFunctions
 
         Vector3 bulletForce = direction * multiply;
 
-		Debug.DrawRay(gun.position, bulletForce, Color.green, 2);
+		//Debug.DrawRay(gun.position, bulletForce, Color.green, 2);
 
         return bulletForce;
     }

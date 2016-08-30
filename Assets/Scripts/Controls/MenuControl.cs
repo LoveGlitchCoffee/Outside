@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuControl : MonoBehaviour {
+public class MenuControl : GameElement {
 
-
+    // story mode
     public void StartGame()
-    {        
-        this.PostEvent(EventID.OnGameStart);
+    {
+        if ((int)GameManager.model.CurrentStoryChapter() % 2 == 0)
+        {
+            this.PostEvent(EventID.SelectWeaponMenu);
+        }
     }
+
+
 
 }

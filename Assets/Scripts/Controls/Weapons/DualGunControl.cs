@@ -11,7 +11,7 @@ public class DualGunControl : GameElement
 
     bool rightGunTurn;
 
-    WaitForSeconds coolDownTime = new WaitForSeconds(0.5f);
+    WaitForSeconds coolDownTime = new WaitForSeconds(0.3f);
 
     [Header("Guns")]
     public Transform RightGun;
@@ -53,8 +53,8 @@ public class DualGunControl : GameElement
 
         Vector3 bulletForce = CommonFunctions.RaycastBullet(gun, BulletVelocity);
 
-		Debug.Log("bullet at: " + currentBullet.transform.position);
-		Debug.Log("direction: " + bulletForce);
+		/*Debug.Log("bullet at: " + currentBullet.transform.position);
+		Debug.Log("direction: " + bulletForce);*/
 
         currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
 

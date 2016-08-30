@@ -2,7 +2,13 @@
 using System.Collections;
 using System.Runtime.CompilerServices;
 
-public class BulletModel : MonoBehaviour
+public enum Weapon
+{
+	SingleGun = 0,
+	DualGun = 1,
+}
+
+public class WeaponModel : MonoBehaviour
 {
     private int bulletsLeft;
 
@@ -11,16 +17,37 @@ public class BulletModel : MonoBehaviour
 
     private WaitForSeconds reloadWait;
 
+    Weapon wp;
+
 	void Start ()
 	{
-	    bulletsLeft = StartingBullet;
-
-        reloadWait = new WaitForSeconds(ReloadTime);
-
         this.RegisterListener(EventID.OnPlayerFire, (sender, param) => DecreaseBullets());
 	    this.RegisterListener(EventID.OnGameStart, (sender, param) => ReloadBullets());
-        this.RegisterListener(EventID.OnReload , (sender, param) => ManualReload());
+        this.RegisterListener(EventID.OnReload , (sender, param) => ManualReload());        
 	}
+
+    public void SetWeapon(Weapon newWp)
+    {
+        wp = newWp;
+
+        switch(wp)
+        {
+            case Weapon.SingleGun:
+            {
+                StartingBullet = 3;
+                ReloadTime = 1.5f;
+                reloadWait = new WaitForSeconds(ReloadTime);
+                break;
+            }
+            case Weapon.DualGun:
+            {
+                StartingBullet = 6;
+                ReloadTime = 1.5f;
+                reloadWait = new WaitForSeconds(ReloadTime);
+                break;
+            }
+        }
+    }
 
     private void ManualReload()
     {
