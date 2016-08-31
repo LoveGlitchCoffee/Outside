@@ -13,6 +13,8 @@ public class AudioModel : MonoBehaviour {
         this.RegisterListener(EventID.OnGameStart, (sender, param) => TurnOnAudio());
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => TurnOffAudio());
         this.RegisterListener(EventID.OnPlayerFire, (sender, param) => FireSound());
+        this.RegisterListener(EventID.OnPlayerFireRight , (sender, param) => FireSound());
+        this.RegisterListener(EventID.OnPlayerFireLeft , (sender, param) => FireSound());
         this.RegisterListener(EventID.OnSpecialUsed , (sender, param) => LaunchMissleSound());
         this.RegisterListener(EventID.OnEnemyDie , (sender, param) => HitEffectSound());
     }
