@@ -52,13 +52,13 @@ public class DualGunControl : WeaponControl
     }
 
     protected override IEnumerator ReloadBullet()
-    {
+    {                
+        yield return coolDownTime;
+
         if (rightGunTurn)
             LoadBullet(RightGun);
         else
-            LoadBullet(LeftGun);
-
-        yield return coolDownTime;
+            LoadBullet(LeftGun);        
 
         allowedToShoot = true;
     }

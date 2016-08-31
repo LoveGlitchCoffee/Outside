@@ -32,7 +32,7 @@ public class BulletBehvaiour : MonoBehaviour
         if (projecting)
         {
             rb.velocity = bulletForce;
-        }
+        }        
     }
 
     void OnCollisionEnter(Collision col)

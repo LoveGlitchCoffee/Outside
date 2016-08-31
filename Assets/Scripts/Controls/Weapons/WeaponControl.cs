@@ -17,6 +17,8 @@ public abstract class WeaponControl : GameElement
 
     protected bool playerLose;
 
+    bool ready = false;
+
     protected virtual void Start()
     {
 		coolDownTime = new WaitForSeconds(CoolDownTime);
@@ -26,6 +28,13 @@ public abstract class WeaponControl : GameElement
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => SetDead());
         this.RegisterListener(EventID.OnReload, (sender, param) => DeActivate());
         this.RegisterListener(EventID.OnFinishReload, (sender, param) => Activate());
+
+        ready = true;
+    }
+
+    public bool IsReady()
+    {
+        return ready;
     }
 
     protected void Activate()
@@ -51,10 +60,15 @@ public abstract class WeaponControl : GameElement
 
     protected void LoadBullet(Transform gun)
     {
+        //Debug.Log("loaded");
         var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
+        //Debug.Log("bullet at " + bullet.transform.position);
+        //Debug.Log("gun at " + gun.position);
         bullet.transform.SetParent(gun);
+        //Debug.Log("parent of " + bullet + " is " + gun);
         bullet.SetUp();
         currentBullet = bullet.gameObject;
+        //Debug.Log("current bullet set");
     }
 
     protected virtual void ShootBullet(Transform gun)
