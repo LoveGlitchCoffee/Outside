@@ -1,27 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DualGunControl : GameElement
+public class DualGunControl : WeaponControl
 {
 
-    [TooltipAttribute("In meters per second")]
-    public float BulletVelocity;
-
-    bool allowedToShoot = true;
-
     bool rightGunTurn;
-
-    WaitForSeconds coolDownTime = new WaitForSeconds(0.3f);
 
     [Header("Guns")]
     public Transform RightGun;
     public Transform LeftGun;
 
-    private GameObject currentBullet;
-
-    void Start()
+    protected override void Start()
     {
-        this.RegisterListener(EventID.OnGameStart, (sender, param) => SetLive());
+        base.Start();
     }
 
     void Update()
@@ -32,36 +23,35 @@ public class DualGunControl : GameElement
             {
                 ShootBullet(rightGunTurn ? RightGun : LeftGun);
             }
+
+            if (Input.GetKey(KeyCode.R))
+            {
+                if (!(GameManager.model.weapon.BulletsLeft() == GameManager.model.weapon.StartingBullet))
+                    this.PostEvent(EventID.OnReload);
+            }
         }
     }
 
-    private void SetLive()
+    protected override void SetLive()
     {
+        base.SetLive();
+
         LoadBullet(LeftGun);
         LoadBullet(RightGun);
-        allowedToShoot = true;
+
         rightGunTurn = true;
     }
 
-    private void ShootBullet(Transform gun)
+    protected override void ShootBullet(Transform gun)
     {
-        allowedToShoot = false;
+        base.ShootBullet(gun);
 
-        StartCoroutine(ReloadBullet());
-
-        this.PostEvent(rightGunTurn? EventID.OnPlayerFireRight : EventID.OnPlayerFireLeft);
-
-        Vector3 bulletForce = CommonFunctions.RaycastBullet(gun, BulletVelocity);
-
-		/*Debug.Log("bullet at: " + currentBullet.transform.position);
-		Debug.Log("direction: " + bulletForce);*/
-
-        currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
+        this.PostEvent(rightGunTurn ? EventID.OnPlayerFireRight : EventID.OnPlayerFireLeft);
 
         rightGunTurn = !rightGunTurn;
     }
 
-    private IEnumerator ReloadBullet()
+    protected override IEnumerator ReloadBullet()
     {
         if (rightGunTurn)
             LoadBullet(RightGun);
@@ -73,11 +63,5 @@ public class DualGunControl : GameElement
         allowedToShoot = true;
     }
 
-    private void LoadBullet(Transform gun)
-    {
-        var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
-        bullet.transform.SetParent(gun);
-        bullet.SetUp();
-        currentBullet = bullet.gameObject;
-    }
+
 }
