@@ -29,7 +29,20 @@ public abstract class WeaponControl : GameElement
         this.RegisterListener(EventID.OnReload, (sender, param) => DeActivate());
         this.RegisterListener(EventID.OnFinishReload, (sender, param) => Activate());
 
+        this.RegisterListener(EventID.OnSpecialUsed , (sender, param) => SetAllowedToShoot(false));
+        this.RegisterListener(EventID.OnFinishSpecial , (sender, param) => SetAllowedToShoot(true));
+
         ready = true;
+    }
+
+    public bool AllowedToShoot()
+    {
+        return allowedToShoot;
+    }
+
+    public void SetAllowedToShoot(bool allowed)
+    {
+        allowedToShoot = allowed;
     }
 
     public bool IsReady()

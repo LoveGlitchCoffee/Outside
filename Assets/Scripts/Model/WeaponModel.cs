@@ -61,6 +61,7 @@ public class WeaponModel : GameElement
         {
             yield return wait;
         }
+        // may want to check GameControl Weapon is assigned
 
         this.PostEvent(EventID.OnGameStart);
 

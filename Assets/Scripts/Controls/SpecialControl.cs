@@ -2,11 +2,7 @@
 using System.Collections;
 
 public class SpecialControl : GameElement {
-
-	public GameObject Missle;
-	public ParticleSystem MissleFlash;
-	public GameObject MissleLauncher;
-
+	
 	[Header("Properties")]
 	public float MissleSpeed;
 	
@@ -15,22 +11,18 @@ public class SpecialControl : GameElement {
 	}
 	
 	void Update () {
-		if (Input.GetButtonDown("Fire2") && GameManager.model.special.IsReady())
+		if (Input.GetButtonDown("Fire2") && GameManager.control.CanShoot())
 		{
-			//Debug.Log("used special");
-			Launch(CommonFunctions.RaycastBullet(MissleLauncher.transform, MissleSpeed));
-			this.PostEvent(EventID.OnSpecialUsed);
+			this.PostEvent(EventID.OnSpecialUsed, MissleSpeed);
+			StartCoroutine(WaitTillFinishSpecial());
 		}		
 	}	
 
-	private void Launch(Vector3 direction)
+	private IEnumerator WaitTillFinishSpecial()
 	{
-		MissleFlash.transform.position = MissleLauncher.transform.position + MissleLauncher.transform.TransformDirection(new Vector3(0, 0, 0.5f));
-		MissleFlash.Play();
+		yield return new WaitForSeconds(2);
 
-		var mis = Missle.GetComponent<MissleBehaviour>();
-		mis.transform.position = MissleLauncher.transform.position + MissleLauncher.transform.TransformDirection(new Vector3(0, 0, 0.5f));
-		mis.transform.rotation = MissleLauncher.transform.rotation;
-		mis.SetUp(direction);
+		this.PostEvent(EventID.OnFinishSpecial);
 	}
+	
 }

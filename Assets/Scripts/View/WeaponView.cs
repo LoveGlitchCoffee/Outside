@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WeaponView : MonoBehaviour
+public class WeaponView : GameElement
 {
 
     public GameObject SingleGun;
     public GameObject DualGun;
 
     GameObject lastActive;
-
 
     void Start()
     {
@@ -35,8 +34,9 @@ public class WeaponView : MonoBehaviour
                 }
         }
 
-		Debug.Log("active " + lastActive);
-		// might want to make all guns a heirarchy so can contrll
+        Debug.Log("active " + lastActive);
+        GameManager.control.SetWeapon(lastActive.GetComponent<WeaponControl>());
+        // might want to make all guns a heirarchy so can contrll
         lastActive.SetActive(true);
     }
 
@@ -44,5 +44,41 @@ public class WeaponView : MonoBehaviour
     public WeaponControl CurrentWeapon()
     {
         return lastActive.GetComponent<WeaponControl>();
+    }
+
+    public IEnumerator LowerWeapon()
+    {
+        Vector3 original = lastActive.transform.position;
+        Vector3 lower = original - new Vector3(0, 1, 0);
+        Debug.Log("original: " + original + ", lower " + lower);
+
+        WaitForSeconds wait = new WaitForSeconds(0f);
+        float delta = 0;
+
+        while (lastActive.transform.position.y > lower.y)
+        {
+            Debug.Log("lowering to " + lastActive.transform.position.y);
+            lastActive.transform.position = Vector3.Lerp(original, lower, delta);
+            delta += 0.05f;
+            yield return wait;
+        }
+    }
+
+    public IEnumerator RaiseWeapon()
+    {
+        Vector3 lower = lastActive.transform.position;
+        Vector3 original = lower + new Vector3(0,1,0); 
+        
+
+        WaitForSeconds wait = new WaitForSeconds(0f);
+        float delta = 0;
+
+        while (lastActive.transform.position.y < original.y)
+        {
+            //Debug.Log("raising");
+            lastActive.transform.position = Vector3.Lerp(lower, original, delta);
+            delta += 0.05f;
+            yield return wait;
+        }
     }
 }

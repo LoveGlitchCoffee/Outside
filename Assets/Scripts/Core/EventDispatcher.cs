@@ -32,6 +32,8 @@ public enum EventID
 
     OnSpecialReady,
     OnSpecialUsed,
+    OnMissleLaunch, // this purely for sound
+    OnFinishSpecial,
     OnMissleBlow,
 
     OnHitBarrier,
