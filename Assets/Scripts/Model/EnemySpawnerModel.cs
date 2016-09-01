@@ -28,13 +28,14 @@ public class EnemySpawnerModel : GameElement
 
         this.RegisterListener(EventID.OnGameStart, (sender, param) => StartCoroutine(StartSpawningEnemies()));
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopSpawningEnemies());
+        this.RegisterListener(EventID.OnPlayerWin , (sender, param) => StopSpawningEnemies());
     }
 
     IEnumerator StartSpawningEnemies()
     {
         WaitForSeconds wait = new WaitForSeconds(0);
 
-        while (!GameManager.model.Set())
+        while (!GameManager.isPlaying() && !GameManager.model.Set())
         {
             yield return wait;
         }
@@ -43,7 +44,6 @@ public class EnemySpawnerModel : GameElement
 
         if (GameManager.IsInStory())
         {
-            Debug.Log("story mode spawning");
             spawnEnemyCoroutine = StartCoroutine(SpawnEnemy());
         }
         else
@@ -52,8 +52,6 @@ public class EnemySpawnerModel : GameElement
 
     private void AssignFastEnemies()
     {
-        Debug.Log("assigning");
-
         for (int i = 0; i < GameManager.model.GetEnemyCurrentCap(); i++)
         {
             float roll = Random.value;
@@ -76,6 +74,7 @@ public class EnemySpawnerModel : GameElement
 
     IEnumerator SpawnEnemy()
     {
+
         while (GameManager.isPlaying() && enemyCount < GameManager.model.GetEnemyCurrentCap())
         {
             yield return waitTillSpawnNextEnemy;
@@ -85,6 +84,8 @@ public class EnemySpawnerModel : GameElement
             this.PostEvent(EventID.OnSpawnEnemy, spawnLocation);
             enemyCount++;            
         }
+
+        Debug.Log("done spawn");
     }
 
     IEnumerator SpawnEnemyInifinite()

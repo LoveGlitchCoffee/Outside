@@ -21,7 +21,7 @@ public class GunControl : WeaponControl
         if (allowedToShoot)
         {
             //Debug.Log("allowed to shoot");
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButtonDown(0))
                 ShootBullet(gun);
 
             if (Input.GetKey(KeyCode.R))

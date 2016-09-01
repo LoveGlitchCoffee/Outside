@@ -26,7 +26,7 @@ public class StoryModel {
 		LoadText();
 		// search for save game		
 
-		chap = Chapter.NightTwo;
+		chap = Chapter.NightZero;
 	}
 
 	private void LoadText()

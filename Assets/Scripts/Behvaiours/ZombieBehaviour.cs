@@ -157,6 +157,7 @@ public class ZombieBehaviour : GameElement
 
         anim.SetBool("Dead", false);
         anim.SetBool("Move", false);
+        anim.SetBool("Run", false);
         anim.SetBool("Attack", false);
         PoolManager.Instance.ReturnToPool(gameObject);
     }
@@ -196,16 +197,18 @@ public class ZombieBehaviour : GameElement
 
         //RotateTowards(grandpa);
         transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
-        allowedToMove = true;        
-
-        anim.SetBool("Move", true);
+        allowedToMove = true;
 
         if (fast)
         {
-            speed = OriginalSpeed *= 1.5f;
+            anim.SetBool("Run", true);
+            speed = OriginalSpeed *= 2f;
         }
         else
+        {
+            anim.SetBool("Move", true);
             speed = OriginalSpeed;
+        }
 
         anim.SetBool("End", false);
         dead = false;

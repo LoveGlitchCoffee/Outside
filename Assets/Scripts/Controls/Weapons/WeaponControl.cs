@@ -15,7 +15,7 @@ public abstract class WeaponControl : GameElement
 
     protected GameObject currentBullet;
 
-    protected bool playerLose;
+    protected bool playerLose; //using if win as well
 
     bool ready = false;
 
@@ -26,6 +26,9 @@ public abstract class WeaponControl : GameElement
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => DeActivate());
         this.RegisterListener(EventID.OnGameStart, (sender, param) => SetLive());
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => SetDead());
+        this.RegisterListener(EventID.OnPlayerWin , (sender, param) => SetDead());
+        this.RegisterListener(EventID.OnPlayerWin , (sender, param) => DeActivate());
+
         this.RegisterListener(EventID.OnReload, (sender, param) => DeActivate());
         this.RegisterListener(EventID.OnFinishReload, (sender, param) => Activate());
 

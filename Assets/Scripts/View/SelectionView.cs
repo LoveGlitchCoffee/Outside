@@ -21,6 +21,8 @@ public class SelectionView : MonoBehaviour
 
     private void SwapChosenWeapon(int newChosen)
     {
+        Debug.Log("chose " + newChosen);
+        
         Weapons[lastChosen].sprite = NonSelected[lastChosen];
 
         Weapons[newChosen].sprite = Selected[newChosen];

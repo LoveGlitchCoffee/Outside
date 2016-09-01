@@ -21,7 +21,7 @@ public class DualGunControl : WeaponControl
     {
         if (allowedToShoot)
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 ShootBullet(rightGunTurn ? RightGun : LeftGun);
             }
