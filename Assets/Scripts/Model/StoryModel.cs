@@ -3,26 +3,40 @@ using System.Collections;
 
 public enum Chapter
 {
-	ZeroDay = 0,
-    FirstNight = 1,
-    FirstDay = 2,
-    SecondNight = 3,
-    SecondDay = 4,
-    ThirdNight = 5,
-    ThirdDay = 6
+	NightZero = 0,
+	NightOne = 1, 
+	NightTwo = 2,
+	NightThree = 3,
+	NightFour = 4
 }
 
 public class StoryModel {
 
 	Chapter chap;
 
+	TextAsset story;
 	
+	string[] narrations;
 
-	public StoryModel()
+	public StoryModel(TextAsset story)
 	{
-		// search for save game
+		this.story = story;
+		
+		LoadText();
+		// search for save game		
 
-		chap = 0;
+		chap = Chapter.NightTwo;
+	}
+
+	private void LoadText()
+	{
+		string narrationText = story.text;
+		narrations = narrationText.Split('/');
+	}
+
+	public string GetCurrentNarration()
+	{
+		return narrations[(int)chap];
 	}
 
 	public Chapter GetChapter()

@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuControl : GameElement {
+public class MenuControl : GameElement
+{
 
     // story mode
-    public void StartGame()
+    public void StartStory()
     {
-        if ((int)GameManager.model.CurrentStoryChapter() % 2 == 0)
-        {
-            this.PostEvent(EventID.SelectWeaponMenu);
-        }
+        GameManager.SetStoryMode();
+        this.PostEvent(EventID.SelectWeaponMenu);
     }
 
 

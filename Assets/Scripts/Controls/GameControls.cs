@@ -14,6 +14,7 @@ public class GameControls : MonoBehaviour {
 	void Start () {
 		this.RegisterListener(EventID.OnGameStart , (sender, param) => Activate());
 		this.RegisterListener(EventID.OnGameEnd , (sender, param) => DeActivate());
+		this.RegisterListener(EventID.OnPlayerWin , (sender, param) => DeActivate());
 	}
 
 	public void SetWeapon(WeaponControl wp)

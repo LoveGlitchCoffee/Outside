@@ -13,6 +13,8 @@ public class EnemySpawnerModel : GameElement
     public GameObject SpawnLimit1, SpawnLimit2;
     private const float groundLevel = 0.05f;
 
+    
+
     void Awake()
     {
          waitTillSpawnNextEnemy = new WaitForSeconds(spawnCoolDown);
@@ -20,13 +22,20 @@ public class EnemySpawnerModel : GameElement
 
     void Start()
     {
+
         this.RegisterListener(EventID.OnGameStart, (sender, param) => StartSpawningEnemies());
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopSpawningEnemies());
     }
 
     public void StartSpawningEnemies()
     {
-        spawnEnemyCoroutine = StartCoroutine(SpawnEnemy());
+        if (GameManager.IsInStory())
+        {
+            Debug.Log("story mode spawning");
+            spawnEnemyCoroutine = StartCoroutine(SpawnEnemy());
+        }
+        else
+            spawnEnemyCoroutine = StartCoroutine(SpawnEnemyInifinite());            
     }
 
     public void StopSpawningEnemies()
@@ -35,6 +44,18 @@ public class EnemySpawnerModel : GameElement
     }
 
     IEnumerator SpawnEnemy()
+    {
+        while (GameManager.isPlaying() && GameManager.model.GetEnemyCount() < GameManager.model.GetEnemyCurrentCap())
+        {
+            yield return waitTillSpawnNextEnemy;
+
+            Vector3 spawnLocation = CalculateSpawnLocation();
+
+            this.PostEvent(EventID.OnSpawnEnemy, spawnLocation);            
+        }
+    }
+
+    IEnumerator SpawnEnemyInifinite()
     {        
         while (GameManager.isPlaying())
         {

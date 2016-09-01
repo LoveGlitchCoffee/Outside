@@ -8,6 +8,7 @@ public enum EventID
     None = 0,
     OnGameStart,
     OnGameEnd,
+    OnPlayerWin,
 
     SelectWeaponMenu,
     OnPressWeapon,

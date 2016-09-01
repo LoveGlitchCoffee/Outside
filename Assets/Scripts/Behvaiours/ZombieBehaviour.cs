@@ -37,7 +37,7 @@ public class ZombieBehaviour : GameElement
 
 
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopMovement());
-        this.RegisterListener(EventID.OnGameEnd, (sender, param) => ReturnToPool());
+        this.RegisterListener(EventID.OnGameStart, (sender, param) => ReturnToPool());
 
         this.RegisterListener(EventID.OnBarrierDown, (sender, param) => TargetGrandpa());
 
@@ -171,12 +171,14 @@ public class ZombieBehaviour : GameElement
 
     private void ReactToExplode(Vector3 explosionPos)
     {
-        if (!gameObject.activeSelf)
+        if (!gameObject.activeSelf || dead)
             return;
 
         rb.isKinematic = false;
         anim.enabled = false;
         body.enabled = true;
+
+        this.PostEvent(EventID.OnEnemyDie);
 
         StartCoroutine(DeadAndReturnToPool());
 

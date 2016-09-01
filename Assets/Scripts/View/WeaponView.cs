@@ -34,7 +34,7 @@ public class WeaponView : GameElement
                 }
         }
 
-        Debug.Log("active " + lastActive);
+        //Debug.Log("active " + lastActive);
         GameManager.control.SetWeapon(lastActive.GetComponent<WeaponControl>());
         // might want to make all guns a heirarchy so can contrll
         lastActive.SetActive(true);

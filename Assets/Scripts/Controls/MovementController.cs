@@ -33,7 +33,6 @@ public class MovementController : MonoBehaviour
     {
         transform.position = startPosition;
         transform.rotation = startRotation;
-        Debug.Log("rotation " + transform.root.eulerAngles);
     }
 
     void Update()
