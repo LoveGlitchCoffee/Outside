@@ -10,6 +10,8 @@ public class DualGunControl : WeaponControl
     public Transform RightGun;
     public Transform LeftGun;
 
+    GameObject altBullet;
+
     protected override void Start()
     {
         base.Start();
@@ -32,33 +34,66 @@ public class DualGunControl : WeaponControl
         }
     }
 
+    protected override void LoadBullet(Transform gun)
+    {
+        var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
+        //Debug.Log("bullet at " + bullet.transform.position);
+        //Debug.Log("gun at " + gun.position);
+        bullet.transform.SetParent(gun);
+        //Debug.Log("parent of " + bullet + " is " + gun);
+        bullet.SetUp();
+
+        if (rightGunTurn)
+            currentBullet = bullet.gameObject;
+        else
+            altBullet = bullet.gameObject;
+    }
+
     protected override void SetLive()
     {
         base.SetLive();
 
         LoadBullet(LeftGun);
-        LoadBullet(RightGun);
 
         rightGunTurn = true;
+
+        LoadBullet(RightGun);
     }
 
     protected override void ShootBullet(Transform gun)
     {
-        base.ShootBullet(gun);
+        allowedToShoot = false;
+
+        StartCoroutine(ReloadBullet());
+
+        Vector3 bulletForce = CommonFunctions.RaycastBullet(gun, BulletVelocity);
+
+        if (rightGunTurn)
+        {
+            if (currentBullet != null)
+                currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
+        }
+        else
+        {
+            if (altBullet != null)
+                altBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
+        }
 
         this.PostEvent(rightGunTurn ? EventID.OnPlayerFireRight : EventID.OnPlayerFireLeft);
-
-        rightGunTurn = !rightGunTurn;
     }
 
     protected override IEnumerator ReloadBullet()
-    {                
+    {
         yield return coolDownTime;
 
         if (rightGunTurn)
             LoadBullet(RightGun);
         else
-            LoadBullet(LeftGun);        
+        {
+            LoadBullet(LeftGun);
+        }
+
+        rightGunTurn = !rightGunTurn;
 
         allowedToShoot = true;
     }

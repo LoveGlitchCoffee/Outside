@@ -8,6 +8,7 @@ public class SelectionModel : MonoBehaviour
 
 	void Start()
 	{
+		wp = Weapon.SingleGun;
 		this.RegisterListener(EventID.OnPressWeapon , (sender, param) => SelectWeapon((Weapon) param));
 	}
 

@@ -11,7 +11,7 @@ public class SpecialControl : GameElement {
 	}
 	
 	void Update () {
-		if (Input.GetButtonDown("Fire2") && GameManager.control.CanShoot())
+		if (Input.GetButtonDown("Fire2") && GameManager.model.special.IsReady() && GameManager.control.CanShoot())
 		{
 			this.PostEvent(EventID.OnSpecialUsed, MissleSpeed);
 			StartCoroutine(WaitTillFinishSpecial());

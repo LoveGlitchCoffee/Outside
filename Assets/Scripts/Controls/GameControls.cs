@@ -28,8 +28,7 @@ public class GameControls : MonoBehaviour {
 
 	private void Activate()
 	{
-		//gun.LoadBullet();
-		//gun.enabled = true;
+		weapon.enabled = true;
 		Movement.enabled = true;
 	}
 

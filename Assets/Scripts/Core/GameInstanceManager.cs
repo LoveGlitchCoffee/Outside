@@ -25,6 +25,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
 
     [Header("UI")]
     public GameObject GameUI;
+    public GameObject SelectionUI;
 
     [Header("MVC")]
     public GameModel model;
@@ -62,6 +63,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
             }
             case GameState.SelectWeapon:
             {
+                SelectionUI.SetActive(false);
                 SelectionCamera.enabled = false;                
                 break;
             }
@@ -86,6 +88,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
             }
             case GameState.SelectWeapon:
             {
+                SelectionUI.SetActive(true);
                 SelectionCamera.enabled = true;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;

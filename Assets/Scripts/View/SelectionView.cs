@@ -4,28 +4,27 @@ using System.Collections;
 
 public class SelectionView : MonoBehaviour
 {
-	[Header("Sprites")]
+    [Header("Sprites")]
     public Sprite[] NonSelected;
     public Sprite[] Selected;
 
-	[Header("Buttons")]
+    [Header("Buttons")]
     public Image[] Weapons;
-    int lastChosen = -1;
+    int lastChosen = 0;
 
     void Start()
     {
-		this.RegisterListener(EventID.OnPressWeapon , (sender, param) => SwapChosenWeapon((int) param));
+        this.RegisterListener(EventID.OnPressWeapon, (sender, param) => SwapChosenWeapon((int)param));
+
+        Weapons[0].sprite = Selected[0];
     }
 
     private void SwapChosenWeapon(int newChosen)
     {
-        if (lastChosen != -1)
-        {
-            Weapons[lastChosen].sprite = NonSelected[lastChosen];
-        }
+        Weapons[lastChosen].sprite = NonSelected[lastChosen];
 
-		Weapons[newChosen].sprite = Selected[newChosen];
+        Weapons[newChosen].sprite = Selected[newChosen];
 
-		lastChosen = newChosen;
+        lastChosen = newChosen;
     }
 }

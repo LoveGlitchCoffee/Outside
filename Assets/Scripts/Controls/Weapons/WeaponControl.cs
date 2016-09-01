@@ -71,7 +71,7 @@ public abstract class WeaponControl : GameElement
         playerLose = true;
     }
 
-    protected void LoadBullet(Transform gun)
+    protected virtual void LoadBullet(Transform gun)
     {
         //Debug.Log("loaded");
         var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
