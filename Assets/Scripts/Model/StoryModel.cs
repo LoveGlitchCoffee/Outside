@@ -7,7 +7,8 @@ public enum Chapter
 	NightOne = 1, 
 	NightTwo = 2,
 	NightThree = 3,
-	NightFour = 4
+	NightFour = 4,
+	EndGame = 5
 }
 
 public class StoryModel {

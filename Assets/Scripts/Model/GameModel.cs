@@ -17,16 +17,18 @@ public class GameModel : GameElement
 
     // story mode enemy count
     int[] enemyAmounts;
-    int enemyCount = 0;
+    float[] enemyFast;
     int currentCap;
+
+    bool ready;
 
     void Start()
     {
         enemyAmounts = new int[] { 20, 20, 50, 50, 70 };
+        enemyFast = new float[] { 0f, 0.3f, 0.3f, 0.5f, 0.5f };
 
         this.RegisterListener(EventID.OnGameStart, (sender, param) => SetEnemyCap()); // doens't matter even in endless
         this.RegisterListener(EventID.OnEnemyDie, (sender, param) => UpdateScore());
-        this.RegisterListener(EventID.OnSpawnEnemy, (sender, param) => UpdateEnemyCount());
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ResetScore());
         this.RegisterListener(EventID.OnPlayerWin, (sender, param) => ProgressStory());
     }
@@ -34,26 +36,24 @@ public class GameModel : GameElement
     private void SetEnemyCap()
     {
         currentCap = enemyAmounts[GameManager.GetCurrentChapter()];
+        ready = true;
         Debug.Log("enemy cap " + currentCap);
     }
-    public int GetEnemyCount()
-    {
-        return enemyCount;
-    }
+    
 
     public int GetEnemyCurrentCap()
     {
         return currentCap;
     }
 
-    private void UpdateEnemyCount()
+    public float GetCurrentFast()
     {
-        // unecessary check but might help
-        if (!GameManager.IsInStory())
-            return;
+        return enemyFast[GameManager.GetCurrentChapter()];
+    }
 
-        enemyCount++;
-        Debug.Log("spawned " + enemyCount);
+    public bool Set()
+    {
+        return ready;
     }
 
     private void UpdateScore()
@@ -68,11 +68,6 @@ public class GameModel : GameElement
 
     private void ResetScore()
     {
-        if (GameManager.IsInStory())
-        {
-            enemyCount = 0;
-        }
-
         score = 0;
         this.PostEvent(EventID.OnUpdateScore, score);
     }
@@ -80,16 +75,28 @@ public class GameModel : GameElement
     private void ProgressStory()
     {
         ResetScore();
+        ready = false;
+
         Debug.Log("moving on next story");
         StartCoroutine(WaitToFinish());
     }
 
     private IEnumerator WaitToFinish()
     {
-        GameManager.ProgressStory();
+        if (GameManager.GetCurrentChapter() < (int)Chapter.EndGame)
+        {
+            GameManager.ProgressStory();
 
-        yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(3);
 
-        this.PostEvent(EventID.SelectWeaponMenu);
+            this.PostEvent(EventID.SelectWeaponMenu);
+        }
+        else
+        {
+            yield return new WaitForSeconds(3);
+
+            this.PostEvent(EventID.GoToCredits);
+        }
+
     }
 }

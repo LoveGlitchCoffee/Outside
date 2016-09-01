@@ -6,6 +6,7 @@ enum GameState
     Menu = 0,
     SelectWeapon = 1,
     InGame = 2,
+    Credits = 3
 }
 
 public class GameInstanceManager : Singleton<GameInstanceManager>
@@ -50,10 +51,12 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
 
         this.RegisterListener(EventID.OnGameStart, (sender, param) => ChangeState(GameState.InGame));
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ChangeState(GameState.Menu));
+        this.RegisterListener(EventID.GoToCredits , (sender, param) => ChangeState(GameState.Credits));
 
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopPlaying());
 
     }
+
 
     public void SetStoryMode()
     {

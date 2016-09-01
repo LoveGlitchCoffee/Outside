@@ -5,7 +5,8 @@ using System.Security.Permissions;
 public class ZombieBehaviour : GameElement
 {
 
-    public float speed;
+    public float OriginalSpeed;
+    private float speed;
     private bool allowedToMove = false;
 
     // determines how clutered zombies will be
@@ -127,7 +128,7 @@ public class ZombieBehaviour : GameElement
         {
             if (!GameManager.isPlaying())
                 return;
-                
+
             allowedToMove = false;
             anim.SetBool("Attack", true);
             this.PostEvent(EventID.OnPlayerDie, transform.position);
@@ -185,18 +186,27 @@ public class ZombieBehaviour : GameElement
         rb.AddExplosionForce(GameManager.model.special.ExplosionForce, explosionPos, GameManager.model.special.ExplosionRadius, 1, ForceMode.Impulse);
     }
 
-    public void SetUp()
+    public void SetUp(bool fast)
     {
         anim.enabled = true;
         rb.isKinematic = true;
         body.enabled = false;
 
-        senseTrigger.enabled = true;        
+        senseTrigger.enabled = true;
 
         //RotateTowards(grandpa);
         transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
-        allowedToMove = true;
+        allowedToMove = true;        
+
         anim.SetBool("Move", true);
+
+        if (fast)
+        {
+            speed = OriginalSpeed *= 1.5f;
+        }
+        else
+            speed = OriginalSpeed;
+
         anim.SetBool("End", false);
         dead = false;
         headHitbox.enabled = true;

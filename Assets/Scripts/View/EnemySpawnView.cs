@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemySpawnView : MonoBehaviour
+public class EnemySpawnView : GameElement
 {
 
     public GameObject Zombie;
@@ -16,7 +16,7 @@ public class EnemySpawnView : MonoBehaviour
     {        
         var zombie = PoolManager.Instance.GetFromPool(Zombie).GetComponent<ZombieBehaviour>();        
         zombie.transform.position = location;
-        zombie.SetUp();        
+        zombie.SetUp(GameManager.model.enemy.IsFast());        
     }
 	    
 }

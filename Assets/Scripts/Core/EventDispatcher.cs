@@ -45,7 +45,11 @@ public enum EventID
     OnUpdateScore,
 
     OnPlayerFireLeft,
-    OnPlayerFireRight
+    OnPlayerFireRight,
+
+
+
+    GoToCredits
 }
 
 public class EventDispatcher : Singleton<EventDispatcher>
