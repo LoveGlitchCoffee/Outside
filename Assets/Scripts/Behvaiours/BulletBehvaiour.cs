@@ -25,6 +25,7 @@ public class BulletBehvaiour : MonoBehaviour
     void Start()
     {
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ReturnToPool());
+        this.RegisterListener(EventID.OnGameProceed , (sender, param) => ReturnToPool());
     }
 
     void FixedUpdate()
@@ -92,6 +93,7 @@ public class BulletBehvaiour : MonoBehaviour
 
     public void ReturnToPool()
     {
+        Debug.Log("bullet go away");
         rb.isKinematic = true;
         trail.enabled = false;
         PoolManager.Instance.ReturnToPool(gameObject);

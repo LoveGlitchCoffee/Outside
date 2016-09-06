@@ -102,6 +102,8 @@ public class PoolManager : Singleton<PoolManager>
 
     public void ReturnToPool(GameObject gObject)
     {
+        gObject.transform.SetParent(null);
+
         ObjectPool gPool = null;
 
         try

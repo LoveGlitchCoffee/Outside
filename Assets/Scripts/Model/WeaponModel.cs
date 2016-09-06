@@ -19,6 +19,8 @@ public class WeaponModel : GameElement
 
     Weapon wp;
 
+    bool weaponSet;
+
     void Start()
     {
         this.RegisterListener(EventID.OnSelectWeapon, (sender, param) => SetWeapon((Weapon)param));
@@ -57,13 +59,13 @@ public class WeaponModel : GameElement
     {
         WaitForSeconds wait = new WaitForSeconds(0);
 
-        while (!GameManager.view.Weapon.CurrentWeapon().IsReady())
+        while (!GameManager.view.Weapon.ViewReady() && !GameManager.view.Weapon.CurrentWeapon().IsReady())
         {
             yield return wait;
         }
         // may want to check GameControl Weapon is assigned
 
-        this.PostEvent(EventID.OnGameStart);
+        this.PostEvent(EventID.OnGameStart); // need to post this after check that correct weapon
 
         while (!GameManager.view.WeaponProperty.Ready())
         {
@@ -103,8 +105,11 @@ public class WeaponModel : GameElement
     {
         yield return reloadWait;
 
-        ReloadBullets();
-        this.PostEvent(EventID.OnFinishReload);
+        if (GameManager.isPlaying())
+        {
+            ReloadBullets();
+            this.PostEvent(EventID.OnFinishReload);
+        }
     }
 
     public int BulletsLeft()

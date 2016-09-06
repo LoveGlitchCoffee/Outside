@@ -66,6 +66,7 @@ public abstract class WeaponControl : GameElement
 
     protected virtual void SetLive()
     {
+        Debug.Log("live in base");
         playerLose = false;
     }
 

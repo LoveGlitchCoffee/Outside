@@ -9,6 +9,8 @@ public class WeaponView : GameElement
 
     GameObject lastActive;
 
+    bool ready;
+
     void Start()
     {
         lastActive = SingleGun;
@@ -38,6 +40,17 @@ public class WeaponView : GameElement
         GameManager.control.SetWeapon(lastActive.GetComponent<WeaponControl>());
         // might want to make all guns a heirarchy so can contrll
         lastActive.SetActive(true);
+
+        ready = true;
+    }
+
+    // could set somewhere else but once check can discard
+    public bool ViewReady()
+    {
+        bool rValue = ready;
+        ready = false;
+
+        return rValue;
     }
 
     // should be in model really but hack

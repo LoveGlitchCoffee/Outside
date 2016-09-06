@@ -54,6 +54,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
         this.RegisterListener(EventID.GoToCredits , (sender, param) => ChangeState(GameState.Credits));
 
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopPlaying());
+        this.RegisterListener(EventID.OnPlayerWin , (sender, param) => StopPlaying());
 
     }
 

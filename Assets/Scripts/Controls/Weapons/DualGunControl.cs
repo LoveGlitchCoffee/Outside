@@ -21,7 +21,7 @@ public class DualGunControl : WeaponControl
     {
         if (allowedToShoot)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 ShootBullet(rightGunTurn ? RightGun : LeftGun);
             }
@@ -36,8 +36,8 @@ public class DualGunControl : WeaponControl
 
     protected override void LoadBullet(Transform gun)
     {
+        Debug.Log("getting bullet");
         var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
-        //Debug.Log("bullet at " + bullet.transform.position);
         //Debug.Log("gun at " + gun.position);
         bullet.transform.SetParent(gun);
         //Debug.Log("parent of " + bullet + " is " + gun);
@@ -51,13 +51,14 @@ public class DualGunControl : WeaponControl
 
     protected override void SetLive()
     {
-        base.SetLive();
-
         LoadBullet(LeftGun);
 
         rightGunTurn = true;
 
         LoadBullet(RightGun);
+
+        base.SetLive();
+        Debug.Log("children live");        
     }
 
     protected override void ShootBullet(Transform gun)

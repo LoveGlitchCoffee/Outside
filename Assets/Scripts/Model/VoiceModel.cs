@@ -27,6 +27,7 @@ public class VoiceModel : MonoBehaviour
         this.RegisterListener(EventID.OnReload, (sender, param) => ReloadVoice());
         this.RegisterListener(EventID.OnGameStart , (sender, param) => StartVoice());
         this.RegisterListener(EventID.OnGameEnd , (sender, param) => EndVoice());
+        this.RegisterListener(EventID.OnGameProceed , (sender, param) => EndVoice());
 	}
 
     private void StartVoice()

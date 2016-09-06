@@ -37,6 +37,8 @@ public class KillTextBehaviour : MonoBehaviour
         centralPos = new Vector2(0, originalPos.y); // hacky with 0  
 
         this.RegisterListener(EventID.OnGameEnd , (sender, param) => ResetText());
+        this.RegisterListener(EventID.OnGameProceed , (sender, param) => ResetText());
+        
     }
 
     private void ResetText()

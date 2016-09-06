@@ -7,8 +7,10 @@ public enum EventID
 {
     None = 0,
     OnGameStart,
+    OnPlayerDie,    
     OnGameEnd,
     OnPlayerWin,
+    OnGameProceed,
 
     SelectWeaponMenu,
     OnPressWeapon,
@@ -16,8 +18,6 @@ public enum EventID
     //OnConfiguredWeapon,
 
     OnChangeTotalBullets,
-
-    OnPlayerDie,
     OnSpawnEnemy,
     OnPlayerFire,
     OnUpdateBullet,

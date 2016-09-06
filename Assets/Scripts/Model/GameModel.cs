@@ -30,6 +30,7 @@ public class GameModel : GameElement
         this.RegisterListener(EventID.OnGameStart, (sender, param) => SetEnemyCap()); // doens't matter even in endless
         this.RegisterListener(EventID.OnEnemyDie, (sender, param) => UpdateScore());
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ResetScore());
+        this.RegisterListener(EventID.OnGameProceed , (sender, param) => ResetScore());
         this.RegisterListener(EventID.OnPlayerWin, (sender, param) => ProgressStory());
     }
 
@@ -98,5 +99,6 @@ public class GameModel : GameElement
             this.PostEvent(EventID.GoToCredits);
         }
 
+        this.PostEvent(EventID.OnGameProceed);
     }
 }
