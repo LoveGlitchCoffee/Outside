@@ -28,7 +28,7 @@ public class ShotgunControl : WeaponControl
 
     void Update()
     {
-		if (allowedToShoot)
+        if (allowedToShoot)
         {
             if (Input.GetMouseButton(0))
             {
@@ -54,28 +54,61 @@ public class ShotgunControl : WeaponControl
             bullet.transform.SetParent(gun);
             bullet.SetUp();
 
-			bullets[i] = bullet.gameObject;
+            bullets[i] = bullet.gameObject;
         }
     }
 
     protected override void SetLive()
     {
-		LoadBullet();
+        LoadBullet();
 
-		base.SetLive();
+        base.SetLive();
     }
 
     private void ShootBullet()
     {
-		
+        allowedToShoot = false;
+
+        StartCoroutine(ReloadBullet());
+
+        for (int i = 0; i < muzzleCount; i++)
+        {
+            Vector3 bulletForce = CommonFunctions.RaycastBullet(muzzles[i], BulletVelocity);
+
+            switch (i)
+            {
+                case 0:
+                    {
+                        bulletForce += new Vector3(Random.value, Random.value, 0);
+                        break;
+                    }
+                    case 1:
+                    {
+                        bulletForce += new Vector3(Random.value, Random.value, 0);
+                        break;
+                    }
+                    case 2:
+                    {
+                        bulletForce -= new Vector3(Random.value, Random.value, 0);
+                        break;
+                    }
+                    case 3:
+                    {
+                        bulletForce -= new Vector3(Random.value, Random.value, 0);
+                        break;
+                    }
+            }
+
+            bullets[i].GetComponent<BulletBehvaiour>().Project(bulletForce);
+        }
     }
 
     protected override IEnumerator ReloadBullet()
     {
-		yield return coolDownTime;
+        yield return coolDownTime;
 
-		LoadBullet();
+        LoadBullet();
 
-		allowedToShoot = true;
+        allowedToShoot = true;
     }
 }

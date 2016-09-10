@@ -6,6 +6,7 @@ public enum Weapon
 {
     SingleGun = 0,
     DualGun = 1,
+    Shotgun = 2,
 }
 
 public class WeaponModel : GameElement
