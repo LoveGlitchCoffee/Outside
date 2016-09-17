@@ -21,6 +21,8 @@ public abstract class WeaponControl : GameElement
 
     protected virtual void Start()
     {
+        Debug.Log(" start weapons");
+        
 		coolDownTime = new WaitForSeconds(CoolDownTime);
 
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => DeActivate());
@@ -36,6 +38,8 @@ public abstract class WeaponControl : GameElement
         this.RegisterListener(EventID.OnFinishSpecial , (sender, param) => SetAllowedToShoot(true));
 
         ready = true;
+
+        Debug.Log("weapon ready ORIGIN");
     }
 
     public bool AllowedToShoot()
@@ -85,7 +89,7 @@ public abstract class WeaponControl : GameElement
         //Debug.Log("parent of " + bullet + " is " + gun);
         bullet.SetUp();
         currentBullet = bullet.gameObject;
-        //Debug.Log("current bullet set");
+        Debug.Log("current bullet set");
     }
 
     protected virtual void ShootBullet(Transform gun)

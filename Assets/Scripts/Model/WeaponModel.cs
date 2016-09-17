@@ -67,13 +67,17 @@
         {
             WaitForSeconds wait = new WaitForSeconds(0);
 
-            while (!GameManager.view.Weapon.ViewReady() && !GameManager.view.Weapon.CurrentWeapon().IsReady())
-            {
+            while (!GameManager.view.Weapon.ViewReady() || !GameManager.view.Weapon.CurrentWeapon().IsReady())
+            {                
+                Debug.Log("view ready: " + GameManager.view.Weapon.ViewReady());
+                Debug.Log("weapon ready: " + GameManager.view.Weapon.CurrentWeapon().IsReady());
                 yield return wait;
             }
+            Debug.Log("posting game start");
             // may want to check GameControl Weapon is assigned
 
             this.PostEvent(EventID.OnGameStart); // need to post this after check that correct weapon
+            GameManager.view.Weapon.FalsifyView();
 
             while (!GameManager.view.WeaponProperty.Ready())
             {

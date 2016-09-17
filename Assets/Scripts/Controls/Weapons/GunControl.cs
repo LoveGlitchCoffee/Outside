@@ -13,6 +13,7 @@ public class GunControl : WeaponControl
 
     protected override void Start()
     {
+        Debug.Log("called");
         base.Start();
     }    
 
@@ -34,8 +35,10 @@ public class GunControl : WeaponControl
 
     protected override void SetLive()
     {
+        Debug.Log("override live");
         base.SetLive();
         LoadBullet(gun);
+        Debug.Log("loaded bullet");
     }
 
     protected override void ShootBullet(Transform gun)

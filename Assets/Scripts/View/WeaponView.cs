@@ -46,17 +46,21 @@ public class WeaponView : GameElement
         GameManager.control.SetWeapon(lastActive.GetComponent<WeaponControl>());
         // might want to make all guns a heirarchy so can contrll
         lastActive.SetActive(true);
+        lastActive.GetComponent<WeaponControl>().enabled = true;
 
         ready = true;
+        Debug.Log("view ready ORIGIN");
     }
 
     // could set somewhere else but once check can discard
     public bool ViewReady()
-    {
-        bool rValue = ready;
-        ready = false;
+    {    
+        return ready;
+    }
 
-        return rValue;
+    public void FalsifyView()
+    {
+        ready = false;
     }
 
     // should be in model really but hack
