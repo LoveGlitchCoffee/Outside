@@ -15,9 +15,11 @@ public class ShotgunControl : WeaponControl
         bullets = new GameObject[muzzleCount];
         muzzles = new Transform[muzzleCount];
 
+        Transform view = transform.GetChild(0);
+
         for (int i = 0; i < muzzleCount; i++)
         {
-            muzzles[i] = transform.GetChild(i);
+            muzzles[i] = view.GetChild(i);
         }
     }
 
@@ -70,6 +72,8 @@ public class ShotgunControl : WeaponControl
         allowedToShoot = false;
 
         StartCoroutine(ReloadBullet());
+
+        this.PostEvent(EventID.OnPlayerFire);
 
         for (int i = 0; i < muzzleCount; i++)
         {

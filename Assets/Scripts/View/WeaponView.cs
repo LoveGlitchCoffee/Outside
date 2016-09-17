@@ -6,6 +6,7 @@ public class WeaponView : GameElement
 
     public GameObject SingleGun;
     public GameObject DualGun;
+    public GameObject ShotGun;
 
     GameObject lastActive;
 
@@ -32,6 +33,11 @@ public class WeaponView : GameElement
             case Weapon.DualGun:
                 {
                     lastActive = DualGun;
+                    break;
+                }
+                case Weapon.Shotgun:
+                {
+                    lastActive = ShotGun;
                     break;
                 }
         }

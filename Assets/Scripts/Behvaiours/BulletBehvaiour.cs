@@ -93,7 +93,6 @@ public class BulletBehvaiour : MonoBehaviour
 
     public void ReturnToPool()
     {
-        Debug.Log("bullet go away");
         rb.isKinematic = true;
         trail.enabled = false;
         PoolManager.Instance.ReturnToPool(gameObject);
