@@ -8,13 +8,16 @@ public class BulletBehvaiour : MonoBehaviour
 
     private Rigidbody rb;
     WaitForSeconds dissWait = new WaitForSeconds(5f);
-    private bool projecting;
+    public bool projecting;
 
     private Vector3 bulletForce;
     private float speed = 10f;
 
     private int enemyHit;
     private bool landed;
+
+    Coroutine dissapearCoroutine;
+    Coroutine forceCoroutine;
 
     void Awake()
     {
@@ -73,8 +76,8 @@ public class BulletBehvaiour : MonoBehaviour
         trail.enabled = true;
         landed = false;
 
-        StartCoroutine(WaitTillNoForce());
-        StartCoroutine(WaitTillDissapear());
+        forceCoroutine =  StartCoroutine(WaitTillNoForce());
+        dissapearCoroutine = StartCoroutine(WaitTillDissapear());
     }
 
     private IEnumerator WaitTillNoForce()
@@ -92,7 +95,10 @@ public class BulletBehvaiour : MonoBehaviour
     }
 
     public void ReturnToPool()
-    {
+    {        
+        StopCoroutine(forceCoroutine);
+        StopCoroutine(dissapearCoroutine);
+
         rb.isKinematic = true;
         trail.enabled = false;
         PoolManager.Instance.ReturnToPool(gameObject);

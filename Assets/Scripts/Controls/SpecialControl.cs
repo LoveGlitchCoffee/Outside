@@ -10,6 +10,7 @@ public class SpecialControl : GameElement {
 	void Start () {
 	}
 	
+	// make so on player win cannot shoot
 	void Update () {
 		if (Input.GetButtonDown("Fire2") && GameManager.model.special.IsReady() && GameManager.control.CanShoot())
 		{

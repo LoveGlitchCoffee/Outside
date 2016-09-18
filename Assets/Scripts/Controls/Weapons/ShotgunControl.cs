@@ -9,6 +9,7 @@ public class ShotgunControl : WeaponControl
     Transform[] muzzles;
 
     const int muzzleCount = 4;
+    const float bulletDirectionScale = 4f;
 
     void Awake()
     {
@@ -83,22 +84,22 @@ public class ShotgunControl : WeaponControl
             {
                 case 0:
                     {
-                        bulletForce += new Vector3(Random.value, Random.value, 0);
+                        bulletForce += new Vector3(Random.value * bulletDirectionScale, Random.value, 0);
                         break;
                     }
                     case 1:
                     {
-                        bulletForce += new Vector3(Random.value, Random.value, 0);
+                        bulletForce += new Vector3(Random.value * bulletDirectionScale, Random.value , 0);
                         break;
                     }
                     case 2:
                     {
-                        bulletForce -= new Vector3(Random.value, Random.value, 0);
+                        bulletForce -= new Vector3(Random.value * bulletDirectionScale, Random.value, 0);
                         break;
                     }
                     case 3:
                     {
-                        bulletForce -= new Vector3(Random.value, Random.value, 0);
+                        bulletForce -= new Vector3(Random.value * bulletDirectionScale, Random.value, 0);
                         break;
                     }
             }

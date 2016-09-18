@@ -22,11 +22,28 @@ public class SelectionView : MonoBehaviour
     private void SwapChosenWeapon(int newChosen)
     {
         Debug.Log("chose " + newChosen);
-        
+
         Weapons[lastChosen].sprite = NonSelected[lastChosen];
 
         Weapons[newChosen].sprite = Selected[newChosen];
 
         lastChosen = newChosen;
+    }
+
+    public void Unlock(Chapter chap)
+    {
+        switch (chap)
+        {
+            case Chapter.NightTwo:
+                {
+                    Weapons[1].gameObject.SetActive(true);
+                    break;
+                }
+            case Chapter.NightThree:
+                {
+                    Weapons[2].gameObject.SetActive(true);
+                    break;
+                }
+        }
     }
 }

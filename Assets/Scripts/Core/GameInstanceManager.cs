@@ -19,6 +19,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
     [Header("Selection")]
     public SelectionControl selectionControl;
     public SelectionModel selectionModel;
+    public SelectionView selectionView;
 
     [Header("Story")]
     public TextAsset StoryText;
@@ -126,7 +127,10 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                     SelectionCamera.enabled = true;
 
                     if (storyMode)
+                    {
                         storyView.SetEntry(storyModel.GetCurrentNarration());
+                        selectionView.Unlock(storyModel.GetChapter());                      
+                    }
 
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;

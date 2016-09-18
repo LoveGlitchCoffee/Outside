@@ -24,6 +24,7 @@ public class HealthBarView : MonoBehaviour {
 	private void ResetHealth()
 	{
 		bar.fillAmount = 1;
+		desc.text = "100";
 	}
 
 	private void UpdateHealth(int amount)

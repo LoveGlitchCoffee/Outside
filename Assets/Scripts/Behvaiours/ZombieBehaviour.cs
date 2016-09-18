@@ -80,12 +80,14 @@ public class ZombieBehaviour : GameElement
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Bullet")
+        if (!dead && col.gameObject.tag == "Bullet")
         {
-            this.PostEvent(EventID.OnEnemyDie, col);
-
             anim.SetBool("AttackBarrier", false);
             anim.SetBool("Dead", true);
+
+            Debug.Log("hit zombie");
+
+            this.PostEvent(EventID.OnEnemyDie);
 
             /*rb.isKinematic = false;
             anim.enabled = false;
@@ -159,6 +161,7 @@ public class ZombieBehaviour : GameElement
         anim.SetBool("Move", false);
         anim.SetBool("Run", false);
         anim.SetBool("Attack", false);
+
         PoolManager.Instance.ReturnToPool(gameObject);
     }
 
@@ -202,7 +205,7 @@ public class ZombieBehaviour : GameElement
         if (fast)
         {
             anim.SetBool("Run", true);
-            speed = OriginalSpeed *= 2f;
+            speed = OriginalSpeed * 2f;
         }
         else
         {
