@@ -73,6 +73,7 @@ public class PoolManager : Singleton<PoolManager>
         {
             ObjectPool gPool = prefabLookup[gObject];
             rObject = gPool.GetFromPool();
+            Debug.Log("FROM POOL got " + rObject.name);
         }
         catch (Exception e)
         {

@@ -165,7 +165,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                     break;
                 }
             case GameState.InGame:
-                {
+                {                    
                     yield return StartCoroutine(Fade(GameFade, GameFade.color, clear));
                     GameUI.SetActive(true);
                     GameUI.GetComponent<CanvasGroup>().interactable = true;
@@ -173,7 +173,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                     GameCamera.enabled = true;
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
-                    playing = true;
+                    playing = true;                    
                     break;
                 }
         }
@@ -189,7 +189,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
         while (fade.color.a != end.a)
         {
             fade.color = Color.Lerp(start, end, delta);
-            delta += 0.1f;
+            delta += 0.05f;
             yield return wait;
         }
     }

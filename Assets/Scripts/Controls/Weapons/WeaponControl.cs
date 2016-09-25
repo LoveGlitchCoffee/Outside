@@ -70,7 +70,7 @@ public abstract class WeaponControl : GameElement
 
     protected virtual void SetLive()
     {
-        Debug.Log("live in base");
+        //Debug.Log("live in base");
         playerLose = false;
     }
 
@@ -81,6 +81,9 @@ public abstract class WeaponControl : GameElement
 
     protected virtual void LoadBullet(Transform gun)
     {
+        if (!gameObject.activeSelf)
+            return;
+            
         //Debug.Log("loaded");
         var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
         //Debug.Log("bullet at " + bullet.transform.position);
@@ -89,7 +92,7 @@ public abstract class WeaponControl : GameElement
         //Debug.Log("parent of " + bullet + " is " + gun);
         bullet.SetUp();
         currentBullet = bullet.gameObject;
-        Debug.Log("current bullet set");
+        //Debug.Log("current bullet set");
     }
 
     protected virtual void ShootBullet(Transform gun)

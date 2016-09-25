@@ -35,10 +35,12 @@ public class EnemySpawnerModel : GameElement
     {
         WaitForSeconds wait = new WaitForSeconds(0);
 
-        while (!GameManager.isPlaying() && !GameManager.model.Set())
+        while (!GameManager.isPlaying() || !GameManager.model.Set())
         {
             yield return wait;
         }
+
+        Debug.Log("finished waiting");
 
         AssignFastEnemies(); // might be called later than cap set which is a problem
 
@@ -74,6 +76,7 @@ public class EnemySpawnerModel : GameElement
 
     IEnumerator SpawnEnemy()
     {
+        Debug.Log("playing? : " + GameManager.isPlaying());
 
         while (GameManager.isPlaying() && enemyCount < GameManager.model.GetEnemyCurrentCap())
         {

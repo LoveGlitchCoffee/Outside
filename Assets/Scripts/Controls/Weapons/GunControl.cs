@@ -42,7 +42,7 @@ public class GunControl : WeaponControl
     }
 
     protected override void ShootBullet(Transform gun)
-    {       
+    {               
         base.ShootBullet(gun);
 
         this.PostEvent(EventID.OnPlayerFire);       

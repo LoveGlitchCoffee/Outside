@@ -4,18 +4,23 @@ using System.Collections.Generic;
 public class ObjectPool
 {
 
-    private List<GameObject> objectsInPool;
+    private List<ObjectContainer<GameObject>> objectsInPool;
 
     public ObjectPool(GameObject prefab, int initialSize, ref Dictionary<GameObject, ObjectPool> instanceLookup)
     {
-        objectsInPool = new List<GameObject>(initialSize);
+        objectsInPool = new List<ObjectContainer<GameObject>>(initialSize);
 
         for (int i = 0; i < initialSize; i++)
         {
 			GameObject newObject = (GameObject) MonoBehaviour.Instantiate(prefab, PoolManager.Instance.transform.position, Quaternion.identity);
-			objectsInPool.Add(newObject);
-            instanceLookup.Add(newObject, this);
-            newObject.SetActive(false);            
+            newObject.name += i.ToString();
+
+            ObjectContainer<GameObject> objCont = new ObjectContainer<GameObject>();
+            objCont.Item = newObject;
+
+			objectsInPool.Add(objCont);
+            instanceLookup.Add(objCont, this);
+            newObject.SetActive(false);    
         }
 
     }

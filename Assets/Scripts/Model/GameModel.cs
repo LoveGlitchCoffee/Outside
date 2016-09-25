@@ -24,7 +24,7 @@ public class GameModel : GameElement
 
     void Start()
     {
-        enemyAmounts = new int[] { 5, 20, 50, 50, 70 };
+        enemyAmounts = new int[] { 10, 20, 50, 50, 70 };
         enemyFast = new float[] { 0f, 0.3f, 0.3f, 0.5f, 0.5f };
 
         this.RegisterListener(EventID.OnGameStart, (sender, param) => SetEnemyCap()); // doens't matter even in endless
@@ -99,6 +99,7 @@ public class GameModel : GameElement
             this.PostEvent(EventID.GoToCredits);
         }
 
+        Debug.Log("proceed sent");        
         this.PostEvent(EventID.OnGameProceed);
     }
 }

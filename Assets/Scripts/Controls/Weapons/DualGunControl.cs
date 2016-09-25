@@ -36,11 +36,13 @@ public class DualGunControl : WeaponControl
 
     protected override void LoadBullet(Transform gun)
     {
-        Debug.Log("getting bullet");
+        if (!gameObject.activeSelf)
+            return;
+
         var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
         //Debug.Log("gun at " + gun.position);
         bullet.transform.SetParent(gun);
-        //Debug.Log("parent of " + bullet + " is " + gun);
+        Debug.Log("got bullet " + bullet.gameObject.name);
         bullet.SetUp();
 
         if (rightGunTurn)
@@ -72,12 +74,18 @@ public class DualGunControl : WeaponControl
         if (rightGunTurn)
         {
             if (currentBullet != null)
+            {
                 currentBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
+                Debug.Log("shot "+ currentBullet.name);                
+            }
         }
         else
         {
             if (altBullet != null)
-                altBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);
+            {
+                altBullet.GetComponent<BulletBehvaiour>().Project(bulletForce);                
+                Debug.Log("shot "+ altBullet.name);
+            }
         }
 
         this.PostEvent(rightGunTurn ? EventID.OnPlayerFireRight : EventID.OnPlayerFireLeft);

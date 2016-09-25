@@ -28,7 +28,7 @@ public class BulletBehvaiour : MonoBehaviour
     void Start()
     {
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ReturnToPool());
-        this.RegisterListener(EventID.OnGameProceed , (sender, param) => ReturnToPool());
+        this.RegisterListener(EventID.OnGameProceed, (sender, param) => ReturnToPool());
     }
 
     void FixedUpdate()
@@ -36,12 +36,14 @@ public class BulletBehvaiour : MonoBehaviour
         if (projecting)
         {
             rb.velocity = bulletForce;
-        }        
+        }
     }
 
     void OnCollisionEnter(Collision col)
     {
         projecting = false;
+
+        StopCoroutine(forceCoroutine);
 
         if (col.gameObject.CompareTag("Zombie"))
         {
@@ -66,6 +68,12 @@ public class BulletBehvaiour : MonoBehaviour
 
     public void Project(Vector3 force)
     {
+        if (forceCoroutine != null)
+            StopCoroutine(forceCoroutine);
+
+        if (dissapearCoroutine != null)
+            StopCoroutine(dissapearCoroutine); // just to be sure
+
         rb.isKinematic = false;
         projecting = true;
 
@@ -76,7 +84,7 @@ public class BulletBehvaiour : MonoBehaviour
         trail.enabled = true;
         landed = false;
 
-        forceCoroutine =  StartCoroutine(WaitTillNoForce());
+        forceCoroutine = StartCoroutine(WaitTillNoForce());
         dissapearCoroutine = StartCoroutine(WaitTillDissapear());
     }
 
@@ -84,6 +92,7 @@ public class BulletBehvaiour : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
+        Debug.Log(gameObject.name + " stop projecting ");
         projecting = false;
     }
 
@@ -91,11 +100,13 @@ public class BulletBehvaiour : MonoBehaviour
     {
         yield return dissWait;
 
+        Debug.Log(gameObject.name + " returning to pool");
         ReturnToPool();
     }
 
     public void ReturnToPool()
-    {        
+    {
+        // likely still calling to finish executing the rest of the coroutine
         StopCoroutine(forceCoroutine);
         StopCoroutine(dissapearCoroutine);
 

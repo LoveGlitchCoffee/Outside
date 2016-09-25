@@ -69,8 +69,6 @@
 
             while (!GameManager.view.Weapon.ViewReady() || !GameManager.view.Weapon.CurrentWeapon().IsReady())
             {                
-                Debug.Log("view ready: " + GameManager.view.Weapon.ViewReady());
-                Debug.Log("weapon ready: " + GameManager.view.Weapon.CurrentWeapon().IsReady());
                 yield return wait;
             }
             Debug.Log("posting game start");

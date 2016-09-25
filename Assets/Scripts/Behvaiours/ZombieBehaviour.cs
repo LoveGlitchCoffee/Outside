@@ -85,7 +85,7 @@ public class ZombieBehaviour : GameElement
             anim.SetBool("AttackBarrier", false);
             anim.SetBool("Dead", true);
 
-            Debug.Log("hit zombie");
+            //Debug.Log("hit zombie");
 
             this.PostEvent(EventID.OnEnemyDie);
 
