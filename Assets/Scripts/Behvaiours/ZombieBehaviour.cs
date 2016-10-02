@@ -112,7 +112,7 @@ public class ZombieBehaviour : GameElement
         anim.SetBool("Attack", false);
         anim.SetBool("End", true);
 
-        PoolManager.Instance.ReturnToPool(gameObject);
+        PoolManager.Instance.releaseObject(gameObject);
     }
 
     void OnTriggerEnter(Collider col)
@@ -162,7 +162,7 @@ public class ZombieBehaviour : GameElement
         anim.SetBool("Run", false);
         anim.SetBool("Attack", false);
 
-        PoolManager.Instance.ReturnToPool(gameObject);
+        PoolManager.Instance.releaseObject(gameObject);
     }
 
     // could change this

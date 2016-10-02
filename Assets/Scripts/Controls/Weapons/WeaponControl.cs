@@ -85,7 +85,7 @@ public abstract class WeaponControl : GameElement
             return;
             
         //Debug.Log("loaded");
-        var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
+        var bullet = PoolManager.Instance.spawnObject(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
         //Debug.Log("bullet at " + bullet.transform.position);
         //Debug.Log("gun at " + gun.position);
         bullet.transform.SetParent(gun);

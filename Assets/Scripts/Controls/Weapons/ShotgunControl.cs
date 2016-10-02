@@ -52,7 +52,7 @@ public class ShotgunControl : WeaponControl
         {
             Transform gun = muzzles[i];
 
-            var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
+            var bullet = PoolManager.Instance.spawnObject(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
 
             bullet.transform.SetParent(gun);
             bullet.SetUp();

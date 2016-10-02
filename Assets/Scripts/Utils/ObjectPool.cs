@@ -1,46 +1,95 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class ObjectPool
+public class ObjectPool<T>
 {
+    private List<ObjectPoolContainer<T>> list;
+    private Dictionary<T, ObjectPoolContainer<T>> lookup;
+    private Func<T> factoryFunc;
+    private int lastIndex = 0;
 
-    private List<ObjectContainer<GameObject>> objectsInPool;
-
-    public ObjectPool(GameObject prefab, int initialSize, ref Dictionary<GameObject, ObjectPool> instanceLookup)
+    public ObjectPool(Func<T> factoryFunc, int initialSize)
     {
-        objectsInPool = new List<ObjectContainer<GameObject>>(initialSize);
+        this.factoryFunc = factoryFunc;
 
-        for (int i = 0; i < initialSize; i++)
+        list = new List<ObjectPoolContainer<T>>(initialSize);
+        lookup = new Dictionary<T, ObjectPoolContainer<T>>(initialSize);
+
+        Warm(initialSize);
+    }
+
+    private void Warm(int capacity)
+    {
+        for (int i = 0; i < capacity; i++)
         {
-			GameObject newObject = (GameObject) MonoBehaviour.Instantiate(prefab, PoolManager.Instance.transform.position, Quaternion.identity);
-            newObject.name += i.ToString();
+            CreateConatiner();
+        }
+    }
 
-            ObjectContainer<GameObject> objCont = new ObjectContainer<GameObject>();
-            objCont.Item = newObject;
+    private ObjectPoolContainer<T> CreateConatiner()
+    {
+        var container = new ObjectPoolContainer<T>();
+        container.Item = factoryFunc();
+        list.Add(container);
+        return container;
+    }
 
-			objectsInPool.Add(objCont);
-            instanceLookup.Add(objCont, this);
-            newObject.SetActive(false);    
+    public T GetItem()
+    {
+        ObjectPoolContainer<T> container = null;
+        for (int i = 0; i < list.Count; i++)
+        {
+            lastIndex++;
+            if (lastIndex > list.Count - 1) lastIndex = 0;
+
+            if (list[lastIndex].Used)
+            {
+                continue;
+            }
+            else
+            {
+                container = list[lastIndex];
+                break;
+            }
         }
 
-    }
-
-    public void ReturnToPool(GameObject gObject)
-    {        
-        gObject.SetActive(false);
-        objectsInPool.Add(gObject);
-    }
-
-    public GameObject GetFromPool()
-    {
-        GameObject returnedObject = null;
-
-        if (objectsInPool.Count > 0)
+        if (container == null)
         {
-            returnedObject = objectsInPool[0];
-            objectsInPool.RemoveAt(0);
-        }      
+            container = CreateConatiner();
+        }
 
-        return returnedObject;
+        container.Consume();
+        lookup.Add(container.Item, container);
+        return container.Item;
+    }
+
+    public void ReleaseItem(object item)
+    {
+        ReleaseItem((T)item);
+    }
+
+    public void ReleaseItem(T item)
+    {
+        if (lookup.ContainsKey(item))
+        {
+            var container = lookup[item];
+            container.Release();
+            lookup.Remove(item);
+        }
+        else
+        {
+            Debug.LogWarning("This object pool does not contain the item provided: " + item);
+        }
+    }
+
+    public int Count
+    {
+        get { return list.Count; }
+    }
+
+    public int CountUsedItems
+    {
+        get { return lookup.Count; }
     }
 }

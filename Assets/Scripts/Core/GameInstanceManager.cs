@@ -136,11 +136,11 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
         {
             case GameState.Menu:
                 {
+                    MenuCamera.enabled = true;                    
                     yield return StartCoroutine(Fade(MenuFade, MenuFade.color, clear));
                     MenuUI.SetActive(true);
                     MenuUI.GetComponent<CanvasGroup>().interactable = true;
 
-                    MenuCamera.enabled = true;
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     storyMode = false;
@@ -148,11 +148,12 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                 }
             case GameState.SelectWeapon:
                 {
+                    SelectionCamera.enabled = true;
+                    
                     yield return StartCoroutine(Fade(SelectionFade, SelectionFade.color, clear));
                     SelectionUI.SetActive(true);
                     SelectionUI.GetComponent<CanvasGroup>().interactable = true;
 
-                    SelectionCamera.enabled = true;
 
                     if (storyMode)
                     {
@@ -165,12 +166,13 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                     break;
                 }
             case GameState.InGame:
-                {                    
+                {
+                    GameCamera.enabled = true;
+                                        
                     yield return StartCoroutine(Fade(GameFade, GameFade.color, clear));
                     GameUI.SetActive(true);
                     GameUI.GetComponent<CanvasGroup>().interactable = true;
 
-                    GameCamera.enabled = true;
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                     playing = true;                    

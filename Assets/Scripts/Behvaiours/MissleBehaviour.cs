@@ -61,7 +61,7 @@ public class MissleBehaviour : MonoBehaviour
 
         while (!blownUp)
         {
-            PoolManager.Instance.GetFromPool(TrailSmoke, transform.position, Quaternion.identity);
+            PoolManager.Instance.spawnObject(TrailSmoke, transform.position, Quaternion.identity);
             yield return wait;            
         }
     }

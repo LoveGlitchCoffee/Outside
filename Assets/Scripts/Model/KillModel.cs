@@ -34,7 +34,7 @@ public class KillModel : MonoBehaviour
         Quaternion rot = Quaternion.FromToRotation(Vector3.down, cp.normal);
         Vector3 pos = cp.point;
 
-        var imp = PoolManager.Instance.GetFromPool(Impact, pos, rot);
+        var imp = PoolManager.Instance.spawnObject(Impact, pos, rot);
         imp.GetComponent<ImpactParticleBehaviour>().Play(rot);
     }
 

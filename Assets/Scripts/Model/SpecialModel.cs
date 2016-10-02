@@ -29,7 +29,7 @@ public class SpecialModel : MonoBehaviour
         if (charge >= maxCharge)
             return;
 
-        charge += amount;
+        charge += 50;
 
         if (charge > maxCharge)
             charge = maxCharge;

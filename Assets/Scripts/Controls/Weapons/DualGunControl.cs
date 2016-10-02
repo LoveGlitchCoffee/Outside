@@ -39,7 +39,7 @@ public class DualGunControl : WeaponControl
         if (!gameObject.activeSelf)
             return;
 
-        var bullet = PoolManager.Instance.GetFromPool(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
+        var bullet = PoolManager.Instance.spawnObject(GameManager.control.TennisBall, gun.transform.position + gun.transform.TransformDirection(new Vector3(0, 0, 0.5f)), gun.rotation).GetComponent<BulletBehvaiour>();
         //Debug.Log("gun at " + gun.position);
         bullet.transform.SetParent(gun);
         Debug.Log("got bullet " + bullet.gameObject.name);

@@ -112,7 +112,7 @@ public class BulletBehvaiour : MonoBehaviour
 
         rb.isKinematic = true;
         trail.enabled = false;
-        PoolManager.Instance.ReturnToPool(gameObject);
+        PoolManager.Instance.releaseObject(gameObject);
     }
 
     public void SetUp()

@@ -14,7 +14,7 @@ public class EnemySpawnView : GameElement
 
     public void SpawnEnemy(Vector3 location)
     {        
-        var zombie = PoolManager.Instance.GetFromPool(Zombie).GetComponent<ZombieBehaviour>();        
+        var zombie = PoolManager.Instance.spawnObject(Zombie).GetComponent<ZombieBehaviour>();        
         zombie.transform.position = location;
         zombie.SetUp(GameManager.model.enemy.IsFast());        
     }

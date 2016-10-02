@@ -29,6 +29,6 @@ public class ImpactParticleBehaviour : MonoBehaviour {
 			yield return wait;
 		}
 
-		PoolManager.Instance.ReturnToPool(gameObject);
+		PoolManager.Instance.releaseObject(gameObject);
 	}
 }

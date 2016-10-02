@@ -52,7 +52,7 @@ public class BarrierView : MonoBehaviour
 
     private void SpawnDamageParticle(Vector3 smokePos)
     {
-        var smoke = PoolManager.Instance.GetFromPool(DamageSmoke).GetComponent<ParticleSystem>();
+        var smoke = PoolManager.Instance.spawnObject(DamageSmoke).GetComponent<ParticleSystem>();
         smoke.transform.position = smokePos + new Vector3(0,1,-0.5f);
         smoke.Play();
         StartCoroutine(WaitTillSmokeEnd(smoke));        
@@ -133,6 +133,6 @@ public class BarrierView : MonoBehaviour
             yield return wait;
         }
 
-        PoolManager.Instance.ReturnToPool(part.gameObject);
+        PoolManager.Instance.releaseObject(part.gameObject);
     }
 }

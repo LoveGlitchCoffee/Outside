@@ -71,17 +71,17 @@ public class WeaponView : GameElement
 
     public IEnumerator LowerWeapon()
     {
-        Vector3 original = lastActive.transform.position;
+        Vector3 original = lastActive.transform.localPosition;
         Vector3 lower = original - new Vector3(0, 1, 0);
-        Debug.Log("original: " + original + ", lower " + lower);
+        //Debug.Log("original: " + original + ", lower " + lower);
 
         WaitForSeconds wait = new WaitForSeconds(0f);
         float delta = 0;
 
-        while (lastActive.transform.position.y > lower.y)
+        while (lastActive.transform.localPosition.y > lower.y)
         {
-            Debug.Log("lowering to " + lastActive.transform.position.y);
-            lastActive.transform.position = Vector3.Lerp(original, lower, delta);
+            //Debug.Log("lowering to " + lastActive.transform.position.y);
+            lastActive.transform.localPosition = Vector3.Lerp(original, lower, delta);
             delta += 0.05f;
             yield return wait;
         }
@@ -89,17 +89,16 @@ public class WeaponView : GameElement
 
     public IEnumerator RaiseWeapon()
     {
-        Vector3 lower = lastActive.transform.position;
+        Vector3 lower = lastActive.transform.localPosition;
         Vector3 original = lower + new Vector3(0,1,0); 
         
-
         WaitForSeconds wait = new WaitForSeconds(0f);
         float delta = 0;
 
-        while (lastActive.transform.position.y < original.y)
+        while (lastActive.transform.localPosition.y < original.y)
         {
             //Debug.Log("raising");
-            lastActive.transform.position = Vector3.Lerp(lower, original, delta);
+            lastActive.transform.localPosition = Vector3.Lerp(lower, original, delta);
             delta += 0.05f;
             yield return wait;
         }
