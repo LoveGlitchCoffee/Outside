@@ -142,7 +142,9 @@ public class ZombieBehaviour : GameElement
     {
         WaitForSeconds wait = new WaitForSeconds(2);
 
-        while (!dead)
+        //yield return new WaitForSeconds(1);
+
+        while (!dead && GameManager.model.barrer.CurrentHealth() > 0)
         {
             this.PostEvent(EventID.OnHitBarrier, transform.position);
             yield return wait;

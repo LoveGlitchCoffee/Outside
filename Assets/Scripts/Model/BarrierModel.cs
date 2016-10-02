@@ -47,5 +47,8 @@ public class BarrierModel : MonoBehaviour
 		}
     }
 
-
+	public int CurrentHealth()
+	{
+		return health;
+	}
 }
