@@ -49,7 +49,7 @@ public class WeaponView : GameElement
         lastActive.GetComponent<WeaponControl>().enabled = true;
 
         ready = true;
-        Debug.Log("view ready ORIGIN");
+        //Debug.Log("view ready ORIGIN");
     }
 
     // could set somewhere else but once check can discard

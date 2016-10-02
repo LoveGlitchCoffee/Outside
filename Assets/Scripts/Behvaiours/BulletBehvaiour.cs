@@ -92,7 +92,7 @@ public class BulletBehvaiour : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        Debug.Log(gameObject.name + " stop projecting ");
+        //Debug.Log(gameObject.name + " stop projecting ");
         projecting = false;
     }
 
@@ -100,7 +100,7 @@ public class BulletBehvaiour : MonoBehaviour
     {
         yield return dissWait;
 
-        Debug.Log(gameObject.name + " returning to pool");
+        //Debug.Log(gameObject.name + " returning to pool");
         ReturnToPool();
     }
 

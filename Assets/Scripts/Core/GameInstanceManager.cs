@@ -6,7 +6,7 @@ enum GameState
     Menu = 0,
     SelectWeapon = 1,
     InGame = 2,
-    Credits = 3
+    End = 3
 }
 
 public class GameInstanceManager : Singleton<GameInstanceManager>
@@ -30,11 +30,13 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
     public Camera GameCamera;
     public Camera MenuCamera;
     public Camera SelectionCamera;
+    public Camera EndCamera;
 
     [Header("Fading")]
     public SpriteRenderer GameFade;
     public SpriteRenderer MenuFade;
     public SpriteRenderer SelectionFade;
+    public SpriteRenderer EndFade;
 
     [Header("UI")]
     public GameObject GameUI;
@@ -58,7 +60,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
 
         this.RegisterListener(EventID.OnGameStart, (sender, param) => ChangeState(GameState.InGame));
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ChangeState(GameState.Menu));
-        this.RegisterListener(EventID.GoToCredits, (sender, param) => ChangeState(GameState.Credits));
+        this.RegisterListener(EventID.GoToEnd, (sender, param) => ChangeState(GameState.End));
 
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopPlaying());
         this.RegisterListener(EventID.OnPlayerWin, (sender, param) => StopPlaying());
@@ -126,6 +128,12 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                     GameCamera.enabled = false;
                     break;
                 }
+            case GameState.End:
+                {
+                    yield return StartCoroutine(Fade(EndFade, EndFade.color, Color.black));
+                    EndCamera.enabled = false;
+                    break;
+                }
         }
 
         state = newState;
@@ -178,7 +186,22 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                     playing = true;                    
                     break;
                 }
+            case GameState.End:
+                {
+                    EndCamera.enabled = true;
+                    yield return StartCoroutine(Fade(EndFade, EndFade.color, clear));
+
+                    StartCoroutine(WaitTillReadEnd());
+                    break;
+                }
         }
+    }
+
+    IEnumerator WaitTillReadEnd()
+    {
+        yield return new WaitForSeconds(4);
+
+        StartCoroutine(ChangeStateCoroutine(GameState.Menu));
     }
 
     // arguably in some other class but refactor later

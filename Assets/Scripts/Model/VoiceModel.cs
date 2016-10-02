@@ -51,7 +51,6 @@ public class VoiceModel : MonoBehaviour
         audio.clip = ReloadClip;
         audio.Play();
 
-        StartCoroutine(waitTillVoiceFinish());
     }
 
     private void SpecialVoice()

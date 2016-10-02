@@ -5,6 +5,7 @@ public class AudioModel : MonoBehaviour {
 
     public AudioSource Ambient;
     public AudioSource GunShot;
+    public AudioSource Shotgun;
     public AudioSource MissleLaunchSound;
     public AudioSource HitEffect;
 
@@ -16,6 +17,7 @@ public class AudioModel : MonoBehaviour {
         this.RegisterListener(EventID.OnPlayerFire, (sender, param) => FireSound());
         this.RegisterListener(EventID.OnPlayerFireRight , (sender, param) => FireSound());
         this.RegisterListener(EventID.OnPlayerFireLeft , (sender, param) => FireSound());
+        this.RegisterListener(EventID.OnShotgunFire , (sender, param) => ShotgunSound());
         this.RegisterListener(EventID.OnMissleLaunch , (sender, param) => LaunchMissleSound());
         this.RegisterListener(EventID.OnEnemyDie , (sender, param) => HitEffectSound());
     }
@@ -33,6 +35,11 @@ public class AudioModel : MonoBehaviour {
     private void FireSound()
     {
         GunShot.Play();
+    }
+
+    private void ShotgunSound()
+    {
+        Shotgun.Play();
     }
 
     public void TurnOnAudio()

@@ -75,6 +75,7 @@ public class ShotgunControl : WeaponControl
         StartCoroutine(ReloadBullet());
 
         this.PostEvent(EventID.OnPlayerFire);
+        this.PostEvent(EventID.OnShotgunFire);
 
         for (int i = 0; i < muzzleCount; i++)
         {
