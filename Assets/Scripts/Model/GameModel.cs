@@ -26,7 +26,7 @@ public class GameModel : GameElement
 
     void Start()
     {
-        enemyAmounts = new int[] { 50, 1, 1, 1, 1 }; // 10, 20, 50, 50, 70
+        enemyAmounts = new int[] { 10, 20, 50, 50, 70 }; // 10, 20, 50, 50, 70
         enemyFast = new float[] { 0f, 0.3f, 0.3f, 0.5f, 0.5f };
 
         this.RegisterListener(EventID.OnGameStart, (sender, param) => SetEnemyCap()); // doens't matter even in endless
