@@ -17,6 +17,10 @@ public class ZombieBehaviour : GameElement
 
     bool chaseGrandpa;
 
+    [Header("Animator Controllers")]
+    public RuntimeAnimatorController walk;
+    public RuntimeAnimatorController run;
+
     private Animator anim;
     private Collider headHitbox;
     private Collider body;
@@ -161,7 +165,6 @@ public class ZombieBehaviour : GameElement
 
         anim.SetBool("Dead", false);
         anim.SetBool("Move", false);
-        anim.SetBool("Run", false);
         anim.SetBool("Attack", false);
 
         PoolManager.Instance.releaseObject(gameObject);
@@ -206,14 +209,17 @@ public class ZombieBehaviour : GameElement
 
         if (fast)
         {
-            anim.SetBool("Run", true);
+            anim.runtimeAnimatorController = run;
             speed = OriginalSpeed * 2f;
         }
         else
         {
-            anim.SetBool("Move", true);
+            anim.runtimeAnimatorController = walk;
             speed = OriginalSpeed;
         }
+
+        anim.SetBool("Move", true);
+            
 
         anim.SetBool("End", false);
         dead = false;
