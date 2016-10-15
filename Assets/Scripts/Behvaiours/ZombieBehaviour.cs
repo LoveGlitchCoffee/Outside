@@ -91,7 +91,7 @@ public class ZombieBehaviour : GameElement
 
             //Debug.Log("hit zombie");
 
-            this.PostEvent(EventID.OnEnemyDie);
+            this.PostEvent(EventID.OnEnemyDie, col);
 
             /*rb.isKinematic = false;
             anim.enabled = false;

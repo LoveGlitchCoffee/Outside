@@ -25,11 +25,15 @@ public class KillModel : MonoBehaviour
         this.RegisterListener(EventID.OnDoubleKill, (sender, param) => PlayDouble());
         this.RegisterListener(EventID.OnMultiKill, (sender, param) => PlayMulti());
         this.RegisterListener(EventID.OnEnemyDie , (sender, param) => ImpactEffect((Collision) param));
+        this.RegisterListener(EventID.OnEnemyDie , (sender, param) => Debug.Log("hit enemy"));
+
+        Debug.Log("impact prefab: " + Impact);
     }
 
     private void ImpactEffect(Collision col)
     {
-        ContactPoint cp = col.contacts[0];
+        Debug.Log("col " + col.transform.position);
+        ContactPoint cp = col.contacts[0];        
 
         Quaternion rot = Quaternion.FromToRotation(Vector3.down, cp.normal);
         Vector3 pos = cp.point;
