@@ -18,7 +18,7 @@ public class CameraMovement : GameElement
 
         this.RegisterListener(EventID.OnGameStart, (sender, param) => Activate());
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => Deactivate());
-        this.RegisterListener(EventID.OnPlayerDie, (sender, param) => TurnToFace((Vector3) param));
+        this.RegisterListener(EventID.OnPlayerDie, (sender, param) => TurnToFace((Vector3)param));
 
         Deactivate();
     }
@@ -42,7 +42,7 @@ public class CameraMovement : GameElement
 
         while (!WithinDistance(lookRotation, transform.rotation) && time < 2)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*RotationSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * RotationSpeed);
             yield return wait;
             time += Time.deltaTime;
         }
@@ -64,7 +64,7 @@ public class CameraMovement : GameElement
     public void Activate()
     {
         enabled = true;
-        mouseLook = new Vector2(0,0);
+        mouseLook = new Vector2(0, 0);
     }
 
     public void Deactivate()
@@ -76,19 +76,21 @@ public class CameraMovement : GameElement
     {
         var mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
-        mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity*smoothing, sensitivity*smoothing));
+        mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity * smoothing, sensitivity * smoothing));
 
-        smoothV.x = Mathf.Lerp(smoothV.x, mouseDelta.x, 1f/smoothing);
-        smoothV.y = Mathf.Lerp(smoothV.y, mouseDelta.y, 1f/smoothing);
+        smoothV.x = Mathf.Lerp(smoothV.x, mouseDelta.x, 1f / smoothing);
+        smoothV.y = Mathf.Lerp(smoothV.y, mouseDelta.y, 1f / smoothing);
 
         mouseLook += smoothV;
 
-        float yRotation = Mathf.Clamp(mouseLook.y, -90,90);
+        float yRotation = Mathf.Clamp(mouseLook.y, -90, 90);
         mouseLook = new Vector2(mouseLook.x, yRotation);
 
         transform.localRotation = Quaternion.AngleAxis(-yRotation, Vector3.right);
         //transform.GetChild(0).localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
-        
+
         player.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, player.transform.up);
     }
+
+    
 }

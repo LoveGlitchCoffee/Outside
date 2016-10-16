@@ -69,7 +69,6 @@ public class MissleBehaviour : MonoBehaviour
     private IEnumerator WaitTillExplode()
     {
         yield return new WaitForSeconds(TimeTillBlow);
-        Debug.Log("boom");
 
         if (!blownUp)
             BlowUp();
@@ -83,6 +82,7 @@ public class MissleBehaviour : MonoBehaviour
         launched = false;
         rb.velocity = Vector3.zero;
         this.PostEvent(EventID.OnMissleBlow, transform.position);
+        this.PostEvent(EventID.OnScreenShake, 1f);
         transform.position = hidePosition;
     }
 }

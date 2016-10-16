@@ -48,6 +48,8 @@ public enum EventID
     OnPlayerFireRight,
     OnShotgunFire,
 
+    OnScreenShake,
+
 
     GoToEnd
 }
