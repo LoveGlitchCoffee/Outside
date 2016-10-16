@@ -24,6 +24,7 @@ public enum EventID
     OnReload,
     OnFinishReload,
     OnEnemyDie,
+    OnEnemyHit,
 
     OnNormalKill,
     OnDoubleKill,

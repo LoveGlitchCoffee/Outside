@@ -13,34 +13,51 @@ public class VoiceModel : MonoBehaviour
     private int noOfVoices;
     private Random voiceGen;
     private int previous;
+    
 
     void Awake()
     {
         audio = GetComponent<AudioSource>();
     }
 
-    void Start ()
-	{
-	    noOfVoices = VoiceClips.Length;
+    void Start()
+    {
+        noOfVoices = VoiceClips.Length;
 
-        voiceGen = new Random((int) Time.time);
+        voiceGen = new Random((int)Time.time);
 
         this.RegisterListener(EventID.OnReload, (sender, param) => ReloadVoice());
-        this.RegisterListener(EventID.OnSpecialUsed , (sender, param) => SpecialVoice());
-        this.RegisterListener(EventID.OnGameStart , (sender, param) => StartVoice());
-        this.RegisterListener(EventID.OnGameEnd , (sender, param) => EndVoice());
-        this.RegisterListener(EventID.OnGameProceed , (sender, param) => EndVoice());
-	}
+        this.RegisterListener(EventID.OnSpecialUsed, (sender, param) => SpecialVoice());
+        this.RegisterListener(EventID.OnGameStart, (sender, param) => StartVoice());
+        this.RegisterListener(EventID.OnGameEnd, (sender, param) => EndVoice());
+        this.RegisterListener(EventID.OnGameProceed, (sender, param) => EndVoice());
+    }
 
     private void StartVoice()
     {
-        InvokeRepeating("PlayRandomVoiceLine", 20, 20);        
+        audio.volume = 1;
+        InvokeRepeating("PlayRandomVoiceLine", 20, 20);
     }
 
     private void EndVoice()
     {
         CancelInvoke("PlayRandomVoiceLine");
+
+        StartCoroutine(LowerVoice());
+    }
+
+    private IEnumerator LowerVoice()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0);
+
+        while (audio.volume > 0)
+        {
+            audio.volume -= 0.05f;
+            yield return wait;
+        }
+
         audio.Stop();
+
     }
 
     private void ReloadVoice()
@@ -84,12 +101,11 @@ public class VoiceModel : MonoBehaviour
         while (next == previous)
         {
             next = voiceGen.Next(noOfVoices);
-        }        
+        }
 
         audio.clip = VoiceClips[next];
         audio.Play();
 
         previous = next;
     }
-	    
 }

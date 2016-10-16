@@ -46,7 +46,7 @@ public class BulletBehvaiour : MonoBehaviour
         StopCoroutine(forceCoroutine);
 
         if (col.gameObject.CompareTag("Zombie"))
-        {
+        {            
             enemyHit++;
 
             if (enemyHit == 2 && !landed)
@@ -61,6 +61,8 @@ public class BulletBehvaiour : MonoBehaviour
             {
                 this.PostEvent(EventID.OnNormalKill);
             }
+
+            this.PostEvent(EventID.OnEnemyHit);
         }
         else if (col.gameObject.CompareTag("Ground"))
             landed = true;
