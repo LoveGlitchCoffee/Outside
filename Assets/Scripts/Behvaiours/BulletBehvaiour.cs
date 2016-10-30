@@ -114,6 +114,7 @@ public class BulletBehvaiour : MonoBehaviour
 
         rb.isKinematic = true;
         trail.enabled = false;
+        enemyHit = 0;        
         PoolManager.Instance.releaseObject(gameObject);
     }
 
