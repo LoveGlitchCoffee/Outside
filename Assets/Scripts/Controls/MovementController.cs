@@ -39,7 +39,10 @@ public class MovementController : GameElement
     {
 
         if (!GameManager.isPlaying())
+        {
+            moveForce = new Vector3(0,0,0);                        
             return;
+        }
 
         hDir = Input.GetAxisRaw("Horizontal");
         vDir = Input.GetAxisRaw("Vertical");

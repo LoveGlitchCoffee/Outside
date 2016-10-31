@@ -51,4 +51,8 @@ public class StoryModel {
 		current++;
 		chap = (Chapter)current;
 	}
+	public void Reset()
+	{
+		chap = Chapter.NightZero;
+	}
 }

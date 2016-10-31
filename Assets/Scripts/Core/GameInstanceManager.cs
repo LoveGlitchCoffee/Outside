@@ -137,6 +137,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
                 {
                     yield return StartCoroutine(Fade(EndFade, EndFade.color, Color.black));
                     EndCamera.enabled = false;
+                    storyModel.Reset();
                     break;
                 }
         }
