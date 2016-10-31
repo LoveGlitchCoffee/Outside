@@ -3,32 +3,42 @@ using System.Collections;
 
 public class GameView : MonoBehaviour {
 
-	private Coroutine PunchEffect;
-
 	public WeaponPropertyView WeaponProperty;	
 	public WeaponView Weapon;
 
+	public GameObject PauseMenu;
+
+	bool pausing = false;
+
 	void Start()
 	{
-		this.RegisterListener(EventID.OnEnemyHit , (sender, param) => ActivatePunchEffect());
-	}	
+		// could be in own behaviour script
+		this.RegisterListener(EventID.TogglePause , (sender, param) => TogglePauseMenu());
+		this.RegisterListener(EventID.OnGameEnd , (sender, param) => UnPause());
+	}		
 
-	void ActivatePunchEffect()
+	private void UnPause()
 	{
-		if (PunchEffect == null)
-			PunchEffect = StartCoroutine(PunchEffectCoroutine());
+		pausing = false;
+
+		PauseMenu.SetActive(false);
 	}
 
-	IEnumerator PunchEffectCoroutine()
+	private void TogglePauseMenu()
 	{
-		WaitForSeconds wait = new WaitForSeconds(0.006f);
-		Time.timeScale = 0.1f;
+		if (!pausing)
+		{
+			Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true; 			
+		}
+		else
+		{			
+			Cursor.lockState = CursorLockMode.Locked;
+    	    Cursor.visible = false;           
+		}
 
-		yield return wait;
+		PauseMenu.SetActive(!pausing);
 
-		Time.timeScale = 1;
-
-		PunchEffect = null;
+		pausing = !pausing;
 	}
-	
 }

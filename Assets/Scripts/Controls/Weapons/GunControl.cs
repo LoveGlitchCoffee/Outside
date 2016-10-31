@@ -18,6 +18,9 @@ public class GunControl : WeaponControl
 
     void Update()
     {
+        if (!GameManager.isPlaying())
+            return;
+
         if (allowedToShoot)
         {
             //Debug.Log("allowed to shoot");

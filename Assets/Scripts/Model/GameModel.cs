@@ -24,6 +24,8 @@ public class GameModel : GameElement
 
     bool ready;
 
+    bool pausing = false;
+
     void Start()
     {
         enemyAmounts = new int[] { 10, 20, 50, 50, 70 }; // 10, 20, 50, 50, 70
@@ -34,6 +36,25 @@ public class GameModel : GameElement
         this.RegisterListener(EventID.OnGameEnd, (sender, param) => ResetScore());
         this.RegisterListener(EventID.OnGameProceed, (sender, param) => ResetScore());
         this.RegisterListener(EventID.OnPlayerWin, (sender, param) => ProgressStory());
+
+        this.RegisterListener(EventID.TogglePause , (sender, param) => TogglePause());
+        this.RegisterListener(EventID.OnGameEnd , (sender, param) => UnPause());
+    }
+
+    private void TogglePause()
+    {
+        if (pausing)
+            Time.timeScale = 1;
+        else
+            Time.timeScale = 0;
+
+        pausing = !pausing;
+    }
+
+    private void UnPause()
+    {
+        Time.timeScale = 1;
+        pausing = false;
     }
 
     private void SetEnemyCap()
@@ -82,13 +103,13 @@ public class GameModel : GameElement
 
         GameManager.ProgressStory();
 
-        Debug.Log("moving on next story");
+        //Debug.Log("moving on next story");
         StartCoroutine(WaitToFinish());
     }
 
     private IEnumerator WaitToFinish()
     {
-        Debug.Log("current " + GameManager.GetCurrentChapter());
+        //Debug.Log("current " + GameManager.GetCurrentChapter());
         if (GameManager.GetCurrentChapter() < (int)Chapter.EndGame)
         {
 
@@ -101,10 +122,10 @@ public class GameModel : GameElement
             yield return new WaitForSeconds(3);
 
             this.PostEvent(EventID.GoToEnd);
-            Debug.Log("post end");
+            //Debug.Log("post end");
         }
 
-        Debug.Log("proceed sent");
+        //Debug.Log("proceed sent");
         this.PostEvent(EventID.OnGameProceed);
     }
 }

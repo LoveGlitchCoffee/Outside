@@ -29,6 +29,7 @@ public class EnemySpawnerModel : GameElement
         this.RegisterListener(EventID.OnGameStart, (sender, param) => StartCoroutine(StartSpawningEnemies()));
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopSpawningEnemies());
         this.RegisterListener(EventID.OnPlayerWin , (sender, param) => StopSpawningEnemies());
+        this.RegisterListener(EventID.OnGameEnd , (sender, param) => StopSpawningEnemies());
     }
 
     IEnumerator StartSpawningEnemies()
@@ -88,7 +89,7 @@ public class EnemySpawnerModel : GameElement
             enemyCount++;            
         }
 
-        Debug.Log("done spawn");
+        //Debug.Log("done spawn");
     }
 
     IEnumerator SpawnEnemyInifinite()

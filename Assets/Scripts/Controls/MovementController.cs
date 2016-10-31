@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovementController : MonoBehaviour
+public class MovementController : GameElement
 {
 
     public float Speed = 1f;
@@ -37,6 +37,9 @@ public class MovementController : MonoBehaviour
 
     void Update()
     {
+
+        if (!GameManager.isPlaying())
+            return;
 
         hDir = Input.GetAxisRaw("Horizontal");
         vDir = Input.GetAxisRaw("Vertical");

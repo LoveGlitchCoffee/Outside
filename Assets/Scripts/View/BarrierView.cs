@@ -87,7 +87,7 @@ public class BarrierView : MonoBehaviour
 
     private void DestroyBarrier()
     {
-        Debug.Log("DestroyBarrier");
+        //Debug.Log("DestroyBarrier");
 
         Colliders.SetActive(false);
         StartCoroutine(Sink(FinalBags));    

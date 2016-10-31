@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameControls : MonoBehaviour {
+public class GameControls : GameElement {
 
 	// prefab. make sense here? maybe model
 	public GameObject TennisBall;
@@ -15,6 +15,14 @@ public class GameControls : MonoBehaviour {
 		this.RegisterListener(EventID.OnGameStart , (sender, param) => Activate());
 		this.RegisterListener(EventID.OnGameEnd , (sender, param) => DeActivate());
 	}
+
+	void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.model.Set()) // use set to make sure in game. could use isPlaying
+		{
+            this.PostEvent(EventID.TogglePause);
+		}
+    }
 
 	public void SetWeapon(WeaponControl wp)
 	{

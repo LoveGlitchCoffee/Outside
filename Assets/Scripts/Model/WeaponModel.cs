@@ -71,7 +71,7 @@
             {                
                 yield return wait;
             }
-            Debug.Log("posting game start");
+            //Debug.Log("posting game start");
             // may want to check GameControl Weapon is assigned
 
             this.PostEvent(EventID.OnGameStart); // need to post this after check that correct weapon

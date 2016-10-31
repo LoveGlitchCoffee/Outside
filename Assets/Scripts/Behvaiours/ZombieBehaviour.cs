@@ -43,6 +43,7 @@ public class ZombieBehaviour : GameElement
 
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopMovement());
         this.RegisterListener(EventID.OnGameStart, (sender, param) => ReturnToPool());
+        this.RegisterListener(EventID.OnGameEnd , (sender, param) => ReturnToPool());
 
         this.RegisterListener(EventID.OnBarrierDown, (sender, param) => TargetGrandpa());
 
@@ -138,7 +139,7 @@ public class ZombieBehaviour : GameElement
             allowedToMove = false;
             anim.SetBool("Attack", true);
             this.PostEvent(EventID.OnPlayerDie, transform.position);
-            Debug.Log("finishe game");
+            //Debug.Log("finishe game");
         }
     }
 

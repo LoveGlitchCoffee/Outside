@@ -21,7 +21,7 @@ public abstract class WeaponControl : GameElement
 
     protected virtual void Start()
     {
-        Debug.Log(" start weapons");
+        //Debug.Log(" start weapons");
         
 		coolDownTime = new WaitForSeconds(CoolDownTime);
 
@@ -39,7 +39,7 @@ public abstract class WeaponControl : GameElement
 
         ready = true;
 
-        Debug.Log("weapon ready ORIGIN");
+        //Debug.Log("weapon ready ORIGIN");
     }
 
     public bool AllowedToShoot()

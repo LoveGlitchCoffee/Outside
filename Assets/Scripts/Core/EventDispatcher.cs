@@ -51,6 +51,7 @@ public enum EventID
 
     OnScreenShake,
 
+    TogglePause,
 
     GoToEnd
 }

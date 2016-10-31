@@ -64,7 +64,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
 
         this.RegisterListener(EventID.OnPlayerDie, (sender, param) => StopPlaying());
         this.RegisterListener(EventID.OnPlayerWin, (sender, param) => StopPlaying());
-
+        this.RegisterListener(EventID.TogglePause , (sender, param) => TogglePlaying());
     }
 
 
@@ -92,6 +92,11 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
     private void StopPlaying()
     {
         playing = false;
+    }
+
+    private void TogglePlaying()
+    {
+        playing = !playing;
     }
 
     private void ChangeState(GameState newState)
@@ -151,7 +156,7 @@ public class GameInstanceManager : Singleton<GameInstanceManager>
 
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
-                    storyMode = false;
+                    //storyMode = false; only 1 mode
                     break;
                 }
             case GameState.SelectWeapon:

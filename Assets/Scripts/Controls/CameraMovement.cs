@@ -74,6 +74,9 @@ public class CameraMovement : GameElement
 
     void Update()
     {
+        if (!GameManager.isPlaying())
+            return;
+
         var mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
         mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity * smoothing, sensitivity * smoothing));
